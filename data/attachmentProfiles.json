@@ -1,0 +1,48 @@
+{
+  "profiles": {
+    "Steady Flame": {
+      "attachment": "Secure",
+      "description": "You’re emotionally available and balanced. You can hold space for both connection and individuality without losing yourself."
+    },
+    "Soft Talker, Hard Avoider": {
+      "attachment": "Avoidant",
+      "description": "You value connection but tend to pull away when emotions run high. Boundaries may be clear, but vulnerability gets left behind."
+    },
+    "Self-Aware Tornado": {
+      "attachment": "Anxious-Ambivalent",
+      "description": "You’re emotionally aware but not always emotionally settled. You crave connection but may unintentionally push it away."
+    },
+    "Fix-Me Pick-Me": {
+      "attachment": "Anxious",
+      "description": "You often fear not being enough and seek reassurance to feel safe in love. You’re learning that your needs are not too much."
+    },
+    "Burnt Empath": {
+      "attachment": "Disorganized",
+      "description": "You’ve done the emotional labor—but it’s left you over-functioning and exhausted. Your compassion sometimes comes at your own expense."
+    },
+    "Emotionally Ambidextrous": {
+      "attachment": "Secure-ish",
+      "description": "You’re flexible, grounded, and open. While not immune to emotional triggers, you’re quick to repair and own your impact."
+    },
+    "Boundary Flirt": {
+      "attachment": "Preoccupied",
+      "description": "You oscillate between asserting your needs and backing away. Boundaries exist, but they’re still learning to stand their ground."
+    },
+    "Overfunctioning Mystic": {
+      "attachment": "Anxious-Avoidant",
+      "description": "You want intimacy and independence—sometimes at the same time. You intellectualize emotions but feel deeply underneath."
+    },
+    "Almost Integrated": {
+      "attachment": "Secure-Adaptive",
+      "description": "You’re close to equilibrium. There’s still some self-doubt, but you meet it with reflection and curiosity."
+    },
+    "Disorganized Seeker": {
+      "attachment": "Disorganized",
+      "description": "You crave closeness but mistrust it too. Emotional safety feels far away, but your awareness is already a step toward change."
+    },
+    "Still Figuring It Out": {
+      "attachment": "Emerging",
+      "description": "You’re gathering data on yourself and your patterns. Nothing is broken—just still in motion."
+    }
+  }
+}
