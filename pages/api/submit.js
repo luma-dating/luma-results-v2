@@ -55,14 +55,9 @@ export default async function handler(req, res) {
 
     const profile = getProfile(fluency, maturity, bs);
 
-    return res.status(200).json({
-      profile,
-      flag,
-      fluency,
-      maturity,
-      bs,
-      total
-    });
+    const redirectUrl = `https://luma-results-v2.vercel.app/result/${encodeURIComponent(profile)}?fluency=${fluency}&maturity=${maturity}&bs=${bs}&total=${total}&flag=${flag}`;
+
+    return res.redirect(302, redirectUrl);
   } catch (err) {
     console.error('Scoring error:', err);
     return res.status(500).json({ error: 'Internal server error' });
