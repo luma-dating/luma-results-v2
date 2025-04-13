@@ -26,4 +26,4 @@ export default function ResultPage() {
       <ResultCard profile={profile} flag={scores.flag} scores={scores} />
     </main>
   )
-},
+}
