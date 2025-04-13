@@ -46,8 +46,8 @@ export default function ScoreRedirect() {
       if (f >= 110 && m >= 110 && b >= 110 && f <= 135 && m <= 135 && b <= 135) return 'Emotionally Ambidextrous';
       if (f > 125 && m >= 90 && m <= 110 && b < 90) return 'Boundary Flirt';
       if (f > 130 && m < 100 && b < 100) return 'Overfunctioning Mystic';
-      if (f >= 120 && m < 85 && b >= 100 && t >= 290) return 'Burnt Empath';
-      if (t < 260) return 'Still Figuring It Out';
+      if (f >= 120 && m < 95 && b >= 125 && t >= 300) return 'Burnt Empath';
+      if (t <= 310 && m < 95) return 'Still Figuring It Out';
       return 'Disorganized Seeker';
     }
 
