@@ -15,7 +15,7 @@ const profiles = [
   { name: 'Still Figuring It Out', target: { fluency: 90, maturity: 80, bs: 110 }, baseFlag: 'neutral' }
 ];
 
-function matchProfileWithWiggleRoom(f, m, b, attachmentScore = 0) {
+function matchProfileWithWiggleRoom(f, m, b, attachmentScore = 0, total = 0) {
   let bestMatch = null;
   let lowestAvgDiff = Infinity;
 
@@ -37,7 +37,12 @@ function matchProfileWithWiggleRoom(f, m, b, attachmentScore = 0) {
     }
   });
 
-  if (!bestMatch) return { profile: 'Disorganized Seeker', flag: 'yellow' };
+  if (!bestMatch) {
+    if (f >= 85 && m >= 100 && total >= 310) {
+      return { profile: 'Still Figuring It Out', flag: 'neutral' };
+    }
+    return { profile: 'Disorganized Seeker', flag: 'yellow' };
+  }
 
   let adjustedFlag = bestMatch.baseFlag;
 
@@ -94,7 +99,7 @@ export default function ScoreRedirect() {
     const total = fluency + maturity + bs;
     const attachmentScore = sum(scoredAnswers.slice(10, 16));
 
-    const result = matchProfileWithWiggleRoom(fluency, maturity, bs, attachmentScore);
+    const result = matchProfileWithWiggleRoom(fluency, maturity, bs, attachmentScore, total);
 
     const redirectUrl = `/result/${encodeURIComponent(result.profile)}?fluency=${fluency}&maturity=${maturity}&bs=${bs}&total=${total}&flag=${result.flag}`;
 
