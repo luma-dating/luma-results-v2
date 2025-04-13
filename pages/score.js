@@ -33,20 +33,20 @@ export default function ScoreRedirect() {
     const total = fluency + maturity + bs;
 
     let flag = 'red';
-    if (total >= 390 && fluency >= 120 && maturity >= 120 && bs >= 120) flag = 'green';
-    else if (total >= 300 && fluency >= 90 && maturity >= 90 && bs >= 90) flag = 'yellow';
+    if (total >= 375 && fluency >= 115 && maturity >= 115 && bs >= 115) flag = 'green';
+    else if (total >= 300 && fluency >= 85 && maturity >= 85 && bs >= 85) flag = 'yellow';
     else flag = 'neutral';
 
     function getProfile(f, m, b, t) {
-      if (f > 130 && m > 130 && b > 130) return 'Steady Flame';
-      if (f > 125 && m < 100 && b > 125) return 'Soft Talker, Hard Avoider';
+      if (f >= 120 && m >= 120 && b >= 120) return 'Steady Flame';
+      if (f >= 130 && m < 90 && b > 120) return 'Soft Talker, Hard Avoider';
       if (f > 120 && m < 105 && b < 105) return 'Self-Aware Tornado';
       if (f < 90 && m < 90 && b < 90) return 'Ghost of Relationships Past';
-      if (m < 110 && b < 110 && f >= 100 && f < 130) return 'Fix-Me Pick-Me';
-      if (f >= 110 && m >= 110 && b >= 110 && f <= 130 && m <= 130 && b <= 130) return 'Emotionally Ambidextrous';
+      if (f >= 100 && (m < 90 || b < 90)) return 'Fix-Me Pick-Me';
+      if (f >= 110 && m >= 110 && b >= 110 && f <= 135 && m <= 135 && b <= 135) return 'Emotionally Ambidextrous';
       if (f > 125 && m >= 90 && m <= 110 && b < 90) return 'Boundary Flirt';
       if (f > 130 && m < 100 && b < 100) return 'Overfunctioning Mystic';
-      if (f >= 120 && m < 90 && b >= 100 && t >= 290) return 'Burnt Empath';
+      if (f >= 120 && m < 85 && b >= 100 && t >= 290) return 'Burnt Empath';
       if (t < 260) return 'Still Figuring It Out';
       return 'Disorganized Seeker';
     }
