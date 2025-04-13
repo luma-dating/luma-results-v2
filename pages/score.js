@@ -37,17 +37,21 @@ export default function ScoreRedirect() {
     else if (total >= 300 && fluency >= 90 && maturity >= 90 && bs >= 90) flag = 'yellow';
     else flag = 'neutral';
 
-    function getProfile(f, m, b) {
+    function getProfile(f, m, b, t) {
       if (f > 130 && m > 130 && b > 130) return 'Steady Flame';
       if (f > 125 && m < 100 && b > 125) return 'Soft Talker, Hard Avoider';
       if (f > 120 && m < 105 && b < 105) return 'Self-Aware Tornado';
       if (f < 90 && m < 90 && b < 90) return 'Ghost of Relationships Past';
       if (m < 110 && b < 110 && f >= 100 && f < 130) return 'Fix-Me Pick-Me';
-      if (total < 260) return 'Still Figuring It Out';
+      if (f >= 110 && m >= 110 && b >= 110 && f <= 130 && m <= 130 && b <= 130) return 'Emotionally Ambidextrous';
+      if (f > 125 && m >= 90 && m <= 110 && b < 90) return 'Boundary Flirt';
+      if (f > 130 && m < 100 && b < 100) return 'Overfunctioning Mystic';
+      if (f >= 120 && m < 90 && b >= 100 && t >= 290) return 'Burnt Empath';
+      if (t < 260) return 'Still Figuring It Out';
       return 'Disorganized Seeker';
     }
 
-    const profile = getProfile(fluency, maturity, bs);
+    const profile = getProfile(fluency, maturity, bs, total);
     const redirectUrl = `/result/${encodeURIComponent(profile)}?fluency=${fluency}&maturity=${maturity}&bs=${bs}&total=${total}&flag=${flag}`;
 
     router.replace(redirectUrl);
