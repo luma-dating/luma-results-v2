@@ -27,8 +27,3 @@ export default function ResultPage() {
     </main>
   )
 },
-{
-const profileName = decodeURIComponent(router.query.profile);
-const attachmentData = await fetch('/data/attachmentProfiles.json').then(r => r.json());
-const { attachment, description } = attachmentData.profiles[profileName];
-}
