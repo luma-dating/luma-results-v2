@@ -1,35 +1,6 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
-
-const profiles = [
-  // Warm Cynic group
-  { name: 'Warm Cynic', target: { fluency: 95, maturity: 100, bs: 130 }, baseFlag: 'sunshine yellow', useGTE: true },
-  { name: 'Wary Wisecrack', target: { fluency: 80, maturity: 95, bs: 130 }, baseFlag: 'lemon yellow' },
-  { name: 'Salted Seeker', target: { fluency: 85, maturity: 100, bs: 105 }, baseFlag: 'lemon yellow' },
-  { name: 'Recovering Romantic', target: { fluency: 100, maturity: 95, bs: 130 }, baseFlag: 'sunshine yellow' },
-
-  // Hopeful Realist archetype
-  { name: 'Hopeful Realist', target: { fluency: 115, maturity: 105, bs: 115 }, baseFlag: 'forest green' },
-  { name: 'Gentle Challenger', target: { fluency: 110, maturity: 100, bs: 115 }, baseFlag: 'forest green' },
-  { name: 'Quiet Flame', target: { fluency: 105, maturity: 105, bs: 110 }, baseFlag: 'lime green' },
-  { name: 'Grounded Dreamer', target: { fluency: 120, maturity: 95, bs: 110 }, baseFlag: 'lime green' },
-  { name: 'Earnest Explorer', target: { fluency: 110, maturity: 100, bs: 110 }, baseFlag: 'lime green' },
-  { name: 'Hard-Learned Lover', target: { fluency: 115, maturity: 110, bs: 100 }, baseFlag: 'forest green' },
-  { name: 'Introspective Firecracker', target: { fluency: 115, maturity: 95, bs: 110 }, baseFlag: 'lime green' },
-
-  // Existing Profiles
-  { name: 'Steady Flame', target: { fluency: 120, maturity: 105, bs: 120 }, baseFlag: 'forest green', useGTE: true },
-  { name: 'Soft Talker, Hard Avoider', target: { fluency: 130, maturity: 80, bs: 120 }, baseFlag: 'sunshine yellow', useGTE: true },
-  { name: 'Self-Aware Tornado', target: { fluency: 125, maturity: 90, bs: 95 }, baseFlag: 'sunshine yellow' },
-  { name: 'Fix-Me Pick-Me', target: { fluency: 115, maturity: 65, bs: 100 }, baseFlag: 'lemon yellow' },
-  { name: 'Burnt Empath', target: { fluency: 125, maturity: 80, bs: 130 }, baseFlag: 'sunshine yellow' },
-  { name: 'Emotionally Ambidextrous', target: { fluency: 115, maturity: 100, bs: 115 }, baseFlag: 'forest green' },
-  { name: 'Boundary Flirt', target: { fluency: 125, maturity: 90, bs: 85 }, baseFlag: 'lemon yellow' },
-  { name: 'Overfunctioning Mystic', target: { fluency: 130, maturity: 80, bs: 85 }, baseFlag: 'lemon yellow' },
-  { name: 'Almost Integrated', target: { fluency: 110, maturity: 90, bs: 110 }, baseFlag: 'sunshine yellow' },
-  { name: 'Disorganized Seeker', target: { fluency: 110, maturity: 90, bs: 135 }, baseFlag: 'brick red' },
-  { name: 'Still Figuring It Out', target: { fluency: 90, maturity: 80, bs: 110 }, baseFlag: 'orange' }
-];
+import profiles from '@/data/attachmentProfiles';
 
 function matchProfileWithWiggleRoom(f, m, b, attachmentScore = 0, total = 0) {
   let bestMatch = null;
@@ -55,12 +26,12 @@ function matchProfileWithWiggleRoom(f, m, b, attachmentScore = 0, total = 0) {
 
   if (!bestMatch) {
     if (f >= 85 && m >= 100 && total >= 310) {
-      return { profile: 'Still Figuring It Out', flag: 'orange' };
+      return { profile: 'Still Figuring It Out', flag: 'sunshine yellow' };
     }
     return { profile: 'Disorganized Seeker', flag: 'brick red' };
   }
 
-  let adjustedFlag = bestMatch.baseFlag;
+  let adjustedFlag = bestMatch.flag;
 
   if (bestMatch.avgDiff >= 3) {
     if (adjustedFlag === 'forest green') adjustedFlag = 'lime green';
@@ -68,6 +39,7 @@ function matchProfileWithWiggleRoom(f, m, b, attachmentScore = 0, total = 0) {
     else if (adjustedFlag === 'sunshine yellow') adjustedFlag = 'lemon yellow';
     else if (adjustedFlag === 'lemon yellow') adjustedFlag = 'orange';
     else if (adjustedFlag === 'orange') adjustedFlag = 'brick red';
+    else if (adjustedFlag === 'brick red') adjustedFlag = 'hell boy red';
   }
 
   if (attachmentScore >= 85 && bestMatch.avgDiff <= 5) {
