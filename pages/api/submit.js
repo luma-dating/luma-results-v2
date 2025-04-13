@@ -4,11 +4,21 @@ export default async function handler(req, res) {
   }
 
   try {
-    const data = req.body;
+    const { form_response } = req.body;
+    const answersArray = form_response?.answers || [];
 
-    const answers = Array.from({ length: 72 }, (_, i) => {
+    const answers = {};
+    for (let i = 0; i < answersArray.length; i++) {
+      const ref = answersArray[i]?.field?.ref;
+      const value = answersArray[i]?.number;
+      if (ref && typeof value === 'number') {
+        answers[ref] = value;
+      }
+    }
+
+    const values = Array.from({ length: 72 }, (_, i) => {
       const key = `Q${i + 1}`;
-      return parseInt(data[key], 10);
+      return parseInt(answers[key] || 0, 10);
     });
 
     const reverseIndexes = [
@@ -20,7 +30,7 @@ export default async function handler(req, res) {
     ];
 
     const reverseScore = (value) => 8 - value;
-    const scoredAnswers = answers.map((val, i) =>
+    const scoredAnswers = values.map((val, i) =>
       reverseIndexes.includes(i) ? reverseScore(val) : val
     );
 
