@@ -2,17 +2,17 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 
 const profiles = [
-  { name: 'Steady Flame', target: { fluency: >=120, maturity: >=105, bs: >=120 }, baseFlag: 'green' },
-  { name: 'Soft Talker, Hard Avoider', target: { fluency: 130, maturity: >=80, bs: 120 }, baseFlag: 'greenish' },
+  { name: 'Steady Flame', target: { fluency: 120, maturity: 105, bs: 120 }, baseFlag: 'green', useGTE: true },
+  { name: 'Soft Talker, Hard Avoider', target: { fluency: 130, maturity: 80, bs: 120 }, baseFlag: 'yellow', useGTE: true },
   { name: 'Self-Aware Tornado', target: { fluency: 125, maturity: 90, bs: 95 }, baseFlag: 'yellow' },
-  { name: 'Fix-Me Pick-Me', target: { fluency: 115, maturity: 65, bs: 100 }, baseFlag: 'yellow' },
+  { name: 'Fix-Me Pick-Me', target: { fluency: 115, maturity: 65, bs: 100 }, baseFlag: 'neutral' },
   { name: 'Burnt Empath', target: { fluency: 125, maturity: 80, bs: 130 }, baseFlag: 'yellow' },
   { name: 'Emotionally Ambidextrous', target: { fluency: 115, maturity: 100, bs: 115 }, baseFlag: 'green' },
-  { name: 'Boundary Flirt', target: { fluency: 125, maturity: 90, bs: 85 }, baseFlag: 'yellow' },
-  { name: 'Overfunctioning Mystic', target: { fluency: 130, maturity: 80, bs: 85 }, baseFlag: 'greenish' },
-  { name: 'Almost Integrated', target: { fluency: 110, maturity: 90, bs: 110 }, baseFlag: 'greenish' },
+  { name: 'Boundary Flirt', target: { fluency: 125, maturity: 90, bs: 85 }, baseFlag: 'neutral' },
+  { name: 'Overfunctioning Mystic', target: { fluency: 130, maturity: 80, bs: 85 }, baseFlag: 'neutral' },
+  { name: 'Almost Integrated', target: { fluency: 110, maturity: 90, bs: 110 }, baseFlag: 'yellow' },
   { name: 'Disorganized Seeker', target: { fluency: 110, maturity: 90, bs: 135 }, baseFlag: 'yellow' },
-  { name: 'Still Figuring It Out', target: { fluency: 90, maturity: 80, bs: 110 }, baseFlag: 'greenish' }
+  { name: 'Still Figuring It Out', target: { fluency: 90, maturity: 80, bs: 110 }, baseFlag: 'neutral' }
 ];
 
 function matchProfileWithWiggleRoom(f, m, b, attachmentScore = 0) {
@@ -26,7 +26,12 @@ function matchProfileWithWiggleRoom(f, m, b, attachmentScore = 0) {
       Math.abs(b - p.target.bs)
     ];
     const avgDiff = diff.reduce((a, c) => a + c, 0) / 3;
-    if (avgDiff < lowestAvgDiff && avgDiff < 10) {
+
+    const gteMatch = p.useGTE
+      ? f >= p.target.fluency && m >= p.target.maturity && b >= p.target.bs
+      : true;
+
+    if (avgDiff < lowestAvgDiff && avgDiff < 10 && gteMatch) {
       bestMatch = { ...p, avgDiff };
       lowestAvgDiff = avgDiff;
     }
@@ -48,7 +53,6 @@ function matchProfileWithWiggleRoom(f, m, b, attachmentScore = 0) {
     else if (adjustedFlag === 'neutral') adjustedFlag = 'green';
   }
 
-  // new override: if both fluency and maturity are decent, no red flag allowed
   if (adjustedFlag === 'red' && f >= 90 && m >= 95) {
     adjustedFlag = 'yellow';
   }
@@ -65,7 +69,7 @@ export default function ScoreRedirect() {
     const query = router.query;
     const values = Array.from({ length: 72 }, (_, i) => {
       const key = `Q${i + 3}`;
-      if ([28, 32].includes(i)) return 0; // skip Q29 and Q33
+      if ([28, 32].includes(i)) return 0;
       return parseInt(query[key] || 0, 10);
     });
 
