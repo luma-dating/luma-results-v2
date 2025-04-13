@@ -9,16 +9,15 @@ export default function ScoreRedirect() {
 
     const query = router.query;
     const values = Array.from({ length: 72 }, (_, i) => {
-      const key = `Q${i + 1}`;
+      const key = `Q${i + 3}`; // Likert questions start at Q3
       return parseInt(query[key] || 0, 10);
     });
 
     const reverseIndexes = [
-      2, 4, 7, 10, 12, 14, 18, 19, 20, 21,
-      24, 26, 29, 31, 33, 34, 35, 37, 38, 39,
-      40, 41, 42, 43, 44, 45, 46, 47, 48, 49,
-      50, 51, 52, 53, 54, 55, 56, 57, 58, 60,
-      61, 62, 63, 64, 65, 66, 67, 68, 71
+      0, 2, 4, 7, 10, // Q3–Q12 (Fluency)
+      13, 15, 18, 20, 21, 22, 23, // Q16–Q26 (Fluency)
+      24, 26, 28, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, // Q27–Q48 (Maturity)
+      48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71 // Q49–Q74 (BS Detection)
     ];
 
     const reverseScore = (value) => 8 - value;
@@ -26,7 +25,9 @@ export default function ScoreRedirect() {
       reverseIndexes.includes(i) ? reverseScore(val) : val
     );
 
-    const sum = (arr) => arr.reduce((a, b) => a + b, 0);
+    const sum = (arr) =>
+      arr.reduce((acc, val) => acc + (typeof val === 'number' ? val : 0), 0);
+
     const fluency = sum(scoredAnswers.slice(0, 24));
     const maturity = sum(scoredAnswers.slice(24, 48));
     const bs = sum(scoredAnswers.slice(48, 72));
@@ -47,6 +48,7 @@ export default function ScoreRedirect() {
       if (f > 125 && m >= 90 && m <= 110 && b < 90) return 'Boundary Flirt';
       if (f > 130 && m < 100 && b < 100) return 'Overfunctioning Mystic';
       if (f >= 120 && m < 95 && b >= 125 && t >= 300) return 'Burnt Empath';
+      if (f > 135 && m >= 90 && m < 115 && b >= 130 && t >= 345) return 'Oracle of Cord-Cutting';
       if (t <= 310 && m < 95) return 'Still Figuring It Out';
       return 'Disorganized Seeker';
     }
