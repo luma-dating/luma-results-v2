@@ -33,15 +33,17 @@ export default function ScoreRedirect() {
     const total = fluency + maturity + bs;
 
     let flag = 'red';
-    if (total >= 390 && fluency >= 130 && maturity >= 130 && bs >= 130) flag = 'green';
-    else if (total >= 300 && fluency >= 100 && maturity >= 100 && bs >= 100) flag = 'yellow';
+    if (total >= 390 && fluency >= 120 && maturity >= 120 && bs >= 120) flag = 'green';
+    else if (total >= 300 && fluency >= 90 && maturity >= 90 && bs >= 90) flag = 'yellow';
+    else flag = 'neutral';
 
     function getProfile(f, m, b) {
       if (f > 130 && m > 130 && b > 130) return 'Steady Flame';
-      if (f > 135 && m < 110 && b > 130) return 'Soft Talker, Hard Avoider';
-      if (f > 120 && m < 110 && b < 110) return 'Self-Aware Tornado';
-      if (f < 100 && m < 100 && b < 100) return 'Ghost of Relationships Past';
-      if (m < 120 && b < 120 && f >= 100 && f < 130) return 'Fix-Me Pick-Me';
+      if (f > 125 && m < 100 && b > 125) return 'Soft Talker, Hard Avoider';
+      if (f > 120 && m < 105 && b < 105) return 'Self-Aware Tornado';
+      if (f < 90 && m < 90 && b < 90) return 'Ghost of Relationships Past';
+      if (m < 110 && b < 110 && f >= 100 && f < 130) return 'Fix-Me Pick-Me';
+      if (total < 260) return 'Still Figuring It Out';
       return 'Disorganized Seeker';
     }
 
