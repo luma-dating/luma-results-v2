@@ -1,51 +1,72 @@
 import React from 'react';
+import profileData from '@/data/profileDescriptions.json';
 
-const flagStyles = {
-  "forest green": "bg-green-800 text-white border-green-800",
-  "lime green": "bg-lime-500 text-black border-lime-500",
-  "sunshine yellow": "bg-yellow-400 text-black border-yellow-400",
-  "lemon yellow": "bg-yellow-200 text-black border-yellow-200",
-  "orange": "bg-orange-400 text-black border-orange-400",
-  "brick red": "bg-red-700 text-white border-red-700",
-  "hell boy red": "bg-red-900 text-white border-red-900",
-  "neutral": "bg-gray-300 text-black border-gray-300"
-};
+export default function ResultCard({ profile, flag, scores, tagline, description, attachmentStyle, topThree = [] }) {
+  const flagColors = {
+    'forest green': 'bg-green-800 text-white',
+    'lime green': 'bg-lime-500 text-black',
+    'sunshine yellow': 'bg-yellow-300 text-black',
+    'lemon yellow': 'bg-yellow-100 text-black',
+    'orange': 'bg-orange-400 text-black',
+    'brick red': 'bg-red-700 text-white',
+    'hell boy red': 'bg-red-900 text-white'
+  };
 
-export default function ResultCard({ profile, flag, scores }) {
-  const style = flagStyles[flag] || flagStyles["neutral"];
+  const fallback = profileData.fallbacks?.find(f => f.flag === flag);
+  const profileEntry = profileData.profiles?.find(p => p.name === profile);
+  const profileDescription = profileEntry?.description || fallback?.description || description || "No description available.";
+  const profileTagline = profileEntry?.tagline || tagline || "";
 
   return (
-    <div className={`p-6 rounded-xl border shadow-xl max-w-2xl mx-auto mt-10 ${style}`}>
+    <div className="max-w-2xl mx-auto text-center p-8 bg-white rounded-2xl shadow-md">
+      <div className={`inline-block px-4 py-2 rounded-full text-sm font-semibold mb-4 ${flagColors[flag] || 'bg-gray-200 text-black'}`}>
+        {flag.toUpperCase()}
+      </div>
+
       <h1 className="text-3xl font-bold mb-2">{profile}</h1>
-      <p className="text-md italic capitalize mb-4">Flag: {flag}</p>
+      {profileTagline && <h2 className="text-xl text-gray-600 mb-6">{profileTagline}</h2>}
 
-      <div className="grid grid-cols-2 gap-4 text-sm">
-        <div>
-          <p className="text-gray-600">Emotional Fluency:</p>
-          <p className="font-semibold">{scores.fluency}</p>
+      <p className="text-gray-800 leading-relaxed mb-6 whitespace-pre-wrap">{profileDescription}</p>
+
+      {attachmentStyle && (
+        <div className="mt-6">
+          <h3 className="font-semibold">Attachment Style:</h3>
+          <p className="text-gray-700 italic">{attachmentStyle}</p>
         </div>
-        <div>
-          <p className="text-gray-600">Relational Maturity:</p>
-          <p className="font-semibold">{scores.maturity}</p>
+      )}
+
+      <div className="grid grid-cols-2 gap-4 mt-8">
+        <div className="bg-gray-100 p-4 rounded-xl">
+          <p className="text-sm text-gray-500">Emotional Fluency</p>
+          <p className="text-xl font-bold">{scores.fluency}</p>
         </div>
-        <div>
-          <p className="text-gray-600">BS Detection:</p>
-          <p className="font-semibold">{scores.bs}</p>
+        <div className="bg-gray-100 p-4 rounded-xl">
+          <p className="text-sm text-gray-500">Relational Maturity</p>
+          <p className="text-xl font-bold">{scores.maturity}</p>
         </div>
-        <div>
-          <p className="text-gray-600">Total Score:</p>
-          <p className="font-semibold">{scores.total}</p>
+        <div className="bg-gray-100 p-4 rounded-xl">
+          <p className="text-sm text-gray-500">BS Detection</p>
+          <p className="text-xl font-bold">{scores.bs}</p>
+        </div>
+        <div className="bg-gray-200 p-4 rounded-xl">
+          <p className="text-sm text-gray-600">Total Score</p>
+          <p className="text-xl font-bold">{scores.total}</p>
         </div>
       </div>
 
-      <div className="mt-6">
-        <a
-          href="https://simpleempathykc.com"
-          className="text-sm underline hover:text-blue-700"
-        >
-          Back to Simple Empathy
-        </a>
-      </div>
+      {topThree.length > 1 && (
+        <div className="mt-10 text-left">
+          <h3 className="text-lg font-semibold mb-2">Also aligned with:</h3>
+          <ul className="space-y-2">
+            {topThree.slice(1).map((alt, idx) => (
+              <li key={idx} className="pl-3 border-l-4 border-gray-300">
+                <span className="font-medium">{alt.name}</span>
+                <span className="ml-2 text-sm text-gray-500">(diff: {alt.avgDiff?.toFixed(2) ?? '?'})</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 }
