@@ -36,8 +36,8 @@ export default function ProfileResult() {
     const attScore = [...Array(6)].map((_, i) => parseInt(router.query[`Q${13 + i}`] || 0, 10)).reduce((a, b) => a + b, 0);
 
     const style = profileDescriptions.attachmentStyles?.find(
-      (style) => attScore >= style.range[0] && attScore <= style.range[1]
-    );
+  (style) => style?.range && attScore >= style.range[0] && attScore <= style.range[1]
+);
 
     if (style) setAttachmentStyle(style.name);
   }, [router.isReady, profile, fluency, maturity, bs, total]);
