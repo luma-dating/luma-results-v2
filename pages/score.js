@@ -2,13 +2,6 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import rawProfiles from '@/data/attachmentProfiles';
 
-const profiles = Object.values(
-  typeof rawProfiles?.default === 'object' ? rawProfiles.default : rawProfiles
-);
-
-// Clean out malformed ones before looping
-const safeProfiles = profiles.filter(p => p && p.target && typeof p.target.fluency === 'number');
-
 const profiles = Array.isArray(rawProfiles)
   ? rawProfiles
   : typeof rawProfiles?.default === 'object'
