@@ -33,11 +33,13 @@ export default function ProfileResult() {
       total: parseInt(total, 10)
     });
 
-    const attScore = [...Array(6)].map((_, i) => parseInt(router.query[`Q${13 + i}`] || 0, 10)).reduce((a, b) => a + b, 0);
+    const attScore = [...Array(6)]
+      .map((_, i) => parseInt(router.query[`Q${13 + i}`] || 0, 10))
+      .reduce((a, b) => a + b, 0);
 
     const style = profileDescriptions.attachmentStyles?.find(
-  (style) => style?.range && attScore >= style.range[0] && attScore <= style.range[1]
-);
+      (style) => style?.range && attScore >= style.range[0] && attScore <= style.range[1]
+    );
 
     if (style) setAttachmentStyle(style.name);
   }, [router.isReady, profile, fluency, maturity, bs, total]);
@@ -57,11 +59,14 @@ export default function ProfileResult() {
     );
   }
 
-  const profileData = profileDescriptions.profiles?.find((p) => p.name === profile);
-  const fallback = profileDescriptions.fallbacks?.find((f) => f.flag === flag);
+  const profileData = profileDescriptions.profiles?.[profile];
+  const fallback = profileDescriptions.profiles?.[profile] ?? {
+    tagline: '',
+    description: ''
+  };
 
-  const description = profileData?.description || fallback?.description || '';
-  const tagline = profileData?.tagline || '';
+  const description = profileData?.description || fallback.description;
+  const tagline = profileData?.tagline || fallback.tagline;
 
   return (
     <main className="min-h-screen flex flex-col justify-center items-center px-6 py-12">
