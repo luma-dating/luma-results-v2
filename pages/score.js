@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
-import rawProfiles from '@/data/attachmentProfiles';
+import rawProfiles from '@/data/profileDescriptions';
 
 const profiles = Array.isArray(rawProfiles)
   ? rawProfiles
