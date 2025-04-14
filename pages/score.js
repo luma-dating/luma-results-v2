@@ -135,7 +135,11 @@ export default function ScoreRedirect() {
 
     const result = matchProfileWithWiggleRoom(fluency, maturity, bs, attachmentScore, total);
 
-    const redirectUrl = `/result/${encodeURIComponent(result.profile)}?fluency=${fluency}&maturity=${maturity}&bs=${bs}&total=${total}&flag=${result.flag}`;
+    const topParams = result.topThree.map((p, i) =>
+  `alt${i + 1}=${encodeURIComponent(p.name)}&alt${i + 1}Flag=${encodeURIComponent(p.flag)}`
+).join('&');
+
+const redirectUrl = `/result/${encodeURIComponent(result.profile)}?fluency=${fluency}&maturity=${maturity}&bs=${bs}&total=${total}&flag=${result.flag}&${topParams}`;
 
     router.replace(redirectUrl);
   }, [router]);
