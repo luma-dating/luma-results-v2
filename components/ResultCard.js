@@ -24,7 +24,7 @@ export default function ResultCard({ profile, flag, scores, tagline, description
     'orange': 'bg-orange-400 text-black',
     'brick red': 'bg-red-700 text-white',
     'hell boy red': 'bg-red-900 text-white'
-  };
+  }
 
   return (
     <section className="max-w-xl w-full bg-white shadow-xl rounded-2xl p-6">
