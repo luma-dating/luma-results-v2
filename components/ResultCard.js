@@ -1,8 +1,17 @@
 import React from 'react';
 import profileData from '@/data/profileDescriptions.json';
 
-export default function ResultCard({ profile, flag, scores, tagline, description, attachmentStyle, topThree = [] }) {
+const flagColors = {
+  'forest green': 'bg-green-800 text-white',
+  'lime green': 'bg-lime-500 text-black',
+  'sunshine yellow': 'bg-yellow-300 text-black',
+  'lemon yellow': 'bg-yellow-100 text-black',
+  'orange': 'bg-orange-400 text-black',
+  'brick red': 'bg-red-700 text-white',
+  'hell boy red': 'bg-red-900 text-white'
+};
 
+export default function ResultCard({ profile, flag, scores, tagline, description, attachmentStyle, topThree = [] }) {
   const fallback = profileData.fallbacks?.find(f => f.flag === flag);
   const profileEntry = profileData.profiles?.find(p => p.name === profile);
   const profileDescription = profileEntry?.description || fallback?.description || description || "No description available.";
@@ -11,9 +20,11 @@ export default function ResultCard({ profile, flag, scores, tagline, description
   return (
     <section className="max-w-xl w-full bg-white shadow-xl rounded-2xl p-6">
       <h1 className="text-3xl font-bold mb-2">{profile}</h1>
-      <p className="text-lg font-medium text-gray-600 mb-4">Flag: <span className="capitalize font-semibold">{flag}</span></p>
+      <p className="text-lg font-medium text-gray-600 mb-4">
+        Flag: <span className={`capitalize font-semibold ${flagColors[flag] || ''}`}>{flag}</span>
+      </p>
 
-      {tagline && <p className="italic text-gray-500 mb-4">"{tagline}"</p>}
+      {profileTagline && <p className="italic text-gray-500 mb-4">"{profileTagline}"</p>}
 
       <div className="mb-6">
         <h2 className="text-xl font-semibold mb-2">Your Scores</h2>
@@ -24,15 +35,7 @@ export default function ResultCard({ profile, flag, scores, tagline, description
           <li>Total Score: <strong>{scores.total}</strong></li>
         </ul>
       </div>
-const flagColors = {
-    'forest green': 'bg-green-800 text-white',
-    'lime green': 'bg-lime-500 text-black',
-    'sunshine yellow': 'bg-yellow-300 text-black',
-    'lemon yellow': 'bg-yellow-100 text-black',
-    'orange': 'bg-orange-400 text-black',
-    'brick red': 'bg-red-700 text-white',
-    'hell boy red': 'bg-red-900 text-white'
-  };
+
       {attachmentStyle && (
         <div className="mb-6">
           <h2 className="text-xl font-semibold mb-2">Attachment Style</h2>
@@ -40,29 +43,31 @@ const flagColors = {
         </div>
       )}
 
-      {description && (
+      {profileDescription && (
         <div className="mb-6">
           <h2 className="text-xl font-semibold mb-2">Profile Overview</h2>
-          <p className="text-gray-700 whitespace-pre-line">{description}</p>
+          <p className="text-gray-700 whitespace-pre-line">{profileDescription}</p>
         </div>
       )}
 
-      {altProfiles.length > 0 && (
+      {topThree.length > 0 && (
         <div className="mt-8">
           <h2 className="text-xl font-semibold mb-2">Also vibing with...</h2>
           <ul className="list-disc list-inside space-y-1">
-            {altProfiles.map((alt, index) => (
+            {topThree.map((alt, index) => (
               <li key={index}>
-                <strong>{alt.name}</strong> <span className="text-sm text-gray-500">(Flag: {alt.flag})</span>
+                <strong>{alt.name}</strong>{' '}
+                <span className="text-sm text-gray-500">(Flag: {alt.flag})</span>
               </li>
             ))}
           </ul>
         </div>
       )}
-  
 
       <div className="mt-10">
-        <a href="https://www.simpleempathykc.com" className="text-blue-600 hover:underline">Back to Simple Empathy</a>
+        <a href="https://www.simpleempathykc.com" className="text-blue-600 hover:underline">
+          Back to Simple Empathy
+        </a>
       </div>
     </section>
   );
