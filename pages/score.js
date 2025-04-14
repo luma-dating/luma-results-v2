@@ -89,7 +89,7 @@ function matchProfileWithWiggleRoom(f, m, b, attachmentScore = 0, total = 0) {
   };
 }
 
-export default matchProfileWithWiggleRoom;
+export { matchProfileWithWiggleRoom };
 export default function ScoreRedirect() {
   const router = useRouter();
 
