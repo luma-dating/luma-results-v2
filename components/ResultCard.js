@@ -2,8 +2,7 @@ import React from 'react';
 import profileData from '@/data/profileDescriptions.json';
 
 export default function ResultCard({ profile, flag, scores, tagline, description, attachmentStyle, topThree = [] }) {
-  const profileEntry = profileData.profiles?.find(p => p.name === profile);
-  const fallbackEntry = profileData.fallbacks?.find(f => f.name === profile || f.flag === flag);
+ const profileEntry = profileData.profiles?.[profile];
 
   const profileDescription =
     profileEntry?.description ||
