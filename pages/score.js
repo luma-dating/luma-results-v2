@@ -6,11 +6,14 @@ const profiles = Object.values(
   typeof rawProfiles?.default === 'object' ? rawProfiles.default : rawProfiles
 );
 
+// Clean out malformed ones before looping
+const safeProfiles = profiles.filter(p => p && p.target && typeof p.target.fluency === 'number');
+
 function matchProfileWithWiggleRoom(f, m, b, attachmentScore = 0, total = 0) {
   let bestMatch = null;
   let lowestAvgDiff = Infinity;
 
-  Object.values(profiles).forEach((p) => {
+  safeProfiles.forEach((p) => {
     const diff = [
       Math.abs(f - p.target.fluency),
       Math.abs(m - p.target.maturity),
