@@ -8,6 +8,44 @@ const profiles = Array.isArray(rawProfiles)
     ? Object.values(rawProfiles.default)
     : Object.values(rawProfiles || {});
 
+function matchProfileWithWiggleRoom(f, m, b, attachmentScore = 0, total = 0) {
+  const scoredMatches = [];
+
+  profiles.forEach((p) => {
+    if (!p?.pattern) return;
+
+    try {
+      const match = eval(p.pattern.replace(/EF/g, f).replace(/RM/g, m).replace(/BS/g, b));
+      if (match) {
+        scoredMatches.push(p);
+      }
+    } catch (e) {
+      console.warn(`Pattern failed for ${p.name}:`, e);
+    }
+  });
+
+  if (scoredMatches.length === 0) {
+    const flag = getFlagFromTotal(total);
+    const fallback = getFallbackProfile(flag);
+    return {
+      profile: fallback.name,
+      flag: fallback.flag,
+      description: fallback.description,
+      topThree: []
+    };
+  }
+
+  const bestMatch = scoredMatches[0];
+  const flag = getFlagFromTotal(total);
+
+  return {
+    profile: bestMatch.name,
+    flag,
+    description: bestMatch.description,
+    topThree: scoredMatches.slice(1, 4).map((p) => ({ name: p.name, flag: p.flag }))
+  };
+}
+
 function getFlagFromTotal(total) {
   if (total >= 330) return 'forest green';
   if (total >= 300) return 'lime green';
@@ -18,66 +56,21 @@ function getFlagFromTotal(total) {
   return 'hell boy red';
 }
 
-function getAttachmentStyle(score) {
-  if (score >= 30) return 'Secure';
-  if (score >= 24) return 'Anxious-Leaning Secure';
-  if (score >= 18) return 'Anxious or Avoidant';
-  return 'Disorganized';
-}
-
-function matchProfile(f, m, b, attachmentScore, total) {
-  const flag = getFlagFromTotal(total);
-  const matches = profiles.filter(p => {
-    try {
-      const EF = f, RM = m, BS = b;
-      const pattern = p.pattern.replace(/EF/g, EF).replace(/RM/g, RM).replace(/BS/g, BS);
-      const result = eval(pattern);
-      return result;
-    } catch (e) {
-      console.warn('Pattern error in profile:', p.name);
-      return false;
-    }
-  });
-
-  if (matches.length > 0) {
-    matches.sort((a, b) => {
-      const avgA = Math.abs(f - eval(a.pattern.match(/EF [<>=]+ \d+/)?.[0]?.split(' ').pop())) +
-                   Math.abs(m - eval(a.pattern.match(/RM [<>=]+ \d+/)?.[0]?.split(' ').pop())) +
-                   Math.abs(b - eval(a.pattern.match(/BS [<>=]+ \d+/)?.[0]?.split(' ').pop()));
-      const avgB = Math.abs(f - eval(b.pattern.match(/EF [<>=]+ \d+/)?.[0]?.split(' ').pop())) +
-                   Math.abs(m - eval(b.pattern.match(/RM [<>=]+ \d+/)?.[0]?.split(' ').pop())) +
-                   Math.abs(b - eval(b.pattern.match(/BS [<>=]+ \d+/)?.[0]?.split(' ').pop()));
-      return avgA - avgB;
-    });
-    return {
-      profile: matches[0].name,
-      flag,
-      attachmentStyle: getAttachmentStyle(attachmentScore),
-      topThree: matches.slice(0, 3).map(p => p.name)
-    };
-  }
-
-  const fallback = profiles.find(p => p.name === flagToFallback(flag));
-  return {
-    profile: fallback?.name || 'Still Figuring It Out',
-    flag,
-    attachmentStyle: getAttachmentStyle(attachmentScore),
-    topThree: []
+function getFallbackProfile(flag) {
+  const fallbackProfiles = {
+    'forest green': { name: 'Unicorn', flag: 'forest green', description: "You’re exceptional, balanced, and don’t fit neatly into any one category. That’s your superpower." },
+    'lime green': { name: 'Evergreen Wanderer', flag: 'lime green', description: "You’re consistent and curious, still exploring your inner map." },
+    'sunshine yellow': { name: 'Rubber Ducky', flag: 'sunshine yellow', description: "Self-aware and bobbing along. You’ve got insight, just need a little more integration." },
+    'lemon yellow': { name: 'Delicate Teacup', flag: 'lemon yellow', description: "Tender but hesitant. You’re doing your best not to spill." },
+    'orange': { name: 'Rollercoaster Rider', flag: 'orange', description: "You’re a thrill to love, but buckle up — you’re still figuring out emotional stability." },
+    'brick red': { name: 'Stop Sign', flag: 'brick red', description: "Something’s gotta pause. Consider a full system reboot and some healing space." },
+    'hell boy red': { name: 'Emotional Arsonist', flag: 'hell boy red', description: "You light fires to see who runs. There’s healing to do underneath the defense." }
   };
+
+  return fallbackProfiles[flag] || fallbackProfiles['sunshine yellow'];
 }
 
-function flagToFallback(flag) {
-  switch (flag) {
-    case 'forest green': return 'Unicorn';
-    case 'lime green': return 'Evergreen Wanderer';
-    case 'sunshine yellow': return 'Rubber Ducky';
-    case 'lemon yellow': return 'Delicate Teacup';
-    case 'orange': return 'Rollercoaster Rider';
-    case 'brick red': return 'Stop Sign';
-    case 'hell boy red': return 'Emotional Arsonist';
-    default: return 'Still Figuring It Out';
-  }
-}
+export { matchProfileWithWiggleRoom };
 
 export default function ScoreRedirect() {
   const router = useRouter();
@@ -93,28 +86,35 @@ export default function ScoreRedirect() {
     });
 
     const reverseIndexes = [
-      0, 2, 4, 7, 10, 13, 15, 18, 20, 21, 22, 23, 24, 26, 28, 30, 31, 32, 33,
-      34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50,
-      51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71
+      0, 2, 4, 7, 10, 13, 15, 18, 20, 21, 22, 23,
+      24, 26, 28, 30, 31, 32, 33, 34, 35, 36, 37, 38,
+      39, 40, 41, 42, 43, 44, 45, 46, 47,
+      48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71
     ];
 
-    const reverseScore = val => Math.round((8 - val) * 0.85);
-    const scored = values.map((val, i) => reverseIndexes.includes(i) ? reverseScore(val) : val);
+    const reverseScore = (value) => Math.round((8 - value) * 0.85);
+    const scoredAnswers = values.map((val, i) =>
+      reverseIndexes.includes(i) ? reverseScore(val) : val
+    );
 
-    const sum = arr => arr.reduce((acc, val) => acc + (typeof val === 'number' ? val : 0), 0);
+    const sum = (arr) =>
+      arr.reduce((acc, val) => acc + (typeof val === 'number' ? val : 0), 0);
 
-    const EF = sum(scored.slice(0, 24));
-    const RM = sum(scored.slice(24, 48));
-    const BS = sum(scored.slice(48, 72));
-    const total = EF + RM + BS;
-    const attachmentScore = sum(scored.slice(10, 16));
+    const fluency = sum(scoredAnswers.slice(0, 24));
+    const maturity = sum(scoredAnswers.slice(24, 48));
+    const bs = sum(scoredAnswers.slice(48, 72));
+    const total = fluency + maturity + bs;
+    const attachmentScore = sum(scoredAnswers.slice(10, 16));
 
-    const result = matchProfile(EF, RM, BS, attachmentScore, total);
+    const result = matchProfileWithWiggleRoom(fluency, maturity, bs, attachmentScore, total);
 
-    const topParams = result.topThree.map((name, i) => `alt${i + 1}=${encodeURIComponent(name)}`).join('&');
+    const topParams = result.topThree.map((p, i) =>
+      `alt${i + 1}=${encodeURIComponent(p.name)}&alt${i + 1}Flag=${encodeURIComponent(p.flag)}`
+    ).join('&');
 
-    const redirect = `/result/${encodeURIComponent(result.profile)}?fluency=${EF}&maturity=${RM}&bs=${BS}&total=${total}&flag=${result.flag}&attachment=${encodeURIComponent(result.attachmentStyle)}&${topParams}`;
-    router.replace(redirect);
+    const redirectUrl = `/result/${encodeURIComponent(result.profile)}?fluency=${fluency}&maturity=${maturity}&bs=${bs}&total=${total}&flag=${result.flag}&${topParams}`;
+
+    router.replace(redirectUrl);
   }, [router]);
 
   return (
