@@ -9,8 +9,6 @@ const profiles = Object.values(
 // Clean out malformed ones before looping
 const safeProfiles = profiles.filter(p => p && p.target && typeof p.target.fluency === 'number');
 
-import rawProfiles from '@/data/attachmentProfiles';
-
 const profiles = Array.isArray(rawProfiles)
   ? rawProfiles
   : typeof rawProfiles?.default === 'object'
