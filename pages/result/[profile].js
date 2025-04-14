@@ -5,7 +5,7 @@ import ResultCard from '@/components/ResultCard';
 
 export default function ProfileResult() {
   const router = useRouter();
-  const [scores, setScores] = useState(null);
+const { alt1, alt1Flag, alt2, alt2Flag, alt3, alt3Flag } = router.query;
 
   const { profile, fluency, maturity, bs, total, flag } = router.query;
 
@@ -30,6 +30,22 @@ export default function ProfileResult() {
   }
 
   const { tagline, description } = profileDescriptions[profile];
+  {alt1 && (
+  <div className="mt-8">
+    <h2 className="text-lg font-bold mb-2">Also vibing with...</h2>
+    <ul className="list-disc list-inside space-y-2">
+      <li>
+        <strong>{alt1}</strong> <span className="text-sm text-gray-500">(Flag: {alt1Flag})</span>
+      </li>
+      <li>
+        <strong>{alt2}</strong> <span className="text-sm text-gray-500">(Flag: {alt2Flag})</span>
+      </li>
+      <li>
+        <strong>{alt3}</strong> <span className="text-sm text-gray-500">(Flag: {alt3Flag})</span>
+      </li>
+    </ul>
+  </div>
+)}
 
   return (
     <main className="min-h-screen flex flex-col justify-center items-center px-6 py-12">
