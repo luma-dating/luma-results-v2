@@ -6,7 +6,7 @@ function matchProfileWithWiggleRoom(f, m, b, attachmentScore = 0, total = 0) {
   let bestMatch = null;
   let lowestAvgDiff = Infinity;
 
-  profiles.forEach((p) => {
+  Object.values(profiles).forEach((p) => {
     const diff = [
       Math.abs(f - p.target.fluency),
       Math.abs(m - p.target.maturity),
@@ -51,6 +51,7 @@ function matchProfileWithWiggleRoom(f, m, b, attachmentScore = 0, total = 0) {
   }
 
   return { profile: bestMatch.name, flag: adjustedFlag };
+
 }
 
 export default function ScoreRedirect() {
