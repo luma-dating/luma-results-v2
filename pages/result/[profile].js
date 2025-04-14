@@ -72,7 +72,7 @@ const fallback = {
 const description = profileData?.description || fallback.description;
 const tagline = profileData?.tagline || fallback.tagline;
 
-  };
+  }
 
   return (
     <main className="min-h-screen flex flex-col justify-center items-center px-6 py-12">
