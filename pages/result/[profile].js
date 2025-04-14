@@ -1,73 +1,72 @@
-import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
-import profileDescriptions from '@/data/profileDescriptions';
-import ResultCard from '@/components/ResultCard';
+import React from 'react';
+import profileData from '@/data/profileDescriptions.json';
 
-export default function ProfileResult() {
-  const router = useRouter();
-  const {
-    profile,
-    fluency,
-    maturity,
-    bs,
-    total,
-    flag,
-    attachment,
-    alt1,
-    alt2,
-    alt3
-  } = router.query;
+export default function ResultCard({ profile, flag, scores, tagline, description, attachmentStyle, topThree = [] }) {
+  const flagColors = {
+    'forest green': 'bg-green-800 text-white',
+    'lime green': 'bg-lime-500 text-black',
+    'sunshine yellow': 'bg-yellow-300 text-black',
+    'lemon yellow': 'bg-yellow-100 text-black',
+    'orange': 'bg-orange-400 text-black',
+    'brick red': 'bg-red-700 text-white',
+    'hell boy red': 'bg-red-900 text-white'
+  };
 
-  const [scores, setScores] = useState(null);
-
-  useEffect(() => {
-    if (!router.isReady || !profile) return;
-    setScores({
-      fluency: parseInt(fluency || 0, 10),
-      maturity: parseInt(maturity || 0, 10),
-      bs: parseInt(bs || 0, 10),
-      total: parseInt(total || 0, 10)
-    });
-  }, [router.isReady, profile, fluency, maturity, bs, total]);
-
-  if (!scores || !profileDescriptions[profile]) {
-    return (
-      <div className="min-h-screen flex flex-col items-center justify-center text-center">
-        <h2 className="text-xl">Loading your result...</h2>
-        <p className="text-gray-500 text-sm">Please wait just a sec.</p>
-      </div>
-    );
-  }
-
-  const { tagline, description } = profileDescriptions[profile];
+  const fallback = profileData.fallbacks?.find(f => f.flag === flag);
+  const profileEntry = profileData.profiles?.find(p => p.name === profile);
+  const profileDescription = profileEntry?.description || fallback?.description || description || "No description available.";
+  const profileTagline = profileEntry?.tagline || tagline || "";
 
   return (
-    <main className="min-h-screen flex flex-col justify-center items-center px-6 py-12 space-y-8">
-      <ResultCard
-        profile={profile}
-        flag={flag}
-        scores={scores}
-        tagline={tagline}
-        description={description}
-      />
+    <div className="max-w-2xl mx-auto text-center p-8 bg-white rounded-2xl shadow-md">
+      <div className={`inline-block px-4 py-2 rounded-full text-sm font-semibold mb-4 ${flagColors[flag] || 'bg-gray-200 text-black'}`}>
+        {flag.toUpperCase()}
+      </div>
 
-      {attachment && (
-        <div className="text-center max-w-xl">
-          <h3 className="text-lg font-semibold mt-6">Attachment Style</h3>
-          <p className="text-gray-600">You may lean toward: <span className="font-medium text-black">{attachment}</span></p>
+      <h1 className="text-3xl font-bold mb-2">{profile}</h1>
+      {profileTagline && <h2 className="text-xl text-gray-600 mb-6">{profileTagline}</h2>}
+
+      <p className="text-gray-800 leading-relaxed mb-6 whitespace-pre-wrap">{profileDescription}</p>
+
+      {attachmentStyle && (
+        <div className="mt-6">
+          <h3 className="font-semibold">Attachment Style:</h3>
+          <p className="text-gray-700 italic">{attachmentStyle}</p>
         </div>
       )}
 
-      {(alt1 || alt2 || alt3) && (
-        <div className="text-center max-w-xl mt-8">
-          <h3 className="text-lg font-semibold">Other patterns you resonate with:</h3>
-          <ul className="list-disc list-inside text-left space-y-1 mt-2">
-            {alt1 && <li><span className="font-medium">{alt1}</span></li>}
-            {alt2 && <li><span className="font-medium">{alt2}</span></li>}
-            {alt3 && <li><span className="font-medium">{alt3}</span></li>}
+      <div className="grid grid-cols-2 gap-4 mt-8">
+        <div className="bg-gray-100 p-4 rounded-xl">
+          <p className="text-sm text-gray-500">Emotional Fluency</p>
+          <p className="text-xl font-bold">{scores.fluency}</p>
+        </div>
+        <div className="bg-gray-100 p-4 rounded-xl">
+          <p className="text-sm text-gray-500">Relational Maturity</p>
+          <p className="text-xl font-bold">{scores.maturity}</p>
+        </div>
+        <div className="bg-gray-100 p-4 rounded-xl">
+          <p className="text-sm text-gray-500">BS Detection</p>
+          <p className="text-xl font-bold">{scores.bs}</p>
+        </div>
+        <div className="bg-gray-200 p-4 rounded-xl">
+          <p className="text-sm text-gray-600">Total Score</p>
+          <p className="text-xl font-bold">{scores.total}</p>
+        </div>
+      </div>
+
+      {topThree.length > 1 && (
+        <div className="mt-10 text-left">
+          <h3 className="text-lg font-semibold mb-2">Also aligned with:</h3>
+          <ul className="space-y-2">
+            {topThree.slice(1).map((alt, idx) => (
+              <li key={idx} className="pl-3 border-l-4 border-gray-300">
+                <span className="font-medium">{alt.name}</span>
+                <span className="ml-2 text-sm text-gray-500">(diff: {alt.avgDiff?.toFixed(2) ?? '?'})</span>
+              </li>
+            ))}
           </ul>
         </div>
       )}
-    </main>
+    </div>
   );
 }
