@@ -1,6 +1,11 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import profileDescriptions from '@/data/profileDescriptions.json';
+import rawDescriptions from '@/data/profileDescriptions.json';
+
+const profileDescriptions = typeof rawDescriptions?.default === 'object'
+  ? rawDescriptions.default
+  : rawDescriptions;
+
 import ResultCard from '@/components/ResultCard';
 
 export default function ProfileResult() {
@@ -59,13 +64,15 @@ export default function ProfileResult() {
   }
 
   const profileData = profileDescriptions.profiles?.[profile];
-  const fallback = profileDescriptions.profiles?.[profile] ?? {
-    tagline: '',
-    description: ''
-  };
+const fallback = {
+  tagline: 'You defy classification.',
+  description: 'Your results don’t fit a tidy box, and that’s not a bug—it’s a feature.'
+};
 
-  const description = profileData?.description || fallback.description;
-  const tagline = profileData?.tagline || fallback.tagline;
+const description = profileData?.description || fallback.description;
+const tagline = profileData?.tagline || fallback.tagline;
+
+  };
 
   return (
     <main className="min-h-screen flex flex-col justify-center items-center px-6 py-12">
