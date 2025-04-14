@@ -5,13 +5,23 @@ import ResultCard from '@/components/ResultCard';
 
 export default function ProfileResult() {
   const router = useRouter();
-  const { profile, fluency, maturity, bs, total, flag, alt1, alt1Flag, alt2, alt2Flag, alt3, alt3Flag } = router.query;
+  const {
+    profile,
+    fluency,
+    maturity,
+    bs,
+    total,
+    flag,
+    attachment,
+    alt1,
+    alt2,
+    alt3
+  } = router.query;
 
   const [scores, setScores] = useState(null);
 
   useEffect(() => {
     if (!router.isReady || !profile) return;
-
     setScores({
       fluency: parseInt(fluency || 0, 10),
       maturity: parseInt(maturity || 0, 10),
@@ -32,7 +42,7 @@ export default function ProfileResult() {
   const { tagline, description } = profileDescriptions[profile];
 
   return (
-    <main className="min-h-screen flex flex-col justify-center items-center px-6 py-12">
+    <main className="min-h-screen flex flex-col justify-center items-center px-6 py-12 space-y-8">
       <ResultCard
         profile={profile}
         flag={flag}
@@ -41,22 +51,20 @@ export default function ProfileResult() {
         description={description}
       />
 
-      {alt1 && (
-        <div className="mt-12 max-w-xl text-left">
-          <h2 className="text-xl font-semibold mb-4">Also vibing with...</h2>
-          <ul className="list-disc list-inside space-y-2 text-gray-700">
-            <li>
-              <strong>{alt1}</strong>{' '}
-              <span className="text-sm text-gray-500">(Flag: {alt1Flag})</span>
-            </li>
-            <li>
-              <strong>{alt2}</strong>{' '}
-              <span className="text-sm text-gray-500">(Flag: {alt2Flag})</span>
-            </li>
-            <li>
-              <strong>{alt3}</strong>{' '}
-              <span className="text-sm text-gray-500">(Flag: {alt3Flag})</span>
-            </li>
+      {attachment && (
+        <div className="text-center max-w-xl">
+          <h3 className="text-lg font-semibold mt-6">Attachment Style</h3>
+          <p className="text-gray-600">You may lean toward: <span className="font-medium text-black">{attachment}</span></p>
+        </div>
+      )}
+
+      {(alt1 || alt2 || alt3) && (
+        <div className="text-center max-w-xl mt-8">
+          <h3 className="text-lg font-semibold">Other patterns you resonate with:</h3>
+          <ul className="list-disc list-inside text-left space-y-1 mt-2">
+            {alt1 && <li><span className="font-medium">{alt1}</span></li>}
+            {alt2 && <li><span className="font-medium">{alt2}</span></li>}
+            {alt3 && <li><span className="font-medium">{alt3}</span></li>}
           </ul>
         </div>
       )}
