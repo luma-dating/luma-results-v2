@@ -2,89 +2,83 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import rawProfiles from '@/data/attachmentProfiles';
 
-// Normalize profiles data
 const profiles = Array.isArray(rawProfiles)
   ? rawProfiles
   : typeof rawProfiles?.default === 'object'
-  ? Object.values(rawProfiles.default)
-  : Object.values(rawProfiles || {});
+    ? Object.values(rawProfiles.default)
+    : Object.values(rawProfiles || {});
 
-// Main matching function
-function matchProfileWithWiggleRoom(f, m, b, attachmentScore = 0, total = 0) {
-  const scoredMatches = profiles
-    .filter((p) => p?.target && typeof p.target.fluency === 'number')
-    .map((p) => {
-      const diff = [
-        Math.abs(f - p.target.fluency),
-        Math.abs(m - p.target.maturity),
-        Math.abs(b - p.target.bs),
-      ];
-      const avgDiff = diff.reduce((a, c) => a + c, 0) / 3;
-      const gteMatch = p.useGTE
-        ? f >= p.target.fluency && m >= p.target.maturity && b >= p.target.bs
-        : true;
+function getFlagFromTotal(total) {
+  if (total >= 330) return 'forest green';
+  if (total >= 300) return 'lime green';
+  if (total >= 260) return 'sunshine yellow';
+  if (total >= 230) return 'lemon yellow';
+  if (total >= 180) return 'orange';
+  if (total >= 150) return 'brick red';
+  return 'hell boy red';
+}
 
-      return { ...p, avgDiff, gteMatch };
-    });
+function getAttachmentStyle(score) {
+  if (score >= 30) return 'Secure';
+  if (score >= 24) return 'Anxious-Leaning Secure';
+  if (score >= 18) return 'Anxious or Avoidant';
+  return 'Disorganized';
+}
 
-  const topThree = scoredMatches
-    .filter((p) => p.gteMatch && p.avgDiff < 10)
-    .sort((a, b) => a.avgDiff - b.avgDiff)
-    .slice(0, 3);
-
-  const bestMatch = topThree[0];
-
-  if (!bestMatch) {
-    if (f >= 85 && m >= 100 && total >= 310) {
-      return {
-        profile: 'Still Figuring It Out',
-        flag: 'sunshine yellow',
-        topThree: [],
-      };
+function matchProfile(f, m, b, attachmentScore, total) {
+  const flag = getFlagFromTotal(total);
+  const matches = profiles.filter(p => {
+    try {
+      const EF = f, RM = m, BS = b;
+      const pattern = p.pattern.replace(/EF/g, EF).replace(/RM/g, RM).replace(/BS/g, BS);
+      const result = eval(pattern);
+      return result;
+    } catch (e) {
+      console.warn('Pattern error in profile:', p.name);
+      return false;
     }
+  });
+
+  if (matches.length > 0) {
+    matches.sort((a, b) => {
+      const avgA = Math.abs(f - eval(a.pattern.match(/EF [<>=]+ \d+/)?.[0]?.split(' ').pop())) +
+                   Math.abs(m - eval(a.pattern.match(/RM [<>=]+ \d+/)?.[0]?.split(' ').pop())) +
+                   Math.abs(b - eval(a.pattern.match(/BS [<>=]+ \d+/)?.[0]?.split(' ').pop()));
+      const avgB = Math.abs(f - eval(b.pattern.match(/EF [<>=]+ \d+/)?.[0]?.split(' ').pop())) +
+                   Math.abs(m - eval(b.pattern.match(/RM [<>=]+ \d+/)?.[0]?.split(' ').pop())) +
+                   Math.abs(b - eval(b.pattern.match(/BS [<>=]+ \d+/)?.[0]?.split(' ').pop()));
+      return avgA - avgB;
+    });
     return {
-      profile: 'Disorganized Seeker',
-      flag: 'brick red',
-      topThree: [],
+      profile: matches[0].name,
+      flag,
+      attachmentStyle: getAttachmentStyle(attachmentScore),
+      topThree: matches.slice(0, 3).map(p => p.name)
     };
   }
 
-  let adjustedFlag = bestMatch.flag;
-
-  if (bestMatch.avgDiff >= 3) {
-    const downgrade = {
-      'forest green': 'lime green',
-      'lime green': 'sunshine yellow',
-      'sunshine yellow': 'lemon yellow',
-      'lemon yellow': 'orange',
-      'orange': 'brick red',
-      'brick red': 'hell boy red',
-    };
-    adjustedFlag = downgrade[adjustedFlag] || adjustedFlag;
-  }
-
-  if (attachmentScore >= 85 && bestMatch.avgDiff <= 5) {
-    const upgrade = {
-      'hell boy red': 'brick red',
-      'brick red': 'orange',
-      'orange': 'lemon yellow',
-      'lemon yellow': 'sunshine yellow',
-      'sunshine yellow': 'lime green',
-      'lime green': 'forest green',
-    };
-    adjustedFlag = upgrade[adjustedFlag] || adjustedFlag;
-  }
-
+  const fallback = profiles.find(p => p.name === flagToFallback(flag));
   return {
-    profile: bestMatch.name,
-    flag: adjustedFlag,
-    topThree: topThree.map((p) => ({ name: p.name, avgDiff: p.avgDiff, flag: p.flag })),
+    profile: fallback?.name || 'Still Figuring It Out',
+    flag,
+    attachmentStyle: getAttachmentStyle(attachmentScore),
+    topThree: []
   };
 }
 
-export { matchProfileWithWiggleRoom };
+function flagToFallback(flag) {
+  switch (flag) {
+    case 'forest green': return 'Unicorn';
+    case 'lime green': return 'Evergreen Wanderer';
+    case 'sunshine yellow': return 'Rubber Ducky';
+    case 'lemon yellow': return 'Delicate Teacup';
+    case 'orange': return 'Rollercoaster Rider';
+    case 'brick red': return 'Stop Sign';
+    case 'hell boy red': return 'Emotional Arsonist';
+    default: return 'Still Figuring It Out';
+  }
+}
 
-// Component to trigger redirect based on scores
 export default function ScoreRedirect() {
   const router = useRouter();
 
@@ -94,53 +88,33 @@ export default function ScoreRedirect() {
     const query = router.query;
     const values = Array.from({ length: 72 }, (_, i) => {
       const key = `Q${i + 3}`;
-      return [28, 32].includes(i) ? 0 : parseInt(query[key] || 0, 10);
+      if ([28, 32].includes(i)) return 0;
+      return parseInt(query[key] || 0, 10);
     });
 
-    const reverseIndexes = new Set([
-      0, 2, 4, 7, 10, 13, 15, 18, 20, 21, 22, 23, 24, 26, 28, 30, 31, 32, 33, 34,
-      35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53,
-      54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71,
-    ]);
+    const reverseIndexes = [
+      0, 2, 4, 7, 10, 13, 15, 18, 20, 21, 22, 23, 24, 26, 28, 30, 31, 32, 33,
+      34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50,
+      51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71
+    ];
 
-    const reverseScore = (v) => Math.round((8 - v) * 0.85);
-    const scoredAnswers = values.map((v, i) =>
-      reverseIndexes.has(i) ? reverseScore(v) : v
-    );
+    const reverseScore = val => Math.round((8 - val) * 0.85);
+    const scored = values.map((val, i) => reverseIndexes.includes(i) ? reverseScore(val) : val);
 
-    const sum = (arr) =>
-      arr.reduce((acc, val) => acc + (typeof val === 'number' ? val : 0), 0);
+    const sum = arr => arr.reduce((acc, val) => acc + (typeof val === 'number' ? val : 0), 0);
 
-    const fluency = sum(scoredAnswers.slice(0, 24));
-    const maturity = sum(scoredAnswers.slice(24, 48));
-    const bs = sum(scoredAnswers.slice(48, 72));
-    const total = fluency + maturity + bs;
-    const attachmentScore = sum(scoredAnswers.slice(10, 16));
+    const EF = sum(scored.slice(0, 24));
+    const RM = sum(scored.slice(24, 48));
+    const BS = sum(scored.slice(48, 72));
+    const total = EF + RM + BS;
+    const attachmentScore = sum(scored.slice(10, 16));
 
-    const result = matchProfileWithWiggleRoom(
-      fluency,
-      maturity,
-      bs,
-      attachmentScore,
-      total
-    );
+    const result = matchProfile(EF, RM, BS, attachmentScore, total);
 
-    const topParams = result.topThree
-      .map(
-        (p, i) =>
-          `alt${i + 1}=${encodeURIComponent(p.name)}&alt${i + 1}Flag=${encodeURIComponent(
-            p.flag
-          )}`
-      )
-      .join('&');
+    const topParams = result.topThree.map((name, i) => `alt${i + 1}=${encodeURIComponent(name)}`).join('&');
 
-    const redirectUrl = `/result/${encodeURIComponent(
-      result.profile
-    )}?fluency=${fluency}&maturity=${maturity}&bs=${bs}&total=${total}&flag=${
-      result.flag
-    }&${topParams}`;
-
-    router.replace(redirectUrl);
+    const redirect = `/result/${encodeURIComponent(result.profile)}?fluency=${EF}&maturity=${RM}&bs=${BS}&total=${total}&flag=${result.flag}&attachment=${encodeURIComponent(result.attachmentStyle)}&${topParams}`;
+    router.replace(redirect);
   }, [router]);
 
   return (
