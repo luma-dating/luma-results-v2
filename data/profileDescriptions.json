@@ -83,66 +83,118 @@
       "pattern": "EF > RM && BS < EF",
       "useGTE": false,
       "attachmentHints": ["anxious"]
-    }
-    // ...continue with the rest up to 28
-  ],
-  "fallbacks": [
-    {
-      "flag": "forest green",
-      "name": "Unicorn",
-      "description": "You’re exceptional, balanced, and don’t fit neatly into any one category. That’s your superpower."
     },
     {
-      "flag": "lime green",
-      "name": "Evergreen Wanderer",
-      "description": "You’re consistent and curious, still exploring your inner map."
-    },
-    {
-      "flag": "sunshine yellow",
-      "name": "Rubber Ducky",
-      "description": "Self-aware and bobbing along. You’ve got insight, just need a little more integration."
-    },
-    {
+      "name": "Tender Strategist",
       "flag": "lemon yellow",
-      "name": "Delicate Teacup",
-      "description": "Tender but hesitant. You’re doing your best not to spill."
+      "pattern": "RM > BS && EF < BS",
+      "useGTE": false,
+      "attachmentHints": ["disorganized", "conflict avoidant"]
     },
     {
+      "name": "Watchful Romantic",
+      "flag": "lemon yellow",
+      "pattern": "EF > RM && BS > RM",
+      "useGTE": false,
+      "attachmentHints": ["anxious leaning", "slow to trust"]
+    },
+    {
+      "name": "Quiet Flame",
+      "flag": "forest green",
+      "pattern": "EF >= RM && RM > BS",
+      "useGTE": true,
+      "attachmentHints": ["secure"]
+    },
+    {
+      "name": "Steady Flame",
+      "flag": "forest green",
+      "pattern": "EF >= 130 && RM >= 130 && BS >= 130",
+      "useGTE": true,
+      "attachmentHints": ["secure"]
+    },
+    {
+      "name": "Wary Wisecrack",
+      "flag": "lime green",
+      "pattern": "BS > RM && EF < BS",
+      "useGTE": false,
+      "attachmentHints": ["avoidant leaning"]
+    },
+    {
+      "name": "Salted Seeker",
+      "flag": "lime green",
+      "pattern": "RM >= BS && EF < RM",
+      "useGTE": false,
+      "attachmentHints": ["recovering anxious"]
+    },
+    {
+      "name": "Recovering Romantic",
+      "flag": "sunshine yellow",
+      "pattern": "BS > RM && EF >= RM",
+      "useGTE": false,
+      "attachmentHints": ["introspective"]
+    },
+    {
+      "name": "Grounded Dreamer",
+      "flag": "lime green",
+      "pattern": "EF > BS && RM >= BS",
+      "useGTE": false,
+      "attachmentHints": ["secure leaning"]
+    },
+    {
+      "name": "Cautious Optimist",
+      "flag": "sunshine yellow",
+      "pattern": "BS == RM && EF > BS",
+      "useGTE": false,
+      "attachmentHints": ["hopeful"]
+    },
+    {
+      "name": "Chaotic Idealist",
+      "flag": "lemon yellow",
+      "pattern": "EF > BS && RM < BS",
+      "useGTE": false,
+      "attachmentHints": ["disorganized"]
+    },
+    {
+      "name": "Detached Romantic",
       "flag": "orange",
-      "name": "Rollercoaster Rider",
-      "description": "You’re a thrill to love, but buckle up — you’re still figuring out emotional stability."
+      "pattern": "EF == BS && RM < EF",
+      "useGTE": false,
+      "attachmentHints": ["avoidant"]
     },
     {
+      "name": "Fix-Me Pick-Me",
       "flag": "brick red",
-      "name": "Stop Sign",
-      "description": "Something’s gotta pause. Consider a full system reboot and some healing space."
+      "pattern": "BS < EF && RM < 100",
+      "useGTE": false,
+      "attachmentHints": ["people pleasing"]
     },
     {
+      "name": "Self-Aware Tornado",
+      "flag": "brick red",
+      "pattern": "EF > 130 && (RM < 100 || BS < 100)",
+      "useGTE": true,
+      "attachmentHints": ["intense"]
+    },
+    {
+      "name": "Soft Talker, Hard Avoider",
+      "flag": "brick red",
+      "pattern": "EF > 130 && RM < 100 && BS > 130",
+      "useGTE": true,
+      "attachmentHints": ["avoidant"]
+    },
+    {
+      "name": "Ghost of Relationships Past",
       "flag": "hell boy red",
-      "name": "Emotional Arsonist",
-      "description": "You light fires to see who runs. There’s healing to do underneath the defense."
-    },
-  ],
-  "attachmentStyles": [
-    {
-      "name": "Secure",
-      "range": [30, 36],
-      "notes": "Comfortable with intimacy and independence."
+      "pattern": "EF < 100 && RM < 100 && BS < 100",
+      "useGTE": true,
+      "attachmentHints": ["stuck"]
     },
     {
-      "name": "Anxious-Leaning Secure",
-      "range": [24, 29],
-      "notes": "Mostly secure but may seek reassurance."
-    },
-    {
-      "name": "Anxious or Avoidant",
-      "range": [18, 23],
-      "notes": "Likely to struggle with consistent relational strategies."
-    },
-    {
-      "name": "Disorganized",
-      "range": [0, 17],
-      "notes": "Fluctuates between craving and fearing connection."
+      "name": "Disorganized Seeker",
+      "flag": "hell boy red",
+      "pattern": "EF > BS && RM < 100",
+      "useGTE": false,
+      "attachmentHints": ["chaotic"]
     }
   ]
 }
