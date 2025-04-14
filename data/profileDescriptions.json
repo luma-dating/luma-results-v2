@@ -2,199 +2,120 @@
   "profiles": [
     {
       "name": "Warm Cynic",
-      "flag": "lime green",
-      "pattern": "BS > EF && EF > RM",
-      "useGTE": false,
-      "attachmentHints": ["avoidant leaning", "hypervigilant"]
+      "tagline": "You’ve seen some things.",
+      "description": "You combine deep skepticism with sincere care. You’ll call out the nonsense, but secretly still want connection."
     },
     {
       "name": "Earnest Explorer",
-      "flag": "sunshine yellow",
-      "pattern": "EF > BS && EF > RM && RM > BS",
-      "useGTE": false,
-      "attachmentHints": ["anxious leaning"]
+      "tagline": "You’re learning as you love.",
+      "description": "You’re on a journey to understand both yourself and others. Your curiosity and honesty are your greatest assets."
     },
     {
       "name": "Hopeful Idealist",
-      "flag": "sunshine yellow",
-      "pattern": "EF > RM && BS < RM",
-      "useGTE": false,
-      "attachmentHints": ["secure leaning"]
+      "tagline": "Dreams intact, heart open.",
+      "description": "You believe in people. Maybe too much sometimes. But your optimism gives others a reason to show up."
     },
     {
       "name": "Gentle Challenger",
-      "flag": "forest green",
-      "pattern": "RM > EF && BS > EF && EF >= 100",
-      "useGTE": true,
-      "attachmentHints": ["secure"]
+      "tagline": "Soft but sharp.",
+      "description": "You support growth with kindness and ask good, hard questions. People underestimate your power."
     },
     {
       "name": "Hard-Learned Lover",
-      "flag": "forest green",
-      "pattern": "EF == RM && BS == EF",
-      "useGTE": true,
-      "attachmentHints": ["secure"]
+      "tagline": "Lessons became love.",
+      "description": "You’ve been through it. But you’ve done the work. You love with eyes wide open and feet on the ground."
     },
     {
       "name": "Introspective Firecracker",
-      "flag": "lemon yellow",
-      "pattern": "BS > RM && RM > EF",
-      "useGTE": false,
-      "attachmentHints": ["disorganized"]
+      "tagline": "Big feelings, big reflections.",
+      "description": "You’re wild and wise. You burn bright, feel deeply, and ask yourself all the right questions — eventually."
     },
     {
       "name": "Cynical Adventurer",
-      "flag": "orange",
-      "pattern": "BS > EF && RM < EF",
-      "useGTE": false,
-      "attachmentHints": ["avoidant"]
+      "tagline": "Trust is earned.",
+      "description": "You’re fun, charming, and just detached enough to feel safe. But when someone gets in, you ride hard for them."
     },
     {
       "name": "Resilient Seeker",
-      "flag": "sunshine yellow",
-      "pattern": "EF > RM && RM > BS",
-      "useGTE": false,
-      "attachmentHints": ["secure leaning"]
+      "tagline": "Always learning, never bitter.",
+      "description": "You’ve taken your hits and kept your heart. You’re trying again — with more wisdom this time."
     },
     {
       "name": "The Sage",
-      "flag": "forest green",
-      "pattern": "RM > EF && RM > BS",
-      "useGTE": true,
-      "attachmentHints": ["secure"]
+      "tagline": "Still waters run deep.",
+      "description": "You see the big picture. Calm, perceptive, and strategic. You choose your people and your energy carefully."
     },
     {
       "name": "Emotional Architect",
-      "flag": "orange",
-      "pattern": "EF > BS && BS < RM",
-      "useGTE": false,
-      "attachmentHints": ["avoidant", "intellectualizer"]
+      "tagline": "Structure with soul.",
+      "description": "You’ve thought about every angle. You build strong emotional frameworks, even if spontaneity scares you."
     },
     {
       "name": "Wounded Healer",
-      "flag": "lime green",
-      "pattern": "EF == BS && RM < EF",
-      "useGTE": false,
-      "attachmentHints": ["anxious", "burnout"]
+      "tagline": "Pain made wisdom.",
+      "description": "You’ve turned your wounds into understanding. You show up for others with empathy, but sometimes forget yourself."
     },
     {
       "name": "Dreamy Romantic",
-      "flag": "sunshine yellow",
-      "pattern": "EF > RM && BS < EF",
-      "useGTE": false,
-      "attachmentHints": ["anxious"]
+      "tagline": "Your heart leads the way.",
+      "description": "Love is a language you’re fluent in. You believe in magic and long looks — and sometimes forget the fine print."
     },
     {
-      "name": "Tender Strategist",
-      "flag": "lemon yellow",
-      "pattern": "RM > BS && EF < BS",
-      "useGTE": false,
-      "attachmentHints": ["disorganized", "conflict avoidant"]
+      "name": "Unicorn",
+      "tagline": "You defy categories.",
+      "description": "You’re balanced, complex, and beautifully contradictory. The usual rules just don’t apply — and that’s the magic."
     },
     {
-      "name": "Watchful Romantic",
-      "flag": "lemon yellow",
-      "pattern": "EF > RM && BS > RM",
-      "useGTE": false,
-      "attachmentHints": ["anxious leaning", "slow to trust"]
+      "name": "Evergreen Wanderer",
+      "tagline": "Growing, always.",
+      "description": "You’re steady and curious, building your insight step by step. You’re not in a rush — and that’s your strength."
     },
     {
-      "name": "Quiet Flame",
-      "flag": "forest green",
-      "pattern": "EF >= RM && RM > BS",
-      "useGTE": true,
-      "attachmentHints": ["secure"]
+      "name": "Rubber Ducky",
+      "tagline": "Floating through, figuring it out.",
+      "description": "You’re more self-aware than you let on. There’s depth under your easygoing surface."
     },
     {
-      "name": "Steady Flame",
-      "flag": "forest green",
-      "pattern": "EF >= 130 && RM >= 130 && BS >= 130",
-      "useGTE": true,
-      "attachmentHints": ["secure"]
+      "name": "Delicate Teacup",
+      "tagline": "Handle with care.",
+      "description": "You’re doing your best. You want to connect, but protecting yourself feels safer. That’s real."
     },
     {
-      "name": "Wary Wisecrack",
-      "flag": "lime green",
-      "pattern": "BS > RM && EF < BS",
-      "useGTE": false,
-      "attachmentHints": ["avoidant leaning"]
+      "name": "Rollercoaster Rider",
+      "tagline": "Thrilling but unstable.",
+      "description": "Your emotions run the show. You love hard, crash hard, and are still learning how to coast."
     },
     {
-      "name": "Salted Seeker",
-      "flag": "lime green",
-      "pattern": "RM >= BS && EF < RM",
-      "useGTE": false,
-      "attachmentHints": ["recovering anxious"]
+      "name": "Stop Sign",
+      "tagline": "Time to pause.",
+      "description": "Something needs attention. You’re protecting yourself with shutdown — but healing is possible."
     },
     {
-      "name": "Recovering Romantic",
-      "flag": "sunshine yellow",
-      "pattern": "BS > RM && EF >= RM",
-      "useGTE": false,
-      "attachmentHints": ["introspective"]
+      "name": "Emotional Arsonist",
+      "tagline": "If it burns, you lit it.",
+      "description": "You test people to see if they’ll stay. Underneath the chaos is someone who really wants to be known."
+    }
+  ],
+  "attachmentStyles": [
+    {
+      "name": "Secure",
+      "tagline": "Grounded in connection.",
+      "description": "You’re comfortable with closeness and independence. You trust, connect, and set boundaries with grace."
     },
     {
-      "name": "Grounded Dreamer",
-      "flag": "lime green",
-      "pattern": "EF > BS && RM >= BS",
-      "useGTE": false,
-      "attachmentHints": ["secure leaning"]
+      "name": "Anxious-Leaning Secure",
+      "tagline": "Mostly chill, slightly clingy.",
+      "description": "You know you’re lovable — but you still worry sometimes. You value connection and can voice your needs."
     },
     {
-      "name": "Cautious Optimist",
-      "flag": "sunshine yellow",
-      "pattern": "BS == RM && EF > BS",
-      "useGTE": false,
-      "attachmentHints": ["hopeful"]
+      "name": "Anxious or Avoidant",
+      "tagline": "Push-pull pro.",
+      "description": "You crave closeness but fear it too. You swing between needing reassurance and pulling away."
     },
     {
-      "name": "Chaotic Idealist",
-      "flag": "lemon yellow",
-      "pattern": "EF > BS && RM < BS",
-      "useGTE": false,
-      "attachmentHints": ["disorganized"]
-    },
-    {
-      "name": "Detached Romantic",
-      "flag": "orange",
-      "pattern": "EF == BS && RM < EF",
-      "useGTE": false,
-      "attachmentHints": ["avoidant"]
-    },
-    {
-      "name": "Fix-Me Pick-Me",
-      "flag": "brick red",
-      "pattern": "BS < EF && RM < 100",
-      "useGTE": false,
-      "attachmentHints": ["people pleasing"]
-    },
-    {
-      "name": "Self-Aware Tornado",
-      "flag": "brick red",
-      "pattern": "EF > 130 && (RM < 100 || BS < 100)",
-      "useGTE": true,
-      "attachmentHints": ["intense"]
-    },
-    {
-      "name": "Soft Talker, Hard Avoider",
-      "flag": "brick red",
-      "pattern": "EF > 130 && RM < 100 && BS > 130",
-      "useGTE": true,
-      "attachmentHints": ["avoidant"]
-    },
-    {
-      "name": "Ghost of Relationships Past",
-      "flag": "hell boy red",
-      "pattern": "EF < 100 && RM < 100 && BS < 100",
-      "useGTE": true,
-      "attachmentHints": ["stuck"]
-    },
-    {
-      "name": "Disorganized Seeker",
-      "flag": "hell boy red",
-      "pattern": "EF > BS && RM < 100",
-      "useGTE": false,
-      "attachmentHints": ["chaotic"]
+      "name": "Disorganized",
+      "tagline": "Hot-and-cold heart.",
+      "description": "You feel pulled in two directions: desperate for intimacy, but scared of it too."
     }
   ]
 }
