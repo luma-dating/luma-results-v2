@@ -9,11 +9,23 @@ const profiles = Object.values(
 // Clean out malformed ones before looping
 const safeProfiles = profiles.filter(p => p && p.target && typeof p.target.fluency === 'number');
 
-function matchProfileWithWiggleRoom(f, m, b, attachmentScore = 0, total = 0) {
-  let bestMatch = null;
-  let lowestAvgDiff = Infinity;
+import rawProfiles from '@/data/attachmentProfiles';
 
-  safeProfiles.forEach((p) => {
+const profiles = Array.isArray(rawProfiles)
+  ? rawProfiles
+  : typeof rawProfiles?.default === 'object'
+    ? Object.values(rawProfiles.default)
+    : Object.values(rawProfiles || {});
+
+function matchProfileWithWiggleRoom(f, m, b, attachmentScore = 0, total = 0) {
+  const scoredMatches = [];
+
+  profiles.forEach((p) => {
+    if (!p?.target || typeof p.target.fluency !== 'number') {
+      console.warn(`Skipping invalid profile:`, p);
+      return;
+    }
+
     const diff = [
       Math.abs(f - p.target.fluency),
       Math.abs(m - p.target.maturity),
@@ -25,17 +37,34 @@ function matchProfileWithWiggleRoom(f, m, b, attachmentScore = 0, total = 0) {
       ? f >= p.target.fluency && m >= p.target.maturity && b >= p.target.bs
       : true;
 
-    if (avgDiff < lowestAvgDiff && avgDiff < 10 && gteMatch) {
-      bestMatch = { ...p, avgDiff };
-      lowestAvgDiff = avgDiff;
-    }
+    scoredMatches.push({
+      ...p,
+      avgDiff,
+      gteMatch
+    });
   });
 
+  const sortedMatches = scoredMatches
+    .filter((p) => p.gteMatch && p.avgDiff < 10)
+    .sort((a, b) => a.avgDiff - b.avgDiff);
+
+  const topThree = sortedMatches.slice(0, 3);
+  const bestMatch = topThree[0];
+
   if (!bestMatch) {
+    console.warn('No close match. Returning fallback.');
     if (f >= 85 && m >= 100 && total >= 310) {
-      return { profile: 'Still Figuring It Out', flag: 'sunshine yellow' };
+      return {
+        profile: 'Still Figuring It Out',
+        flag: 'sunshine yellow',
+        topThree: []
+      };
     }
-    return { profile: 'Disorganized Seeker', flag: 'brick red' };
+    return {
+      profile: 'Disorganized Seeker',
+      flag: 'brick red',
+      topThree: []
+    };
   }
 
   let adjustedFlag = bestMatch.flag;
@@ -57,10 +86,19 @@ function matchProfileWithWiggleRoom(f, m, b, attachmentScore = 0, total = 0) {
     else if (adjustedFlag === 'lime green') adjustedFlag = 'forest green';
   }
 
-  return { profile: bestMatch.name, flag: adjustedFlag };
+  console.log('Top 3 Contenders:');
+  topThree.forEach((match, index) => {
+    console.log(`#${index + 1}: ${match.name} (avgDiff: ${match.avgDiff.toFixed(2)})`);
+  });
 
+  return {
+    profile: bestMatch.name,
+    flag: adjustedFlag,
+    topThree: topThree.map((p) => ({ name: p.name, avgDiff: p.avgDiff }))
+  };
 }
 
+export default matchProfileWithWiggleRoom;
 export default function ScoreRedirect() {
   const router = useRouter();
 
