@@ -41,7 +41,15 @@ function matchProfileWithWiggleRoom(f, m, b, attachmentScore = 0, total = 0) {
 
   const topThree = sortedMatches.slice(0, 3);
   const bestMatch = topThree[0];
-
+console.log('No good match found. Scores:', f, m, b);
+console.log('All scored profiles:', profiles.map(p => ({
+  name: p.name,
+  diff: [
+    Math.abs(f - p.target.fluency),
+    Math.abs(m - p.target.maturity),
+    Math.abs(b - p.target.bs)
+  ].reduce((a, c) => a + c, 0) / 3
+})));
   if (!bestMatch) {
     console.warn('No close match. Returning fallback.');
     if (f >= 85 && m >= 100 && total >= 310) {
