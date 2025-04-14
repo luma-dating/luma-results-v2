@@ -1,125 +1,146 @@
 {
-  "profiles": [
-    {
-      "name": "Warm Cynic",
-      "tagline": "You’ve seen some things.",
-      "description": "You combine deep skepticism with sincere care. You’ll call out the nonsense, but secretly still want connection."
+  "profiles": {
+    "Cord Cutter": {
+      "tagline": "Burned the bridge and built a garden.",
+      "description": "You’ve done the work. You know peace. You keep your energy clean and your phone on Do Not Disturb."
     },
-    {
-      "name": "Earnest Explorer",
-      "tagline": "You’re learning as you love.",
-      "description": "You’re on a journey to understand both yourself and others. Your curiosity and honesty are your greatest assets."
+    "Hard-Learned Lover": {
+      "tagline": "Healed through heartbreak.",
+      "description": "You’ve been to the edge and back with a laminated list of boundaries. You want real love, but you’ll walk if it costs your peace."
     },
-    {
-      "name": "Hopeful Idealist",
-      "tagline": "Dreams intact, heart open.",
-      "description": "You believe in people. Maybe too much sometimes. But your optimism gives others a reason to show up."
+    "Emotionally Ambidextrous": {
+      "tagline": "Can do feelings *and* logic.",
+      "description": "You process like a therapist and feel like a poet. You're adaptable and emotionally fluent—but not always easy to impress."
     },
-    {
-      "name": "Gentle Challenger",
+    "Wholesome Skeptic": {
+      "tagline": "Cautiously open. Wisely selective.",
+      "description": "You’re willing to trust, but only after a full vibe audit. You want to feel safe before you feel soft."
+    },
+    "Hopeful Realist": {
+      "tagline": "Romantic, but with a fire extinguisher nearby.",
+      "description": "You want the movie moments *and* the communication tools. You're emotionally available—but you’re also self-aware."
+    },
+    "Quiet Flame": {
+      "tagline": "Peaceful doesn’t mean passive.",
+      "description": "You're steady, observant, and slow to heat—but you have depth and clarity that makes others lean in."
+    },
+    "Grounded Dreamer": {
+      "tagline": "Half daydream, half calendar invite.",
+      "description": "You’re poetic but pragmatic. You believe in alignment over chaos. Idealistic, but only in spreadsheets."
+    },
+    "Gentle Challenger": {
       "tagline": "Soft but sharp.",
-      "description": "You support growth with kindness and ask good, hard questions. People underestimate your power."
+      "description": "You approach people with tenderness, but you're not afraid to ask the hard questions—gently."
     },
-    {
-      "name": "Hard-Learned Lover",
-      "tagline": "Lessons became love.",
-      "description": "You’ve been through it. But you’ve done the work. You love with eyes wide open and feet on the ground."
+    "Earnest Explorer": {
+      "tagline": "Learning out loud.",
+      "description": "You’re doing the work, even when it’s awkward. You’re not perfect—but you’re emotionally honest, and that matters more."
     },
-    {
-      "name": "Introspective Firecracker",
-      "tagline": "Big feelings, big reflections.",
-      "description": "You’re wild and wise. You burn bright, feel deeply, and ask yourself all the right questions — eventually."
+    "Recovering Romantic": {
+      "tagline": "Cautiously open. Relentlessly sincere.",
+      "description": "You’ve loved hard and crashed. But somehow, you’re still willing to try again—with more discernment this time."
     },
-    {
-      "name": "Cynical Adventurer",
-      "tagline": "Trust is earned.",
-      "description": "You’re fun, charming, and just detached enough to feel safe. But when someone gets in, you ride hard for them."
+    "Introspective Firecracker": {
+      "tagline": "Insightful chaos. Emotional TNT.",
+      "description": "You’ve got feelings and opinions and probably a journal full of poems and apologies."
     },
-    {
-      "name": "Resilient Seeker",
-      "tagline": "Always learning, never bitter.",
-      "description": "You’ve taken your hits and kept your heart. You’re trying again — with more wisdom this time."
+    "Optimistic Avoider": {
+      "tagline": "Big dreams, light commitment.",
+      "description": "You want connection but get distracted by the idea of it. You’re growing—just slowly and off camera."
     },
-    {
-      "name": "The Sage",
-      "tagline": "Still waters run deep.",
-      "description": "You see the big picture. Calm, perceptive, and strategic. You choose your people and your energy carefully."
+    "Overfunctioning Mystic": {
+      "tagline": "Healer by day, avoider by night.",
+      "description": "You give amazing advice. You just don’t follow it. You’re a safe space for others, but not always for yourself."
     },
-    {
-      "name": "Emotional Architect",
-      "tagline": "Structure with soul.",
-      "description": "You’ve thought about every angle. You build strong emotional frameworks, even if spontaneity scares you."
+    "Fix-Me Pick-Me": {
+      "tagline": "Self-aware and still entangled.",
+      "description": "You know your patterns, and yet—here you are, hoping someone fixes you with love. Again."
     },
-    {
-      "name": "Wounded Healer",
-      "tagline": "Pain made wisdom.",
-      "description": "You’ve turned your wounds into understanding. You show up for others with empathy, but sometimes forget yourself."
+    "Salted Seeker": {
+      "tagline": "Vulnerable on purpose. Still bitter.",
+      "description": "You’re trying to stay open, but you’ve got a sharp tongue and a guarded heart."
     },
-    {
-      "name": "Dreamy Romantic",
-      "tagline": "Your heart leads the way.",
-      "description": "Love is a language you’re fluent in. You believe in magic and long looks — and sometimes forget the fine print."
+    "Projection Artist": {
+      "tagline": "Other people's issues look suspiciously like your own.",
+      "description": "You're emotionally expressive, but often rerouting your feelings through someone else's behavior."
     },
-    {
-      "name": "Unicorn",
-      "tagline": "You defy categories.",
-      "description": "You’re balanced, complex, and beautifully contradictory. The usual rules just don’t apply — and that’s the magic."
+    "Wary Wisecrack": {
+      "tagline": "Sarcasm is your safe word.",
+      "description": "You process emotions through comedy and confusion. It’s charming. It’s deflection. It’s both."
     },
-    {
-      "name": "Evergreen Wanderer",
-      "tagline": "Growing, always.",
-      "description": "You’re steady and curious, building your insight step by step. You’re not in a rush — and that’s your strength."
+    "Tender Tyrant": {
+      "tagline": "Emotionally intense, relationally ambivalent.",
+      "description": "You want closeness but punish inconsistency. You love with heat, but also rules."
     },
-    {
-      "name": "Rubber Ducky",
-      "tagline": "Floating through, figuring it out.",
-      "description": "You’re more self-aware than you let on. There’s depth under your easygoing surface."
+    "Emotional Contortionist": {
+      "tagline": "Malleable to the point of vanishing.",
+      "description": "You’re flexible in all the wrong ways. You shrink to survive—and call it love."
     },
-    {
-      "name": "Delicate Teacup",
-      "tagline": "Handle with care.",
-      "description": "You’re doing your best. You want to connect, but protecting yourself feels safer. That’s real."
+    "Codependent Theorist": {
+      "tagline": "Knows about boundaries. Hates using them.",
+      "description": "You’ve done the reading. You’ve heard of secure attachment. Now you just have to apply it."
     },
-    {
-      "name": "Rollercoaster Rider",
-      "tagline": "Thrilling but unstable.",
-      "description": "Your emotions run the show. You love hard, crash hard, and are still learning how to coast."
+    "Disorganized Seeker": {
+      "tagline": "Yearning, running, texting exes.",
+      "description": "Love terrifies you. So does being alone. So here you are: spiraling."
     },
-    {
-      "name": "Stop Sign",
-      "tagline": "Time to pause.",
-      "description": "Something needs attention. You’re protecting yourself with shutdown — but healing is possible."
+    "Rescue Addict": {
+      "tagline": "Loves a project more than a partner.",
+      "description": "You feel safe when someone else needs fixing. That way, you never have to look at your own healing."
     },
-    {
-      "name": "Emotional Arsonist",
-      "tagline": "If it burns, you lit it.",
-      "description": "You test people to see if they’ll stay. Underneath the chaos is someone who really wants to be known."
+    "Hyperattached Dreamer": {
+      "tagline": "Falls in love by slide 3.",
+      "description": "You’re wildly romantic, wildly anxious, and convinced your next match is *the one*."
+    },
+    "Power-Phobe": {
+      "tagline": "Terrified of control, accidentally controlling.",
+      "description": "You reject power dynamics so hard, you create new ones. You want equality, but fear vulnerability."
+    },
+    "Emotional Arsonist": {
+      "tagline": "Will light your heart on fire, then leave.",
+      "description": "You know what to say, how to say it, and when to disappear. You burn bridges before they bloom."
+    },
+    "Unaccountable Oracle": {
+      "tagline": "Knows everything. Except their part.",
+      "description": "Deeply intuitive, selectively reflective. You offer insight without introspection."
+    },
+    "Masked Manipulator": {
+      "tagline": "Therapy speak, toxic delivery.",
+      "description": "You know how to talk about emotions without feeling them. You're fluent in accountability cosplay."
+    },
+    "Softboy Siren": {
+      "tagline": "Too open, too fast, too gone.",
+      "description": "You weaponize vulnerability. You romanticize ambiguity. You ghost like it's a love language."
+    },
+    "Still Figuring It Out": {
+      "tagline": "You contain multitudes. Possibly contradictions.",
+      "description": "Your scores are scattered. Your vibe is TBD. This is not a bad thing. It’s just a beginning."
     }
-  ],
+  },
   "attachmentStyles": [
-  {
-    "name": "Secure",
-    "range": [30, 36],
-    "tagline": "Grounded in connection.",
-    "description": "You’re comfortable with closeness and independence. You trust, connect, and set boundaries with grace."
-  },
-  {
-    "name": "Anxious-Leaning Secure",
-    "range": [24, 29],
-    "tagline": "Mostly chill, slightly clingy.",
-    "description": "You know you’re lovable — but you still worry sometimes. You value connection and can voice your needs."
-  },
-  {
-    "name": "Anxious or Avoidant",
-    "range": [18, 23],
-    "tagline": "Push-pull pro.",
-    "description": "You crave closeness but fear it too. You swing between needing reassurance and pulling away."
-  },
-  {
-    "name": "Disorganized",
-    "range": [0, 17],
-    "tagline": "Hot-and-cold heart.",
-    "description": "You feel pulled in two directions: desperate for intimacy, but scared of it too."
-  }
-]
-
+    {
+      "name": "Secure",
+      "range": [30, 36],
+      "tagline": "Grounded in connection.",
+      "description": "You’re comfortable with closeness and independence. You trust, connect, and set boundaries with grace."
+    },
+    {
+      "name": "Anxious-Leaning Secure",
+      "range": [24, 29],
+      "tagline": "Mostly chill, slightly clingy.",
+      "description": "You know you’re lovable — but you still worry sometimes. You value connection and can voice your needs."
+    },
+    {
+      "name": "Anxious or Avoidant",
+      "range": [18, 23],
+      "tagline": "Push-pull pro.",
+      "description": "You crave closeness but fear it too. You swing between needing reassurance and pulling away."
+    },
+    {
+      "name": "Disorganized",
+      "range": [0, 17],
+      "tagline": "Hot-and-cold heart.",
+      "description": "You feel pulled in two directions: desperate for intimacy, but scared of it too."
+    }
+  ]
+}
