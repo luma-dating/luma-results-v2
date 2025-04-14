@@ -1,6 +1,10 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
-import profiles from '@/data/attachmentProfiles';
+import rawProfiles from '@/data/attachmentProfiles';
+
+const profiles = Object.values(
+  typeof rawProfiles?.default === 'object' ? rawProfiles.default : rawProfiles
+);
 
 function matchProfileWithWiggleRoom(f, m, b, attachmentScore = 0, total = 0) {
   let bestMatch = null;
