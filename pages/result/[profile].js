@@ -55,15 +55,15 @@ export default function ProfileResult() {
   ].filter(Boolean);
 
   if (!scores || !profile) {
-    return (
-      <main className="min-h-screen flex flex-col items-center justify-center text-center">
-        <h2 className="text-xl font-semibold">Loading your result...</h2>
-        <p className="text-gray-500">Please wait just a sec.</p>
-      </main>
-    );
-  }
+  return (
+    <main className="min-h-screen flex flex-col items-center justify-center text-center">
+      <h2 className="text-xl font-semibold">Loading your result...</h2>
+      <p className="text-gray-500">Please wait just a sec.</p>
+    </main>
+  );
+}
 
-  const profileData = profileDescriptions.profiles?.[profile];
+const profileData = profileDescriptions.profiles?.[profile];
 const fallback = {
   tagline: 'You defy classification.',
   description: 'Your results don’t fit a tidy box, and that’s not a bug—it’s a feature.'
@@ -72,19 +72,16 @@ const fallback = {
 const description = profileData?.description || fallback.description;
 const tagline = profileData?.tagline || fallback.tagline;
 
-  }
-
-  return (
-    <main className="min-h-screen flex flex-col justify-center items-center px-6 py-12">
-      <ResultCard
-        profile={profile}
-        flag={flag}
-        scores={scores}
-        tagline={tagline}
-        description={description}
-        attachmentStyle={attachmentStyle}
-        topThree={topThree}
-      />
-    </main>
-  );
-}
+return (
+  <main className="min-h-screen flex flex-col justify-center items-center px-6 py-12">
+    <ResultCard
+      profile={profile}
+      flag={flag}
+      scores={scores}
+      tagline={tagline}
+      description={description}
+      attachmentStyle={attachmentStyle}
+      topThree={topThree}
+    />
+  </main>
+);
