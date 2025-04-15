@@ -3,8 +3,8 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import rawProfiles from '@/data/attachmentProfiles';
-import { matchProfileWithWiggleRoom } from '@/lib/scoring';
-import { calculateAttachmentStyle } from '@/lib/scoring';
+import { matchProfileWithWiggleRoom } from '@/data/scoring';
+import { calculateAttachmentStyle } from '@/data/scoring';
 
 
 const profiles = Array.isArray(rawProfiles)
