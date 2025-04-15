@@ -1,120 +1,276 @@
 {
-"profiles": [
-    {
-      "name": "Warm Cynic",
-      "flag": "Sunshine Yellow",
-      "tagline": "You’ve seen some things.",
-      "description": "You combine deep skepticism with sincere care. You’ll call out the nonsense, but secretly still want connection."
-    },
-    {
-      "name": "Earnest Explorer",
-      "flag": "Sunshine Yellow",
-      "tagline": "You’re learning as you love.",
-      "description": "You’re on a journey to understand both yourself and others. Your curiosity and honesty are your greatest assets."
-    },
-    {
-      "name": "Hopeful Idealist",
-      "flag": "Lemon Yellow",
-      "tagline": "Dreams intact, heart open.",
-      "description": "You believe in people. Maybe too much sometimes. But your optimism gives others a reason to show up."
-    },
-    {
-      "name": "Gentle Challenger",
-      "flag": "Lemon Yellow",
-      "tagline": "Soft but sharp.",
-      "description": "You support growth with kindness and ask good, hard questions. People underestimate your power."
-    },
+  "profiles": [
     {
       "name": "Hard-Learned Lover",
-      "flag": "Forest Green", 
+      "flag": "forest green",
       "tagline": "Lessons became love.",
-      "description": "You’ve been through it. But you’ve done the work. You love with eyes wide open and feet on the ground."
-    },
-    {
-      "name": "Introspective Firecracker",
-      "flag": "Orange",
-      "tagline": "Big feelings, big reflections.",
-      "description": "You’re wild and wise. You burn bright, feel deeply, and ask yourself all the right questions — eventually."
-    },
-    {
-      "name": "Cynical Adventurer",
-      "flag": "Orange",
-      "tagline": "Trust is earned.",
-      "description": "You’re fun, charming, and just detached enough to feel safe. But when someone gets in, you ride hard for them."
-    },
-    {
-      "name": "Resilient Seeker",
-      "flag": "Sunshine Yellow",
-      "tagline": "Always learning, never bitter.",
-      "description": "You’ve taken your hits and kept your heart. You’re trying again — with more wisdom this time."
+      "description": "You’ve been through it. But you’ve done the work. You love with eyes wide open and feet on the ground.",
+      "totalRange": [330, 334],
+      "categoryRule": "EF>RM<BS",
+      "target": {"fluency": 110, "maturity": 100, "bs": 120},
+      "useGTE": true
     },
     {
       "name": "The Sage",
-      "flag": "Forest Green",
+      "flag": "forest green",
       "tagline": "Still waters run deep.",
-      "description": "You see the big picture. Calm, perceptive, and strategic. You choose your people and your energy carefully."
+      "description": "You see the big picture. Calm, perceptive, and strategic. You choose your people and your energy carefully.",
+      "totalRange": [340, 344],
+      "categoryRule": "EF<RM>BS",
+      "target": {"fluency": 100, "maturity": 120, "bs": 110},
+      "useGTE": true
     },
     {
-      "name": "Emotional Architect",
-      "flag": "Forest Green",
-      "tagline": "Structure with soul.",
-      "description": "You’ve thought about every angle. You build strong emotional frameworks, even if spontaneity scares you."
-    },
-    {
-      "name": "Wounded Healer",
-      "flag": "Limegreen",
-      "tagline": "Pain made wisdom.",
-      "description": "You’ve turned your wounds into understanding. You show up for others with empathy, but sometimes forget yourself."
-    },
-    {
-      "name": "Dreamy Romantic",
-      "flag": "Limegreen",
-      "tagline": "Your heart leads the way.",
-      "description": "Love is a language you’re fluent in. You believe in magic and long looks — and sometimes forget the fine print."
+      "name": "Steady Flame",
+      "flag": "forest green",
+      "tagline": "Slow burn, strong bond",
+      "description": "You don’t rush love. You show up consistently, thoughtfully, and deeply — building trust with every steady step.",
+      "totalRange": [345, 350],
+      "categoryRule": "EF=RM=BS",
+      "target": {"fluency": 115, "maturity": 115, "bs": 115},
+      "useGTE": true
     },
     {
       "name": "Unicorn",
-      "flag": "Forest Green",
-      "tagline": "You defy categories.",
-      "description": "You’re balanced, complex, and beautifully contradictory. The usual rules just don’t apply — and that’s the magic."
+      "flag": "forest green",
+      "tagline": "You defy categories",
+      "description": "You’re balanced, complex, and beautifully contradictory. The usual rules just don’t apply — and that’s the magic.",
+      "totalRange": [335, 339],
+      "categoryRule": "BS>RM>EF",
+      "target": {"fluency": 100, "maturity": 110, "bs": 125},
+      "useGTE": true
     },
     {
       "name": "Evergreen Wanderer",
-      "flag": "Limegreen",
-      "tagline": "Growing, always.",
-      "description": "You’re steady and curious, building your insight step by step. You’re not in a rush — and that’s your strength."
+      "flag": "forest green",
+      "tagline": "Growing, always",
+      "description": "You're steady and curious, building your insight step by step. You're not in a rush - and that's your strength.",
+      "totalRange": [325, 329],
+      "categoryRule": "EF<RM<BS",
+      "target": {"fluency": 95, "maturity": 105, "bs": 120},
+      "useGTE": true
+    },
+    {
+      "name": "Emotional Architect",
+      "flag": "lime green",
+      "tagline": "Structure with soul.",
+      "description": "You've thought aboute every angle. You build strong emotional frameworks, even if spontaneity scares you.",
+      "totalRange": [320, 324],
+      "categoryRule": "EF>RM<BS",
+      "target": {"fluency": 105, "maturity": 95, "bs": 115},
+      "useGTE": true
+    },
+    {
+      "name": "Wounded Healer",
+      "flag": "lime green",
+      "tagline": "Pain made wisdom.",
+      "description": "You've turned wounds into understanding. You show up for others with empathy, but sometimes forget yourself.",
+      "totalRange": [310, 314],
+      "categoryRule": "EF<RM>BS",
+      "target": {"fluency": 95, "maturity": 110, "bs": 105},
+      "useGTE": true
+    },
+    {
+      "name": "Dreamy Romantic",
+      "flag": "lime green",
+      "tagline": "Your Heart Leads the way",
+      "description": "Love is a language you're fluent in. You believe in magic and long looks - and sometimes forget the fine print.",
+      "totalRange": [305, 309],
+      "categoryRule": "EF=RM=BS",
+      "target": {"fluency": 102, "maturity": 102, "bs": 102},
+      "useGTE": true
+    },
+    {
+      "name": "Loving Strategist",
+      "flag": "lime green",
+      "tagline": "Planning with heart",
+      "description": "You think before you leap, but your loyalty is unshakable. You analyze the emotional terrain before charging in.",
+      "totalRange": [300, 304],
+      "categoryRule": "BS>RM>EF",
+      "target": {"fluency": 90, "maturity": 100, "bs": 110},
+      "useGTE": true
+    },
+    {
+      "name": "Sentimental Skeptic",
+      "flag": "lime green",
+      "tagline": "Soft heart, side-eye-ready",
+      "description": "You crave connection but want it earned. You’ll love deeply — after a vibe check and an internal review board.",
+      "totalRange": [315, 319],
+      "categoryRule": "EF<RM<BS",
+      "target": {"fluency": 95, "maturity": 105, "bs": 115},
+      "useGTE": true
+    }{
+      "name": "Warm Cynic",
+      "flag": "sunshine yellow",
+      "tagline": "You’ve seen some things.",
+      "description": "You combine deep skepticism with sincere care. You’ll call out the nonsense, but secretly still want connection.",
+      "totalRange": [280, 284],
+      "categoryRule": "EF>RM<BS",
+      "target": {"fluency": 100, "maturity": 90, "bs": 110},
+      "useGTE": true
+    },
+    {
+      "name": "Earnest Explorer",
+      "flag": "sunshine yellow",
+      "tagline": "You’re learning as you love.",
+      "description": "You’re on a journey to understand both yourself and others. Your curiosity and honesty are your greatest assets.",
+      "totalRange": [285, 289],
+      "categoryRule": "EF<RM>BS",
+      "target": {"fluency": 90, "maturity": 110, "bs": 100},
+      "useGTE": true
+    },
+    {
+      "name": "Resilient Seeker",
+      "flag": "sunshine yellow",
+      "tagline": "Always learning, never bitter.",
+      "description": "You've taken your hits and kept your heart. You're trying again - with more wisdom this time.",
+      "totalRange": [290, 294],
+      "categoryRule": "EF=RM=BS",
+      "target": {"fluency": 98, "maturity": 98, "bs": 98},
+      "useGTE": true
+    },
+    {
+      "name": "Spirited Believer",
+      "flag": "sunshine yellow",
+      "tagline": "Eyes Wide, Heart Open",
+      "description": "You’re hopeful, not naive. You move through the world with faith in people — and just enough realism to recalibrate.",
+      "totalRange": [295, 299],
+      "categoryRule": "BS>RM>EF",
+      "target": {"fluency": 90, "maturity": 100, "bs": 110},
+      "useGTE": true
     },
     {
       "name": "Rubber Ducky",
-      "flag": "Sunshine Yellow",
+      "flag": "sunshine yellow",
       "tagline": "Floating through, figuring it out.",
-      "description": "You’re more self-aware than you let on. There’s depth under your easygoing surface."
+      "description": "You're more self-aware than you let on. There's depth under your easygoing surface.",
+      "totalRange": [275, 279],
+      "categoryRule": "EF<RM<BS",
+      "target": {"fluency": 85, "maturity": 95, "bs": 105},
+      "useGTE": true
+    }{
+      "name": "Hopeful Idealist",
+      "flag": "lemon yellow",
+      "tagline": "Dreams intact, heart open.",
+      "description": "You believe in people. Maybe too much sometimes. But your optimism gives others a reason to show up.",
+      "totalRange": [255, 259],
+      "categoryRule": "EF>RM<BS",
+      "target": {"fluency": 95, "maturity": 85, "bs": 105},
+      "useGTE": true
+    },
+    {
+      "name": "Gentle Challenger",
+      "flag": "lemon yellow",
+      "tagline": "Soft but sharp",
+      "description": "You support growth with kindness and ask good, hard questions. People underestimate your power.",
+      "totalRange": [260, 264],
+      "categoryRule": "EF<RM>BS",
+      "target": {"fluency": 85, "maturity": 105, "bs": 95},
+      "useGTE": true
+    },
+    {
+      "name": "Playful Protector",
+      "flag": "lemon yellow",
+      "tagline": "Laugh first, Loyalty-always",
+      "description": "You disarm others with humor, then hold space when it matters. You don’t always show your depth, but it’s there.",
+      "totalRange": [270, 274],
+      "categoryRule": "EF=RM=BS",
+      "target": {"fluency": 90, "maturity": 90, "bs": 90},
+      "useGTE": true
+    },
+    {
+      "name": "Tender Tactician",
+      "flag": "lemon yellow",
+      "tagline": "Careful and caring",
+      "description": "You want connection, but on mutual terms. You notice everything — and respond with quiet kindness.",
+      "totalRange": [265, 269],
+      "categoryRule": "BS>RM>EF",
+      "target": {"fluency": 85, "maturity": 90, "bs": 100},
+      "useGTE": true
     },
     {
       "name": "Delicate Teacup",
-      "flag": "Lemon Yellow",
+      "flag": "lemon yellow",
       "tagline": "Handle with care.",
-      "description": "You’re doing your best. You want to connect, but protecting yourself feels safer. That’s real."
+      "description": "You're doing your best. You want to connect, but protecting yourself feels safer. That's real.",
+      "totalRange": [250, 254],
+      "categoryRule": "EF<RM<BS",
+      "target": {"fluency": 80, "maturity": 85, "bs": 95},
+      "useGTE": true
+    }{
+      "name": "Guarded Romantic",
+      "flag": "brick red",
+      "tagline": "Walls up, heart full",
+      "description": "You long for connection but keep the door bolted. You’re not distant — just cautious.",
+      "totalRange": [220, 224],
+      "categoryRule": "EF>RM<BS",
+      "target": {"fluency": 90, "maturity": 80, "bs": 100},
+      "useGTE": true
     },
     {
-      "name": "Rollercoaster Rider",
-      "flag": "Orange",
-      "tagline": "Thrilling but unstable.",
-      "description": "Your emotions run the show. You love hard, crash hard, and are still learning how to coast."
+      "name": "Grudge Holder with a Heart",
+      "flag": "brick red",
+      "tagline": "Still mad, still tender",
+      "description": "You remember every slight but still want closeness. You forgive — eventually — and love with intensity.",
+      "totalRange": [215, 219],
+      "categoryRule": "EF<RM>BS",
+      "target": {"fluency": 80, "maturity": 100, "bs": 90},
+      "useGTE": true
+    },
+    {
+      "name": "Disappointed Idealist",
+      "flag": "brick red",
+      "tagline": "Hurt but hopeful",
+      "description": "The world’s let you down, but you haven’t let go of love. You stay sharp and soft at the same time.",
+      "totalRange": [210, 214],
+      "categoryRule": "EF=RM=BS",
+      "target": {"fluency": 90, "maturity": 90, "bs": 90},
+      "useGTE": true
     },
     {
       "name": "Stop Sign",
-      "flag": "Brick Red", 
+      "flag": "brick red",
       "tagline": "Time to pause.",
-      "description": "Something needs attention. You’re protecting yourself with shutdown — but healing is possible."
+      "description": "Something needs attention. You're protecting yourself with shutdown - but healing is possible.",
+      "totalRange": [205, 209],
+      "categoryRule": "BS>RM>EF",
+      "target": {"fluency": 80, "maturity": 85, "bs": 95},
+      "useGTE": true
+    },
+    {
+      "name": "Iceberg Tease",
+      "flag": "hell boy red",
+      "tagline": "Chilly outside, melting inside",
+      "description": "You come off aloof, but it’s a defense. You want intimacy — just not vulnerability.",
+      "totalRange": [200, 204],
+      "categoryRule": "EF<RM<BS",
+      "target": {"fluency": 75, "maturity": 85, "bs": 95},
+      "useGTE": true
+    },
+    {
+      "name": "Drama Monarch",
+      "flag": "hell boy red",
+      "tagline": "It's not a phase",
+      "description": "You feel deeply and express dramatically. You’re learning that emotional volume doesn’t equal truth.",
+      "totalRange": [195, 199],
+      "categoryRule": "EF>RM<BS",
+      "target": {"fluency": 90, "maturity": 80, "bs": 85},
+      "useGTE": true
     },
     {
       "name": "Emotional Arsonist",
-      "flag": "Hellboy Red",
+      "flag": "hell boy red",
       "tagline": "If it burns, you lit it.",
-      "description": "You test people to see if they’ll stay. Underneath the chaos is someone who really wants to be known."
+      "description": "You test people to see if they'll stay. Underneath the chaos is someone who really wants to be known.",
+      "totalRange": [190, 194],
+      "categoryRule": "EF<RM>BS",
+      "target": {"fluency": 80, "maturity": 90, "bs": 85},
+      "useGTE": true
     }
-  ],
+  ]
+}
+
+
 
   "attachmentStyles": [
     {
