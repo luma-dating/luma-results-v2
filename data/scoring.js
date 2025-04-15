@@ -1,6 +1,6 @@
 
 import attachmentProfiles from '@/data/attachmentProfiles';
-import profileDefinitions from '@/data/profileDefinitions';
+import profileDescriptions from '@/data/profileDescriptions';
 
 export function calculateAttachmentStyle(qs = []) {
   if (!Array.isArray(qs) || qs.length !== 6) return null;
