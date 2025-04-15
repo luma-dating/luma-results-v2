@@ -1,13 +1,8 @@
 // score.js
 
-// score.js
-
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
-import rawProfiles from '@/data/attachmentProfiles';
-import { matchProfileWithWiggleRoom } from '@/data/scoring';
-import { calculateAttachmentStyle } from '@/data/scoring';
-import { debugAttachmentScore } from '@/lib/debugAttachment';
+import { matchProfileWithWiggleRoom, calculateAttachmentStyle } from '@/data/scoring';
 
 export default function ScoreRedirect() {
   const router = useRouter();
@@ -22,7 +17,6 @@ export default function ScoreRedirect() {
       return parseInt(query[key] || 0, 10);
     });
 
-    // Reverse-score logic
     const reverseIndexes = [
       0, 2, 4, 7, 10, 13, 15, 18, 20, 21, 22, 23,
       24, 26, 28, 30, 31, 32, 33, 34, 35, 36, 37, 38,
@@ -36,41 +30,33 @@ export default function ScoreRedirect() {
       reverseIndexes.includes(i) ? reverseScore(val) : val
     );
 
-    const sum = (arr) =>
-      arr.reduce((acc, val) => acc + (typeof val === 'number' ? val : 0), 0);
+    const sum = (arr) => arr.reduce((acc, val) => acc + val, 0);
 
     const fluency = sum(scoredAnswers.slice(0, 24));
     const maturity = sum(scoredAnswers.slice(24, 48));
     const bs = sum(scoredAnswers.slice(48, 72));
     const total = fluency + maturity + bs;
-    const attachmentSlice = scoredAnswers.slice(10, 16); 
 
+    const attachmentIndexes = [10, 11, 12, 13, 14, 15];
+    const attachmentValues = attachmentIndexes.map((i) => scoredAnswers[i]);
 
+    const attachmentScore = sum(attachmentValues);
+    const attachmentStyle = calculateAttachmentStyle(attachmentValues);
 
-   // ATTACHMENT SCORING (Q13–Q18 = index 10–15)
-const attachmentIndexes = [10, 11, 12, 13, 14, 15];
+    console.log("📎 Attachment Values:", attachmentValues);
+    console.log("📊 Attachment Score:", attachmentScore);
+    console.log("🧠 Matched Attachment Style:", attachmentStyle?.name || "None found");
 
-const attachmentScore = attachmentIndexes.reduce((total, index) => {
-  const value = scoredAnswers[index] || 0;
-  console.log(`Q${index + 3}: final=${value}`);
-  return total + value;
-}, 0);
+    const result = matchProfileWithWiggleRoom(fluency, maturity, bs, attachmentScore, total);
 
-console.log("📎 Attachment Slice:", attachmentIndexes.map(i => scoredAnswers[i]));
-console.log("📊 Attachment Score (Q13–Q18):", attachmentScore);
+    const topParams = result.topThree?.map((p, i) =>
+      `alt${i + 1}=${encodeURIComponent(p.name)}&alt${i + 1}Flag=${encodeURIComponent(p.flag)}`
+    ).join('&') || '';
 
-const attachmentStyle = calculateAttachmentStyle(attachmentIndexes.map(i => scoredAnswers[i]));
-console.log("🧠 Matched Attachment Style:", attachmentStyle?.name || "None found");
-const result = matchProfileWithWiggleRoom(fluency, maturity, bs, attachmentScore, total);
+    const redirectUrl = `/result/${encodeURIComponent(result.profile)}?fluency=${fluency}&maturity=${maturity}&bs=${bs}&total=${total}&flag=${result.flag}&${topParams}`;
 
-  const topParams = result.topThree?.map((p, i) =>
-    `alt${i + 1}=${encodeURIComponent(p.name)}&alt${i + 1}Flag=${encodeURIComponent(p.flag)}`
-  ).join('&') || '';
-
-  const redirectUrl = `/result/${encodeURIComponent(result.profile)}?fluency=${fluency}&maturity=${maturity}&bs=${bs}&total=${total}&flag=${result.flag}&${topParams}`;
-
-  router.replace(redirectUrl);
-}, [router]);
+    router.replace(redirectUrl);
+  }, [router]);
 
   return (
     <main className="min-h-screen flex items-center justify-center bg-white text-center p-6">
