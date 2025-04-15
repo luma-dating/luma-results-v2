@@ -1,5 +1,3 @@
-// lib/scoring.js
-
 import attachmentProfiles from '@/data/attachmentProfiles';
 import rawDescriptions from '@/data/profileDescriptions';
 
