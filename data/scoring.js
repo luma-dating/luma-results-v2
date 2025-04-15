@@ -11,7 +11,7 @@ export function calculateAttachmentStyle(qs = []) {
 }
 
 export function matchProfileWithWiggleRoom(fluency, maturity, bs, attachmentScore = 0, total = 0) {
-  const scoredMatches = profileDescriptions.map((p) => {
+  const scoredMatches = profileDescriptions.profiles.map((p) => {
     const target = p.target || {};
 
     const diff = [
