@@ -99,7 +99,8 @@
       "categoryRule": "EF<RM<BS",
       "target": {"fluency": 95, "maturity": 105, "bs": 115},
       "useGTE": true
-    }{
+    },
+    {
       "name": "Warm Cynic",
       "flag": "sunshine yellow",
       "tagline": "You’ve seen some things.",
@@ -148,7 +149,8 @@
       "categoryRule": "EF<RM<BS",
       "target": {"fluency": 85, "maturity": 95, "bs": 105},
       "useGTE": true
-    }{
+    },
+    {
       "name": "Hopeful Idealist",
       "flag": "lemon yellow",
       "tagline": "Dreams intact, heart open.",
@@ -197,7 +199,8 @@
       "categoryRule": "EF<RM<BS",
       "target": {"fluency": 80, "maturity": 85, "bs": 95},
       "useGTE": true
-    }{
+    },
+    {
       "name": "Guarded Romantic",
       "flag": "brick red",
       "tagline": "Walls up, heart full",
