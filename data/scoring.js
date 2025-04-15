@@ -1,6 +1,11 @@
 
 import attachmentProfiles from '@/data/attachmentProfiles';
-import profileDescriptions from '@/data/profileDescriptions';
+import rawDescriptions from '@/data/profileDescriptions';
+
+const profileDescriptions = typeof rawDescriptions?.default === 'object'
+  ? rawDescriptions.default
+  : rawDescriptions;
+
 
 export function calculateAttachmentStyle(qs = []) {
   if (!Array.isArray(qs) || qs.length !== 6) return null;
