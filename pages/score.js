@@ -61,7 +61,16 @@ console.log("📊 Attachment Score (Q13–Q18):", attachmentScore);
 
 const attachmentStyle = calculateAttachmentStyle(attachmentIndexes.map(i => scoredAnswers[i]));
 console.log("🧠 Matched Attachment Style:", attachmentStyle?.name || "None found");
+const result = matchProfileWithWiggleRoom(fluency, maturity, bs, attachmentScore, total);
 
+  const topParams = result.topThree?.map((p, i) =>
+    `alt${i + 1}=${encodeURIComponent(p.name)}&alt${i + 1}Flag=${encodeURIComponent(p.flag)}`
+  ).join('&') || '';
+
+  const redirectUrl = `/result/${encodeURIComponent(result.profile)}?fluency=${fluency}&maturity=${maturity}&bs=${bs}&total=${total}&flag=${result.flag}&${topParams}`;
+
+  router.replace(redirectUrl);
+}, [router]);
 
   return (
     <main className="min-h-screen flex items-center justify-center bg-white text-center p-6">
