@@ -2,17 +2,15 @@ import React from 'react';
 import profileData from '@/data/profileDescriptions.json';
 
 export default function ResultCard({ profile, flag, scores, tagline, description, attachmentStyle, topThree = [] }) {
- const profileEntry = profileData.profiles?.[profile];
+  const profileEntry = profileData.profiles?.[profile];
 
   const profileDescription =
     profileEntry?.description ||
-    fallbackEntry?.description ||
     description ||
     "No description available.";
 
   const profileTagline =
     profileEntry?.tagline ||
-    fallbackEntry?.tagline ||
     tagline ||
     "";
 
@@ -24,7 +22,7 @@ export default function ResultCard({ profile, flag, scores, tagline, description
     'orange': 'bg-orange-400 text-black',
     'brick red': 'bg-red-700 text-white',
     'hell boy red': 'bg-red-900 text-white'
-  }
+  };
 
   return (
     <section className="max-w-xl w-full bg-white shadow-xl rounded-2xl p-6">
