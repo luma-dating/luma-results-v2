@@ -12,8 +12,17 @@ export function calculateAttachmentStyle(qs = []) {
 
   const total = qs.reduce((sum, val) => sum + (parseInt(val, 10) || 0), 0);
 
-  return attachmentProfiles.find(({ range }) => total >= range[0] && total <= range[1]) || null;
+  console.log('🧠 Attachment style calculation:');
+  console.log('Raw input:', qs);
+  console.log('Parsed values:', qs.map(val => parseInt(val, 10) || 0));
+  console.log('Total score:', total);
+
+  const match = attachmentProfiles.find(({ range }) => total >= range[0] && total <= range[1]);
+  console.log('Matched style:', match?.name || 'None');
+
+  return match || null;
 }
+
 
 export function matchProfileWithWiggleRoom(fluency, maturity, bs, attachmentScore = 0, total = 0) {
   const scoredMatches = profileDescriptions.profiles.map((p) => {
