@@ -47,9 +47,15 @@ export default function ProfileResult() {
     if (attachment) {
       setAttachmentStyle(attachment);
     } else {
-      const attScore = [...Array(6)]
-        .map((_, i) => parseInt(router.query[`Q${13 + i}`] || 0, 10))
-        .reduce((a, b) => a + b, 0);
+      const attValues = [...Array(6)].map((_, i) => {
+        const index = 13 + i;
+        const raw = parseInt(router.query[`Q${index}`] || 0, 10);
+        const reverseIndexes = [13, 16, 18];
+        const isReversed = reverseIndexes.includes(index);
+        return isReversed ? Math.round((8 - raw) * 0.85) : raw;
+      });
+
+      const attScore = attValues.reduce((a, b) => a + b, 0);
 
       const style = profileDescriptions.attachmentStyles?.find(
         (style) => style?.range && attScore >= style.range[0] && attScore <= style.range[1]
@@ -81,10 +87,10 @@ export default function ProfileResult() {
   const description = profileData?.description || fallback.description;
   const tagline = profileData?.tagline || fallback.tagline;
 
-  return scores ? (
+  return scores && resolvedProfile ? (
     <main className="min-h-screen flex flex-col justify-center items-center px-6 py-12">
       <ResultCard
-        profile={resolvedProfile || 'Unknown'}
+        profile={resolvedProfile}
         flag={flag}
         scores={scores}
         tagline={tagline}
