@@ -1,4 +1,6 @@
 
+// lib/scoring.js
+
 import attachmentProfiles from '@/data/attachmentProfiles';
 import rawDescriptions from '@/data/profileDescriptions';
 
@@ -6,23 +8,13 @@ const profileDescriptions = typeof rawDescriptions?.default === 'object'
   ? rawDescriptions.default
   : rawDescriptions;
 
-
 export function calculateAttachmentStyle(qs = []) {
   if (!Array.isArray(qs) || qs.length !== 6) return null;
 
   const total = qs.reduce((sum, val) => sum + (parseInt(val, 10) || 0), 0);
 
-  console.log('🧠 Attachment style calculation:');
-  console.log('Raw input:', qs);
-  console.log('Parsed values:', qs.map(val => parseInt(val, 10) || 0));
-  console.log('Total score:', total);
-
-  const match = attachmentProfiles.find(({ range }) => total >= range[0] && total <= range[1]);
-  console.log('Matched style:', match?.name || 'None');
-
-  return match || null;
+  return attachmentProfiles.find(({ range }) => total >= range[0] && total <= range[1]) || null;
 }
-
 
 export function matchProfileWithWiggleRoom(fluency, maturity, bs, attachmentScore = 0, total = 0) {
   const scoredMatches = profileDescriptions.profiles.map((p) => {
