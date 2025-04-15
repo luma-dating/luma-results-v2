@@ -1,111 +1,101 @@
 {
-  "profiles": [
-    // 28 full profiles
+"profiles": [
     {
-      "name": "The Optimist",
-      "flag": "forest green",
-      "tagline": "Bright-eyed and boundary-wise.",
-      "description": "You move through the world with hope and honesty. Others find your energy refreshing, and your boundaries respectful.",
-      "target": { "fluency": 85, "maturity": 90, "bs": 95 },
-      "useGTE": true
+      "name": "Warm Cynic",
+      "tagline": "You’ve seen some things.",
+      "description": "You combine deep skepticism with sincere care. You’ll call out the nonsense, but secretly still want connection."
     },
     {
-      "name": "The Realist",
-      "flag": "lime green",
-      "tagline": "Grounded, honest, and open.",
-      "description": "You’re not here to sugarcoat. You value real connection and clear communication.",
-      "target": { "fluency": 80, "maturity": 85, "bs": 90 },
-      "useGTE": true
-    },
-    // ... 26 more with similar structure (placeholder examples below)
-    {
-      "name": "The Architect",
-      "flag": "sunshine yellow",
-      "tagline": "You plan for connection like others plan for brunch.",
-      "description": "Reliable, thoughtful, and a little over-prepared. You bring structure to chaos.",
-      "target": { "fluency": 78, "maturity": 82, "bs": 85 },
-      "useGTE": true
+      "name": "Earnest Explorer",
+      "tagline": "You’re learning as you love.",
+      "description": "You’re on a journey to understand both yourself and others. Your curiosity and honesty are your greatest assets."
     },
     {
-      "name": "The Comet",
-      "flag": "lemon yellow",
-      "tagline": "Here, gone, back again.",
-      "description": "Your intensity comes in flashes, but your heart is always in it.",
-      "target": { "fluency": 75, "maturity": 80, "bs": 80 },
-      "useGTE": false
+      "name": "Hopeful Idealist",
+      "tagline": "Dreams intact, heart open.",
+      "description": "You believe in people. Maybe too much sometimes. But your optimism gives others a reason to show up."
     },
     {
-      "name": "The Rebel",
-      "flag": "orange",
-      "tagline": "Breaking rules, not hearts. Or maybe both.",
-      "description": "You challenge expectations but you still care deeply. You resist boxes, but you seek connection.",
-      "target": { "fluency": 70, "maturity": 75, "bs": 78 },
-      "useGTE": false
+      "name": "Gentle Challenger",
+      "tagline": "Soft but sharp.",
+      "description": "You support growth with kindness and ask good, hard questions. People underestimate your power."
     },
     {
-      "name": "The Mirage",
-      "flag": "brick red",
-      "tagline": "A vision from afar.",
-      "description": "You’re complex, captivating, and sometimes hard to pin down.",
-      "target": { "fluency": 60, "maturity": 70, "bs": 70 },
-      "useGTE": false
+      "name": "Hard-Learned Lover",
+      "tagline": "Lessons became love.",
+      "description": "You’ve been through it. But you’ve done the work. You love with eyes wide open and feet on the ground."
     },
     {
-      "name": "The Phantom",
-      "flag": "hell boy red",
-      "tagline": "Haunting in the best way.",
-      "description": "You leave an impression. Your style is felt, even when you're gone.",
-      "target": { "fluency": 50, "maturity": 60, "bs": 60 },
-      "useGTE": false
-    }
-    // Repeat and customize 21 more profiles in this list as needed
-  ],
-  "fallbacks": [
+      "name": "Introspective Firecracker",
+      "tagline": "Big feelings, big reflections.",
+      "description": "You’re wild and wise. You burn bright, feel deeply, and ask yourself all the right questions — eventually."
+    },
+    {
+      "name": "Cynical Adventurer",
+      "tagline": "Trust is earned.",
+      "description": "You’re fun, charming, and just detached enough to feel safe. But when someone gets in, you ride hard for them."
+    },
+    {
+      "name": "Resilient Seeker",
+      "tagline": "Always learning, never bitter.",
+      "description": "You’ve taken your hits and kept your heart. You’re trying again — with more wisdom this time."
+    },
+    {
+      "name": "The Sage",
+      "tagline": "Still waters run deep.",
+      "description": "You see the big picture. Calm, perceptive, and strategic. You choose your people and your energy carefully."
+    },
+    {
+      "name": "Emotional Architect",
+      "tagline": "Structure with soul.",
+      "description": "You’ve thought about every angle. You build strong emotional frameworks, even if spontaneity scares you."
+    },
+    {
+      "name": "Wounded Healer",
+      "tagline": "Pain made wisdom.",
+      "description": "You’ve turned your wounds into understanding. You show up for others with empathy, but sometimes forget yourself."
+    },
+    {
+      "name": "Dreamy Romantic",
+      "tagline": "Your heart leads the way.",
+      "description": "Love is a language you’re fluent in. You believe in magic and long looks — and sometimes forget the fine print."
+    },
     {
       "name": "Unicorn",
-      "flag": "forest green",
-      "tagline": "You defy classification.",
-      "description": "Your results don’t fit a tidy box, and that’s not a bug—it’s a feature."
+      "tagline": "You defy categories.",
+      "description": "You’re balanced, complex, and beautifully contradictory. The usual rules just don’t apply — and that’s the magic."
+    },
+    {
+      "name": "Evergreen Wanderer",
+      "tagline": "Growing, always.",
+      "description": "You’re steady and curious, building your insight step by step. You’re not in a rush — and that’s your strength."
+    },
+    {
+      "name": "Rubber Ducky",
+      "tagline": "Floating through, figuring it out.",
+      "description": "You’re more self-aware than you let on. There’s depth under your easygoing surface."
+    },
+    {
+      "name": "Delicate Teacup",
+      "tagline": "Handle with care.",
+      "description": "You’re doing your best. You want to connect, but protecting yourself feels safer. That’s real."
+    },
+    {
+      "name": "Rollercoaster Rider",
+      "tagline": "Thrilling but unstable.",
+      "description": "Your emotions run the show. You love hard, crash hard, and are still learning how to coast."
     },
     {
       "name": "Stop Sign",
-      "flag": "brick red",
-      "tagline": "You defy classification.",
-      "description": "Your results don’t fit a tidy box, and that’s not a bug—it’s a feature."
+      "tagline": "Time to pause.",
+      "description": "Something needs attention. You’re protecting yourself with shutdown — but healing is possible."
     },
     {
-      "name": "Lantern",
-      "flag": "sunshine yellow",
-      "tagline": "Guiding others through the murk.",
-      "description": "Your insight lights the way, even if your own path is still unfolding."
-    },
-    {
-      "name": "Mirror",
-      "flag": "lemon yellow",
-      "tagline": "Reflective and real.",
-      "description": "You help others see themselves — sometimes before they’re ready."
-    },
-    {
-      "name": "Flame",
-      "flag": "orange",
-      "tagline": "Too hot to hold.",
-      "description": "Intense, passionate, and a little dangerous."
-    },
-    {
-      "name": "Cactus",
-      "flag": "brick red",
-      "tagline": "Soft on the inside. Very inside.",
-      "description": "You may be prickly, but your loyalty runs deep."
-    },
-    {
-      "name": "Ghost",
-      "flag": "hell boy red",
-      "tagline": "Blink and you'll miss them.",
-      "description": "Connection is hard. So sometimes, you vanish. It’s not personal — even though it is."
+      "name": "Emotional Arsonist",
+      "tagline": "If it burns, you lit it.",
+      "description": "You test people to see if they’ll stay. Underneath the chaos is someone who really wants to be known."
     }
-  ]
-}
-
+  ],
 
   "attachmentStyles": [
     {
