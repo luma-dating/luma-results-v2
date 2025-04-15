@@ -19,6 +19,7 @@ export default function ProfileResult() {
     maturity,
     bs,
     total,
+    attachment,
     alt1,
     alt1Flag,
     alt2,
@@ -37,16 +38,20 @@ export default function ProfileResult() {
       total: parseInt(total, 10)
     });
 
-    const attScore = [...Array(6)]
-      .map((_, i) => parseInt(router.query[`Q${13 + i}`] || 0, 10))
-      .reduce((a, b) => a + b, 0);
+    if (attachment) {
+      setAttachmentStyle(attachment);
+    } else {
+      const attScore = [...Array(6)]
+        .map((_, i) => parseInt(router.query[`Q${13 + i}`] || 0, 10))
+        .reduce((a, b) => a + b, 0);
 
-    const style = profileDescriptions.attachmentStyles?.find(
-      (style) => style?.range && attScore >= style.range[0] && attScore <= style.range[1]
-    );
+      const style = profileDescriptions.attachmentStyles?.find(
+        (style) => style?.range && attScore >= style.range[0] && attScore <= style.range[1]
+      );
 
-    if (style) setAttachmentStyle(style.name);
-  }, [router.isReady, profile, fluency, maturity, bs, total]);
+      if (style) setAttachmentStyle(style.name);
+    }
+  }, [router.isReady, profile, fluency, maturity, bs, total, attachment]);
 
   const topThree = [
     alt1 && { name: alt1, flag: alt1Flag },
