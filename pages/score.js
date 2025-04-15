@@ -4,6 +4,8 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import rawProfiles from '@/data/attachmentProfiles';
 import { matchProfileWithWiggleRoom } from '@/lib/scoring';
+import { calculateAttachmentStyle } from '@/lib/scoring';
+
 
 const profiles = Array.isArray(rawProfiles)
   ? rawProfiles
@@ -45,6 +47,9 @@ export default function ScoreRedirect() {
     const maturity = sum(scoredAnswers.slice(24, 48));
     const bs = sum(scoredAnswers.slice(48, 72));
     const total = fluency + maturity + bs;
+    const attachmentSlice = scoredAnswers.slice(10, 16); // Q10–Q15
+    const attachmentStyle = calculateAttachmentStyle(attachmentSlice);
+
 
     // ATTACHMENT SCORING (Q13–Q18 = index 10–15)
     const attachmentIndexes = [10, 11, 12, 13, 14, 15];
