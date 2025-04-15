@@ -62,36 +62,43 @@
     },
     {
       "name": "Unicorn",
+      "flag": "Forest Green",
       "tagline": "You defy categories.",
       "description": "You’re balanced, complex, and beautifully contradictory. The usual rules just don’t apply — and that’s the magic."
     },
     {
       "name": "Evergreen Wanderer",
+      "flag": "Limegreen",
       "tagline": "Growing, always.",
       "description": "You’re steady and curious, building your insight step by step. You’re not in a rush — and that’s your strength."
     },
     {
       "name": "Rubber Ducky",
+      "flag": "Sunshine Yellow",
       "tagline": "Floating through, figuring it out.",
       "description": "You’re more self-aware than you let on. There’s depth under your easygoing surface."
     },
     {
       "name": "Delicate Teacup",
+      "flag": "Lemon Yellow",
       "tagline": "Handle with care.",
       "description": "You’re doing your best. You want to connect, but protecting yourself feels safer. That’s real."
     },
     {
       "name": "Rollercoaster Rider",
+      "flag": "Orange",
       "tagline": "Thrilling but unstable.",
       "description": "Your emotions run the show. You love hard, crash hard, and are still learning how to coast."
     },
     {
       "name": "Stop Sign",
+      "flag": "Brick Red", 
       "tagline": "Time to pause.",
       "description": "Something needs attention. You’re protecting yourself with shutdown — but healing is possible."
     },
     {
       "name": "Emotional Arsonist",
+      "flag": "Hellboy Red"
       "tagline": "If it burns, you lit it.",
       "description": "You test people to see if they’ll stay. Underneath the chaos is someone who really wants to be known."
     }
