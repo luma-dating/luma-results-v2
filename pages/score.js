@@ -53,7 +53,8 @@ export default function ScoreRedirect() {
       `alt${i + 1}=${encodeURIComponent(p.name)}&alt${i + 1}Flag=${encodeURIComponent(p.flag)}`
     ).join('&') || '';
 
-    const redirectUrl = `/result/${encodeURIComponent(result.profile)}?fluency=${fluency}&maturity=${maturity}&bs=${bs}&total=${total}&flag=${result.flag}&${topParams}`;
+    const redirectUrl = `/result/${encodeURIComponent(result.profile)}?fluency=${fluency}&maturity=${maturity}&bs=${bs}&total=${total}&flag=${result.flag}&attachment=${encodeURIComponent(attachmentStyle?.name || '')}&${topParams}`;
+
 
     router.replace(redirectUrl);
   }, [router]);
