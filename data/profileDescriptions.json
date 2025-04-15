@@ -2,61 +2,73 @@
 "profiles": [
     {
       "name": "Warm Cynic",
+      "flag": "Sunshine Yellow",
       "tagline": "You’ve seen some things.",
       "description": "You combine deep skepticism with sincere care. You’ll call out the nonsense, but secretly still want connection."
     },
     {
       "name": "Earnest Explorer",
+      "flag": "Sunshine Yellow",
       "tagline": "You’re learning as you love.",
       "description": "You’re on a journey to understand both yourself and others. Your curiosity and honesty are your greatest assets."
     },
     {
       "name": "Hopeful Idealist",
+      "flag": "Lemon Yellow",
       "tagline": "Dreams intact, heart open.",
       "description": "You believe in people. Maybe too much sometimes. But your optimism gives others a reason to show up."
     },
     {
       "name": "Gentle Challenger",
+      "flag": "Lemon Yellow",
       "tagline": "Soft but sharp.",
       "description": "You support growth with kindness and ask good, hard questions. People underestimate your power."
     },
     {
       "name": "Hard-Learned Lover",
+      "flag": "Forest Green", 
       "tagline": "Lessons became love.",
       "description": "You’ve been through it. But you’ve done the work. You love with eyes wide open and feet on the ground."
     },
     {
       "name": "Introspective Firecracker",
+      "flag": "Orange",
       "tagline": "Big feelings, big reflections.",
       "description": "You’re wild and wise. You burn bright, feel deeply, and ask yourself all the right questions — eventually."
     },
     {
       "name": "Cynical Adventurer",
+      "flag": "Orange",
       "tagline": "Trust is earned.",
       "description": "You’re fun, charming, and just detached enough to feel safe. But when someone gets in, you ride hard for them."
     },
     {
       "name": "Resilient Seeker",
+      "flag": "Sunshine Yellow",
       "tagline": "Always learning, never bitter.",
       "description": "You’ve taken your hits and kept your heart. You’re trying again — with more wisdom this time."
     },
     {
       "name": "The Sage",
+      "flag": "Forest Green",
       "tagline": "Still waters run deep.",
       "description": "You see the big picture. Calm, perceptive, and strategic. You choose your people and your energy carefully."
     },
     {
       "name": "Emotional Architect",
+      "flag": "Forest Green",
       "tagline": "Structure with soul.",
       "description": "You’ve thought about every angle. You build strong emotional frameworks, even if spontaneity scares you."
     },
     {
       "name": "Wounded Healer",
+      "flag": "Limegreen",
       "tagline": "Pain made wisdom.",
       "description": "You’ve turned your wounds into understanding. You show up for others with empathy, but sometimes forget yourself."
     },
     {
       "name": "Dreamy Romantic",
+      "flag": "Limegreen",
       "tagline": "Your heart leads the way.",
       "description": "Love is a language you’re fluent in. You believe in magic and long looks — and sometimes forget the fine print."
     },
@@ -98,7 +110,7 @@
     },
     {
       "name": "Emotional Arsonist",
-      "flag": "Hellboy Red"
+      "flag": "Hellboy Red",
       "tagline": "If it burns, you lit it.",
       "description": "You test people to see if they’ll stay. Underneath the chaos is someone who really wants to be known."
     }
