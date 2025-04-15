@@ -35,7 +35,7 @@ export function matchProfileWithWiggleRoom(fluency, maturity, bs, attachmentScor
   });
 
   const sortedMatches = scoredMatches
-    .filter((p) => p.gteMatch && p.avgDiff < 10)
+    .filter((p) => p.gteMatch)
     .sort((a, b) => a.avgDiff - b.avgDiff);
 
   const topThree = sortedMatches.slice(0, 3);
