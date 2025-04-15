@@ -29,7 +29,7 @@ export default function ProfileResult() {
   } = router.query;
 
   useEffect(() => {
-    if (!router.isReady || !fluency || !maturity || !bs || !total) return;
+    if (!router.isReady || !profile || !fluency || !maturity || !bs || !total) return;
 
     const fluencyInt = parseInt(fluency, 10);
     const maturityInt = parseInt(maturity, 10);
@@ -56,7 +56,7 @@ export default function ProfileResult() {
 
       if (style) setAttachmentStyle(style.name);
     }
-  }, [router.isReady, fluency, maturity, bs, total, attachment]);
+  }, [router.isReady, profile, fluency, maturity, bs, total, attachment]);
 
   const topThree = [
     alt1 && { name: alt1, flag: alt1Flag },
@@ -64,7 +64,7 @@ export default function ProfileResult() {
     alt3 && { name: alt3, flag: alt3Flag }
   ].filter(Boolean);
 
-  if (!scores || !profile) {
+  if (!scores) {
     return (
       <main className="min-h-screen flex flex-col items-center justify-center text-center">
         <h2 className="text-xl font-semibold">Loading your result...</h2>
