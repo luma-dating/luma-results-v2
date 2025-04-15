@@ -53,6 +53,7 @@ export default function ProfileResult() {
     alt2 && { name: alt2, flag: alt2Flag },
     alt3 && { name: alt3, flag: alt3Flag }
   ].filter(Boolean);
+}
 
   if (!scores || !profile) {
   return (
