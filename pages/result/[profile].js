@@ -48,12 +48,6 @@ export default function ProfileResult() {
     if (style) setAttachmentStyle(style.name);
   }, [router.isReady, profile, fluency, maturity, bs, total]);
 
-  const topThree = [
-    alt1 && { name: alt1, flag: alt1Flag },
-    alt2 && { name: alt2, flag: alt2Flag },
-    alt3 && { name: alt3, flag: alt3Flag }
-  ].filter(Boolean);
-}
 
   if (!scores || !profile) {
   return (
