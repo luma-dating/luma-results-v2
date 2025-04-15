@@ -11,6 +11,7 @@ export default function ProfileResult() {
   const router = useRouter();
   const [scores, setScores] = useState(null);
   const [attachmentStyle, setAttachmentStyle] = useState(null);
+  const [resolvedProfile, setResolvedProfile] = useState(null);
 
   const {
     profile,
@@ -29,13 +30,18 @@ export default function ProfileResult() {
   } = router.query;
 
   useEffect(() => {
-    if (!router.isReady || !profile || !fluency || !maturity || !bs || !total) return;
+    if (!router.isReady || !fluency || !maturity || !bs || !total) return;
+
+    const fluencyInt = parseInt(fluency, 10);
+    const maturityInt = parseInt(maturity, 10);
+    const bsInt = parseInt(bs, 10);
+    const totalInt = parseInt(total, 10);
 
     setScores({
-      fluency: parseInt(fluency, 10),
-      maturity: parseInt(maturity, 10),
-      bs: parseInt(bs, 10),
-      total: parseInt(total, 10)
+      fluency: fluencyInt,
+      maturity: maturityInt,
+      bs: bsInt,
+      total: totalInt
     });
 
     if (attachment) {
@@ -51,6 +57,13 @@ export default function ProfileResult() {
 
       if (style) setAttachmentStyle(style.name);
     }
+
+    if (profile) {
+      setResolvedProfile(profile);
+    } else {
+      const fallback = profileDescriptions.fallbacks?.find(f => f.flag === flag);
+      setResolvedProfile(fallback?.name || 'Unknown');
+    }
   }, [router.isReady, profile, fluency, maturity, bs, total, attachment]);
 
   const topThree = [
@@ -59,17 +72,8 @@ export default function ProfileResult() {
     alt3 && { name: alt3, flag: alt3Flag }
   ].filter(Boolean);
 
-  if (!scores || !profile) {
-    return (
-      <main className="min-h-screen flex flex-col items-center justify-center text-center">
-        <h2 className="text-xl font-semibold">Loading your result...</h2>
-        <p className="text-gray-500">Please wait just a sec.</p>
-      </main>
-    );
-  }
-
-  const profileData = profileDescriptions.profiles?.[profile];
-  const fallback = {
+  const profileData = profileDescriptions.profiles?.find(p => p.name === resolvedProfile);
+  const fallback = profileDescriptions.fallbacks?.find(f => f.flag === flag) || {
     tagline: 'You defy classification.',
     description: 'Your results don’t fit a tidy box, and that’s not a bug—it’s a feature.'
   };
@@ -77,10 +81,10 @@ export default function ProfileResult() {
   const description = profileData?.description || fallback.description;
   const tagline = profileData?.tagline || fallback.tagline;
 
-  return (
+  return scores ? (
     <main className="min-h-screen flex flex-col justify-center items-center px-6 py-12">
       <ResultCard
-        profile={profile}
+        profile={resolvedProfile || 'Unknown'}
         flag={flag}
         scores={scores}
         tagline={tagline}
@@ -88,6 +92,11 @@ export default function ProfileResult() {
         attachmentStyle={attachmentStyle}
         topThree={topThree}
       />
+    </main>
+  ) : (
+    <main className="min-h-screen flex flex-col items-center justify-center text-center">
+      <h2 className="text-xl font-semibold">Loading your result...</h2>
+      <p className="text-gray-500">Please wait just a sec.</p>
     </main>
   );
 }
