@@ -1,0 +1,37 @@
+// attachmentProfiles.js
+
+const attachmentProfiles = [
+  // Secure
+  {
+    name: "Secure",
+    range: [30, 42],
+    tagline: "Grounded in connection.",
+    description: "You’re comfortable with closeness and independence. You trust, connect, and set boundaries with grace."
+  },
+
+  // Anxious-Leaning Secure
+  {
+    name: "Anxious-Leaning Secure",
+    range: [24, 29],
+    tagline: "Mostly chill, slightly clingy.",
+    description: "You know you’re lovable — but you still worry sometimes. You value connection and can voice your needs."
+  },
+
+  // Anxious or Avoidant
+  {
+    name: "Anxious or Avoidant",
+    range: [18, 23],
+    tagline: "Push-pull pro.",
+    description: "You crave closeness but fear it too. You swing between needing reassurance and pulling away."
+  },
+
+  // Disorganized
+  {
+    name: "Disorganized",
+    range: [0, 17],
+    tagline: "Hot-and-cold heart.",
+    description: "You feel pulled in two directions: desperate for intimacy, but scared of it too."
+  }
+];
+
+export default attachmentProfiles;
