@@ -44,7 +44,7 @@ export default function ScoreRedirect() {
     const bs = sum(scoredAnswers.slice(48, 72));
     const total = fluency + maturity + bs;
     const attachmentSlice = scoredAnswers.slice(10, 16); 
-    const attachmentStyle = calculateAttachmentStyle(attachmentSlice);
+
 
 
    // ATTACHMENT SCORING (Q13–Q18 = index 10–15)
