@@ -7,12 +7,6 @@ import { matchProfileWithWiggleRoom } from '@/data/scoring';
 import { calculateAttachmentStyle } from '@/data/scoring';
 
 
-const profiles = Array.isArray(rawProfiles)
-  ? rawProfiles
-  : typeof rawProfiles?.default === 'object'
-    ? Object.values(rawProfiles.default)
-    : Object.values(rawProfiles || {});
-
 export default function ScoreRedirect() {
   const router = useRouter();
 
