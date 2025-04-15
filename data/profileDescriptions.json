@@ -270,9 +270,7 @@
       "target": {"fluency": 80, "maturity": 90, "bs": 85},
       "useGTE": true
     }
-  ]
-}
-{
+  ],
   "attachmentStyles": [
     {
       "name": "Secure",
