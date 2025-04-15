@@ -1,4 +1,3 @@
-
 // lib/scoring.js
 
 import attachmentProfiles from '@/data/attachmentProfiles';
@@ -58,7 +57,13 @@ export function matchProfileWithWiggleRoom(fluency, maturity, bs, attachmentScor
 
   let adjustedFlag = bestMatch.flag;
 
-  if (bestMatch.avgDiff >= 3) {
+  // 🌿 Absolute top-tier override
+  if (fluency >= 95 && maturity >= 105 && bs >= 135) {
+    adjustedFlag = 'forest green';
+  }
+
+  // 🍋 Downgrade logic if average diff too high
+  else if (bestMatch.avgDiff >= 3) {
     const flagShift = {
       'forest green': 'lime green',
       'lime green': 'sunshine yellow',
@@ -70,7 +75,8 @@ export function matchProfileWithWiggleRoom(fluency, maturity, bs, attachmentScor
     adjustedFlag = flagShift[adjustedFlag] || adjustedFlag;
   }
 
-  if (attachmentScore >= 85 && bestMatch.avgDiff <= 5) {
+  // 🪄 Upgrade boost if attachment score is solid
+  if (attachmentScore >= 23 && bestMatch.avgDiff <= 5) {
     const flagBoost = {
       'hell boy red': 'brick red',
       'brick red': 'orange',
