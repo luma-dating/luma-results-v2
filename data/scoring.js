@@ -15,6 +15,46 @@ export function calculateAttachmentStyle(qs = []) {
   return attachmentProfiles.find(({ range }) => total >= range[0] && total <= range[1]) || null;
 }
 
+// Fallback logic moved OUTSIDE where it belongs
+function getFallbackProfile(totalScore, profiles) {
+  const fallbackTiers = [
+    { min: 325, flag: 'forest green' },
+    { min: 300, flag: 'lime green' },
+    { min: 275, flag: 'sunshine yellow' },
+    { min: 250, flag: 'orange' },
+    { min: 200, flag: 'brick red' },
+    { min: 150, flag: 'hell boy red' }
+  ];
+
+  const tier = fallbackTiers.find(t => totalScore >= t.min);
+
+  if (!tier) {
+    return {
+      profile: 'Emotional Arsonist',
+      flag: 'hell boy red',
+      topThree: []
+    };
+  }
+
+  const fallback = profiles
+    .filter(p => p.flag === tier.flag && p.totalRange)
+    .sort((a, b) => (a.totalRange[0] || 0) - (b.totalRange[0] || 0))[0];
+
+  if (fallback) {
+    return {
+      profile: fallback.name,
+      flag: fallback.flag,
+      topThree: []
+    };
+  }
+
+  return {
+    profile: 'Emotional Arsonist',
+    flag: 'hell boy red',
+    topThree: []
+  };
+}
+
 export function matchProfileWithWiggleRoom(fluency, maturity, bs, attachmentScore = 0, total = 0) {
   const scoredMatches = profileDescriptions.profiles.map((p) => {
     const target = p.target || {};
@@ -41,29 +81,18 @@ export function matchProfileWithWiggleRoom(fluency, maturity, bs, attachmentScor
   const bestMatch = topThree[0];
 
   if (!bestMatch) {
-    if (fluency >= 85 && maturity >= 100 && total >= 310) {
-      return {
-        profile: 'Unicorn',
-        flag: 'forest green',
-        topThree: []
-      };
-    }
-    return {
-      profile: 'Stop Sign',
-      flag: 'brick red',
-      topThree: []
-    };
+    return getFallbackProfile(total, profileDescriptions.profiles);
   }
 
   let adjustedFlag = bestMatch.flag;
 
-  // 🌿 Absolute top-tier override
+  // 🌿 Absolute override
   if (fluency >= 95 && maturity >= 105 && bs >= 135) {
     adjustedFlag = 'forest green';
   }
 
-  // 🍋 Downgrade logic if average diff too high
-  else if (bestMatch.avgDiff >= 3) {
+  // 🍋 Downgrade logic
+  if (bestMatch.avgDiff >= 3) {
     const flagShift = {
       'forest green': 'lime green',
       'lime green': 'sunshine yellow',
@@ -75,7 +104,7 @@ export function matchProfileWithWiggleRoom(fluency, maturity, bs, attachmentScor
     adjustedFlag = flagShift[adjustedFlag] || adjustedFlag;
   }
 
-  // 🪄 Upgrade boost if attachment score is solid
+  // 🪄 Upgrade boost
   if (attachmentScore >= 23 && bestMatch.avgDiff <= 5) {
     const flagBoost = {
       'hell boy red': 'brick red',
