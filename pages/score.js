@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import rawProfiles from '@/data/attachmentProfiles';
 import { matchProfileWithWiggleRoom } from '@/data/scoring';
 import { calculateAttachmentStyle } from '@/data/scoring';
-
+import { debugAttachmentScore } from '@/lib/debugAttachment';
 
 export default function ScoreRedirect() {
   const router = useRouter();
@@ -49,11 +49,7 @@ export default function ScoreRedirect() {
     const attachmentIndexes = [10, 11, 12, 13, 14, 15];
     const reverseAttachmentIndexes = []; // Add indexes here if any are reversed
 
-    const attachmentScore = attachmentIndexes.reduce((total, index) => {
-      const raw = scoredAnswers[index] || 0;
-      const value = reverseAttachmentIndexes.includes(index) ? reverseScore(raw) : raw;
-      return total + value;
-    }, 0);
+    const attachmentScore = debugAttachmentScore(scoredAnswers);
 
     console.log("Attachment Score (Q13–Q18):", attachmentScore);
 
