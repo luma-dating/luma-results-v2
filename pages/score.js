@@ -1,94 +1,67 @@
+import { useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
-import rawDescriptions from '@/data/profileDescriptions.json';
-import ResultCard from '@/components/ResultCard';
+import { matchProfileWithWiggleRoom, calculateAttachmentStyle } from '@/data/scoring';
 
-const profileDescriptions = typeof rawDescriptions?.default === 'object'
-  ? rawDescriptions.default
-  : rawDescriptions;
-
-export default function ProfileResult() {
+export default function ScoreRedirect() {
   const router = useRouter();
-  const [scores, setScores] = useState(null);
-  const [attachmentStyle, setAttachmentStyle] = useState(null);
-
-  const {
-    profile,
-    flag,
-    fluency,
-    maturity,
-    bs,
-    total,
-    attachment,
-    alt1,
-    alt1Flag,
-    alt2,
-    alt2Flag,
-    alt3,
-    alt3Flag
-  } = router.query;
 
   useEffect(() => {
-    if (!router.isReady || !fluency || !maturity || !bs || !total) return;
+    if (!router.isReady) return;
 
-    const fluencyInt = parseInt(fluency, 10);
-    const maturityInt = parseInt(maturity, 10);
-    const bsInt = parseInt(bs, 10);
-    const totalInt = parseInt(total, 10);
-
-    setScores({
-      fluency: fluencyInt,
-      maturity: maturityInt,
-      bs: bsInt,
-      total: totalInt
+    const query = router.query;
+    const values = Array.from({ length: 72 }, (_, i) => {
+      const key = `Q${i + 3}`;
+      if ([28, 32].includes(i)) return 0;
+      return parseInt(query[key] || 0, 10);
     });
 
-    if (attachment) {
-      setAttachmentStyle(attachment);
-    } else {
-      const attScore = [...Array(6)]
-        .map((_, i) => parseInt(router.query[`Q${13 + i}`] || 0, 10))
-        .reduce((a, b) => a + b, 0);
+    const reverseIndexes = [
+      0, 2, 4, 7, 10, 13, 15, 18, 20, 21, 22, 23,
+      24, 26, 28, 30, 31, 32, 33, 34, 35, 36, 37, 38,
+      39, 40, 41, 42, 43, 44, 45, 46, 47,
+      48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71
+    ];
 
-      const style = profileDescriptions.attachmentStyles?.find(
-        (style) => style?.range && attScore >= style.range[0] && attScore <= style.range[1]
-      );
+    const reverseScore = (value) => Math.round((8 - value) * 0.85);
 
-      if (style) setAttachmentStyle(style.name);
-    }
-  }, [router.isReady, fluency, maturity, bs, total, attachment]);
+    const scoredAnswers = values.map((val, i) =>
+      reverseIndexes.includes(i) ? reverseScore(val) : val
+    );
 
-  const topThree = [
-    alt1 && { name: alt1, flag: alt1Flag },
-    alt2 && { name: alt2, flag: alt2Flag },
-    alt3 && { name: alt3, flag: alt3Flag }
-  ].filter(Boolean);
+    const sum = (arr) =>
+      arr.reduce((acc, val) => acc + (typeof val === 'number' ? val : 0), 0);
 
-  const profileData = profileDescriptions.profiles?.find(p => p.name === profile);
-  const fallback = profileDescriptions.fallbacks?.find(f => f.flag === flag) || {
-    tagline: 'You defy classification.',
-    description: 'Your results don’t fit a tidy box, and that’s not a bug—it’s a feature.'
-  };
+    const fluency = sum(scoredAnswers.slice(0, 24));
+    const maturity = sum(scoredAnswers.slice(24, 48));
+    const bs = sum(scoredAnswers.slice(48, 72));
+    const total = fluency + maturity + bs;
 
-  const description = profileData?.description || fallback.description;
-  const tagline = profileData?.tagline || fallback.tagline;
+    const attachmentIndexes = [10, 11, 12, 13, 14, 15];
+    const attachmentSlice = attachmentIndexes.map(i => scoredAnswers[i]);
+    const attachmentScore = sum(attachmentSlice);
+    const attachmentStyle = calculateAttachmentStyle(attachmentSlice);
 
-  return scores ? (
-    <main className="min-h-screen flex flex-col justify-center items-center px-6 py-12">
-      <ResultCard
-        profile={profile || fallback.name || 'Unknown'}
-        flag={flag}
-        scores={scores}
-        tagline={tagline}
-        description={description}
-        attachmentStyle={attachmentStyle}
-        topThree={topThree}
-      />
-    </main>
-  ) : (
-    <main className="min-h-screen flex flex-col items-center justify-center text-center">
-      <h2 className="text-xl font-semibold">Loading your result...</h2>
-      <p className="text-gray-500">Please wait just a sec.</p>
+    console.log("📎 Attachment Slice:", attachmentSlice);
+    console.log("📊 Attachment Score:", attachmentScore);
+    console.log("🧠 Matched Attachment Style:", attachmentStyle?.name);
+
+    const result = matchProfileWithWiggleRoom(fluency, maturity, bs, attachmentScore, total);
+
+    const topParams = result.topThree?.map((p, i) =>
+      `alt${i + 1}=${encodeURIComponent(p.name)}&alt${i + 1}Flag=${encodeURIComponent(p.flag)}`
+    ).join('&') || '';
+
+    const redirectUrl = `/result/${encodeURIComponent(result.profile)}?fluency=${fluency}&maturity=${maturity}&bs=${bs}&total=${total}&flag=${result.flag}&attachment=${encodeURIComponent(attachmentStyle?.name || '')}&${topParams}`;
+
+    router.replace(redirectUrl);
+  }, [router]);
+
+  return (
+    <main className="min-h-screen flex items-center justify-center bg-white text-center p-6">
+      <div>
+        <h1 className="text-xl font-semibold">Scoring your results...</h1>
+        <p className="text-gray-500 mt-2">Please wait a moment.</p>
+      </div>
     </main>
   );
 }
