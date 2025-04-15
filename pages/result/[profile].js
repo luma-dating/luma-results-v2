@@ -30,6 +30,9 @@ export default function ProfileResult() {
   } = router.query;
 
   useEffect(() => {
+    console.log("🧭 Router Ready:", router.isReady);
+    console.log("📦 Query Params:", { profile, flag, fluency, maturity, bs, total, attachment });
+
     if (!router.isReady || !fluency || !maturity || !bs || !total) return;
 
     const fluencyInt = parseInt(fluency, 10);
@@ -47,20 +50,25 @@ export default function ProfileResult() {
     if (attachment) {
       setAttachmentStyle(attachment);
     } else {
+      const reverseIndexes = [13, 16, 18];
       const attValues = [...Array(6)].map((_, i) => {
         const index = 13 + i;
         const raw = parseInt(router.query[`Q${index}`] || 0, 10);
-        const reverseIndexes = [13, 16, 18];
         const isReversed = reverseIndexes.includes(index);
-        return isReversed ? Math.round((8 - raw) * 0.85) : raw;
+        const final = isReversed ? Math.round((8 - raw) * 0.85) : raw;
+        console.log(`🔄 Q${index}: raw=${raw}, reversed=${isReversed}, final=${final}`);
+        return final;
       });
 
+      console.log("📎 Attachment Values:", attValues);
       const attScore = attValues.reduce((a, b) => a + b, 0);
+      console.log("📊 Attachment Score:", attScore);
 
       const style = profileDescriptions.attachmentStyles?.find(
         (style) => style?.range && attScore >= style.range[0] && attScore <= style.range[1]
       );
 
+      console.log("🧠 Matched Attachment Style:", style?.name || "None found");
       if (style) setAttachmentStyle(style.name);
     }
 
