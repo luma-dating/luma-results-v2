@@ -29,7 +29,7 @@ export default function ProfileResult() {
   } = router.query;
 
   useEffect(() => {
-    if (!router.isReady || !profile || !fluency || !maturity || !bs || !total) return;
+    if (!router.isReady || !fluency || !maturity || !bs || !total) return;
 
     const fluencyInt = parseInt(fluency, 10);
     const maturityInt = parseInt(maturity, 10);
@@ -56,22 +56,13 @@ export default function ProfileResult() {
 
       if (style) setAttachmentStyle(style.name);
     }
-  }, [router.isReady, profile, fluency, maturity, bs, total, attachment]);
+  }, [router.isReady, fluency, maturity, bs, total, attachment]);
 
   const topThree = [
     alt1 && { name: alt1, flag: alt1Flag },
     alt2 && { name: alt2, flag: alt2Flag },
     alt3 && { name: alt3, flag: alt3Flag }
   ].filter(Boolean);
-
-  if (!scores) {
-    return (
-      <main className="min-h-screen flex flex-col items-center justify-center text-center">
-        <h2 className="text-xl font-semibold">Loading your result...</h2>
-        <p className="text-gray-500">Please wait just a sec.</p>
-      </main>
-    );
-  }
 
   const profileData = profileDescriptions.profiles?.find(p => p.name === profile);
   const fallback = profileDescriptions.fallbacks?.find(f => f.flag === flag) || {
@@ -82,10 +73,10 @@ export default function ProfileResult() {
   const description = profileData?.description || fallback.description;
   const tagline = profileData?.tagline || fallback.tagline;
 
-  return (
+  return scores ? (
     <main className="min-h-screen flex flex-col justify-center items-center px-6 py-12">
       <ResultCard
-        profile={profile}
+        profile={profile || fallback.name || 'Unknown'}
         flag={flag}
         scores={scores}
         tagline={tagline}
@@ -93,6 +84,11 @@ export default function ProfileResult() {
         attachmentStyle={attachmentStyle}
         topThree={topThree}
       />
+    </main>
+  ) : (
+    <main className="min-h-screen flex flex-col items-center justify-center text-center">
+      <h2 className="text-xl font-semibold">Loading your result...</h2>
+      <p className="text-gray-500">Please wait just a sec.</p>
     </main>
   );
 }
