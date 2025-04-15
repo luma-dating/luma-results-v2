@@ -43,12 +43,12 @@ export default function ScoreRedirect() {
     const maturity = sum(scoredAnswers.slice(24, 48));
     const bs = sum(scoredAnswers.slice(48, 72));
     const total = fluency + maturity + bs;
-    const attachmentSlice = scoredAnswers.slice(13, 18); // Q10–Q15
+    const attachmentSlice = scoredAnswers.slice(10, 16); 
     const attachmentStyle = calculateAttachmentStyle(attachmentSlice);
 
 
     // ATTACHMENT SCORING (Q13–Q18 = index 10–15)
-    const attachmentIndexes = [13, 14, 15, 16, 17, 18];
+    const attachmentIndexes = [10, 11, 12, 13, 14, 15];
     const reverseAttachmentIndexes = []; // Add indexes here if any are reversed
 
     const attachmentScore = debugAttachmentScore(scoredAnswers);
