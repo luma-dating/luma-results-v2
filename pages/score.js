@@ -49,7 +49,7 @@ export default function ScoreRedirect() {
 
     // ATTACHMENT SCORING (Q13–Q18 = index 10–15)
     const attachmentIndexes = [10, 11, 12, 13, 14, 15];
-    const reverseAttachmentIndexes = []; // Add indexes here if any are reversed
+    const reverseAttachmentIndexes = [10, 13, 15]; // Add indexes here if any are reversed
 
     const attachmentScore = debugAttachmentScore(scoredAnswers);
 
