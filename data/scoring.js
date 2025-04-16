@@ -15,7 +15,6 @@ export function calculateAttachmentStyle(qs = []) {
   return attachmentProfiles.find(({ range }) => total >= range[0] && total <= range[1]) || null;
 }
 
-// Fallback logic moved OUTSIDE where it belongs
 function getFallbackProfile(totalScore, profiles) {
   const fallbackTiers = [
     { min: 325, flag: 'forest green' },
@@ -30,7 +29,7 @@ function getFallbackProfile(totalScore, profiles) {
 
   if (!tier) {
     return {
-      profile: 'Emotional Arsonist',
+      profile: 'The Soft Void',
       flag: 'hell boy red',
       topThree: []
     };
@@ -49,8 +48,8 @@ function getFallbackProfile(totalScore, profiles) {
   }
 
   return {
-    profile: 'Emotional Arsonist',
-    flag: 'hell boy red',
+    profile: 'Mystery Human',
+    flag: tier.flag,
     topThree: []
   };
 }
@@ -63,30 +62,11 @@ export function matchProfileWithWiggleRoom(
   total = 0
 ) {
   const scoredMatches = profileDescriptions.profiles.map((p) => {
-    const target = p.target || {};
-
-    const diff = [
-      Math.abs(fluency - target.fluency),
-      Math.abs(maturity - target.maturity),
-      Math.abs(bs - target.bs)
-    ];
-
-    const avgDiff = diff.reduce((a, b) => a + b, 0) / 3;
-
-    const gtePassed = fluency >= target.fluency &&
-                      maturity >= target.maturity &&
-                      bs >= target.bs;
-
-    const gteMatch = p.useGTE ? gtePassed : true;
-    const gteScore = p.useGTE && gtePassed ? 1 : 0;
-
     const inTotalRange =
       total >= (p.totalRange?.[0] || 0) &&
       total <= (p.totalRange?.[1] || 1000);
 
     const categoryMatch = (() => {
-      const efVsRm = fluency - maturity;
-      const rmVsBs = maturity - bs;
       switch (p.categoryRule) {
         case 'EF>RM<BS':
           return fluency > maturity && bs > maturity;
@@ -112,17 +92,13 @@ export function matchProfileWithWiggleRoom(
 
     let matchScore = 0;
     if (inTotalRange) matchScore += 1;
-    if (categoryMatch) matchScore += 1;
-    matchScore += gteScore;
+    if (categoryMatch) matchScore += 2;
 
-    return { ...p, avgDiff, matchScore };
+    return { ...p, matchScore };
   });
 
   const sortedMatches = scoredMatches.sort((a, b) => {
-    if (b.matchScore !== a.matchScore) {
-      return b.matchScore - a.matchScore;
-    }
-    return a.avgDiff - b.avgDiff;
+    return b.matchScore - a.matchScore;
   });
 
   const topThree = sortedMatches.slice(0, 3);
@@ -134,27 +110,11 @@ export function matchProfileWithWiggleRoom(
 
   let adjustedFlag = bestMatch.flag;
 
-  // 🌿 Absolute override for magical humans
-  if (fluency >= 95 && maturity >= 105 && bs >= 135) {
+  if (total >= 350) {
     adjustedFlag = 'forest green';
   }
 
-  // 🍋 Downgrade logic
-  // 🍋 Soft downgrade only if the match was off and total score isn’t elite
-if (bestMatch.avgDiff >= 6 && total < 310) {
-  const flagShift = {
-    'forest green': 'lime green',
-    'lime green': 'sunshine yellow',
-    'sunshine yellow': 'lemon yellow',
-    'lemon yellow': 'orange',
-    'orange': 'brick red',
-    'brick red': 'hell boy red'
-  };
-  adjustedFlag = flagShift[adjustedFlag] || adjustedFlag;
-}
-
-  // 🪄 Upgrade logic for solid attachment scores
-  if (attachmentScore >= 23 && bestMatch.avgDiff <= 5) {
+  if (attachmentScore >= 23 && bestMatch.matchScore >= 2) {
     const flagBoost = {
       'hell boy red': 'brick red',
       'brick red': 'orange',
