@@ -1,8 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { userProfileSchema } from '@/models/userProfileSchema';
 
-const defaultProfile = JSON.parse(JSON.stringify(userProfileSchema));
-defaultProfile.createdAt = new Date().toISOString();
+const LOCAL_STORAGE_KEY = 'lumaProfileDraft';
+
+const defaultProfile = (() => {
+  const saved = typeof window !== 'undefined' ? localStorage.getItem(LOCAL_STORAGE_KEY) : null;
+  if (saved) {
+    try {
+      return JSON.parse(saved);
+    } catch {
+      return { ...userProfileSchema };
+    }
+  }
+  return { ...userProfileSchema };
+})();
+
+defaultProfile.createdAt = defaultProfile.createdAt || new Date().toISOString();
 defaultProfile.updatedAt = new Date().toISOString();
 
 const steps = [
@@ -28,6 +41,10 @@ export default function ProfileBuilder() {
   const [profile, setProfile] = useState(defaultProfile);
   const [isSaving, setIsSaving] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState(false);
+
+  useEffect(() => {
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(profile));
+  }, [profile]);
 
   const handleNext = async () => {
     if (step === steps.length - 1) {
