@@ -18,8 +18,17 @@ const steps = [
 export default function ProfileBuilder() {
   const [step, setStep] = useState(0);
   const [profile, setProfile] = useState(defaultProfile);
+  const [isSaving, setIsSaving] = useState(false);
+  const [saveSuccess, setSaveSuccess] = useState(false);
 
-  const handleNext = () => setStep((prev) => Math.min(prev + 1, steps.length - 1));
+  const handleNext = async () => {
+    if (step === steps.length - 1) {
+      await handleSaveProfile();
+    } else {
+      setStep((prev) => Math.min(prev + 1, steps.length - 1));
+    }
+  };
+
   const handleBack = () => setStep((prev) => Math.max(prev - 1, 0));
 
   const handleChange = (field, value) => {
@@ -55,6 +64,39 @@ export default function ProfileBuilder() {
       [field]: value,
       updatedAt: new Date().toISOString()
     }));
+  };
+
+  const handleVisibilityChange = (field, value) => {
+    setProfile((prev) => ({
+      ...prev,
+      visibility: {
+        ...prev.visibility,
+        [field]: value
+      },
+      updatedAt: new Date().toISOString()
+    }));
+  };
+
+  const handleSaveProfile = async () => {
+    setIsSaving(true);
+    setSaveSuccess(false);
+
+    try {
+      const response = await fetch('/api/save-profile', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(profile),
+      });
+
+      if (!response.ok) throw new Error('Failed to save');
+
+      setSaveSuccess(true);
+    } catch (err) {
+      console.error('Save failed:', err);
+      alert('Something went wrong while saving your profile.');
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   return (
