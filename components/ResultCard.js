@@ -24,20 +24,30 @@ export default function ResultCard({ profile, flag, scores, tagline, description
     'hell boy red': 'bg-red-900 text-white'
   };
 
+  const flagDescriptionEntry = profileData.flagDescriptions?.find(
+    (f) => f.name.toLowerCase().replace(/\s/g, '') === flag.toLowerCase().replace(/\s/g, '')
+  );
+
+  const flagClass = flagColors[flag.toLowerCase()] || 'bg-gray-200 text-black';
+
   return (
-    <section className="max-w-xl w-full bg-white shadow-xl rounded-2xl p-6">
+    <section className={`max-w-xl w-full shadow-xl rounded-2xl p-6 ${flagClass}`}>
       <h1 className="text-3xl font-bold mb-2">{profile}</h1>
-      <p className="text-lg font-medium text-gray-600 mb-4">
+      <p className="text-lg font-medium mb-2">
         Flag: <span className="capitalize font-semibold">{flag}</span>
       </p>
 
+      {flagDescriptionEntry && (
+        <p className="italic text-sm mb-4">{flagDescriptionEntry.description}</p>
+      )}
+
       {profileTagline && (
-        <p className="italic text-gray-500 mb-4">"{profileTagline}"</p>
+        <p className="italic text-gray-100 mb-4">"{profileTagline}"</p>
       )}
 
       <div className="mb-6">
         <h2 className="text-xl font-semibold mb-2">Your Scores</h2>
-        <ul className="text-gray-700 space-y-1">
+        <ul className="space-y-1">
           <li>Emotional Fluency: <strong>{scores.fluency}</strong></li>
           <li>Relational Maturity: <strong>{scores.maturity}</strong></li>
           <li>BS Detection: <strong>{scores.bs}</strong></li>
@@ -48,14 +58,14 @@ export default function ResultCard({ profile, flag, scores, tagline, description
       {attachmentStyle && (
         <div className="mb-6">
           <h2 className="text-xl font-semibold mb-2">Attachment Style</h2>
-          <p className="text-gray-700">{attachmentStyle}</p>
+          <p>{attachmentStyle}</p>
         </div>
       )}
 
       {profileDescription && (
         <div className="mb-6">
           <h2 className="text-xl font-semibold mb-2">Profile Overview</h2>
-          <p className="text-gray-700 whitespace-pre-line">{profileDescription}</p>
+          <p className="whitespace-pre-line">{profileDescription}</p>
         </div>
       )}
 
@@ -65,7 +75,7 @@ export default function ResultCard({ profile, flag, scores, tagline, description
           <ul className="list-disc list-inside space-y-1">
             {topThree.map((alt, index) => (
               <li key={index}>
-                <strong>{alt.name}</strong> <span className="text-sm text-gray-500">(Flag: {alt.flag})</span>
+                <strong>{alt.name}</strong> <span className="text-sm">(Flag: {alt.flag})</span>
               </li>
             ))}
           </ul>
@@ -73,7 +83,7 @@ export default function ResultCard({ profile, flag, scores, tagline, description
       )}
 
       <div className="mt-10">
-        <a href="https://www.simpleempathykc.com" className="text-blue-600 hover:underline">
+        <a href="https://www.simpleempathykc.com" className="text-blue-100 hover:underline">
           Back to Simple Empathy
         </a>
       </div>
