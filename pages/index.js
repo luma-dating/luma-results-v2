@@ -6,11 +6,16 @@ export default function Home() {
       <div className="max-w-2xl text-center">
         <h1 className="text-4xl font-extrabold mb-4">Welcome to LUMA</h1>
         <p className="text-lg text-gray-700 mb-6">
-          This isn’t a quiz. It’s a mirror. Answer honestly. Reflect deeply. Laugh nervously.
+          This isn’t a quiz. It’s a mirror. Answer honestly. Answer instinctively. Reflect deeply. Laugh nervously.
         </p>
-        <Link href="https://form.typeform.com/to/umwDrURP">
-          <a className="inline-block bg-purple-600 text-white px-6 py-3 rounded-lg shadow hover:bg-purple-700 transition">
-            Take the Filter
+
+        <Link href="https://form.typeform.com/to/umwDrURP" legacyBehavior>
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block px-6 py-3 bg-purple-600 text-white rounded-lg font-semibold hover:bg-purple-700 transition"
+          >
+            Take the Quiz
           </a>
         </Link>
       </div>
