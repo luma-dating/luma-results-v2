@@ -83,9 +83,9 @@ export default function ResultCard({ profile, flag, scores, tagline, description
       )}
 
       <div className="mt-10">
-        <a href="https://www.simpleempathykc.com" className="text-blue-100 hover:underline">
-          Back to Simple Empathy
-        </a>
+        <Link href="https://www.simpleempathykc.com" className="text-blue-100 hover:underline" target="_blank" rel="noopener noreferrer">
+  Back to Simple Empathy
+</Link>
       </div>
     </section>
   );
