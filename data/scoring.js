@@ -73,11 +73,12 @@ export function matchProfileWithWiggleRoom(
 
     const avgDiff = diff.reduce((a, b) => a + b, 0) / 3;
 
-    const gteMatch = p.useGTE
-      ? fluency >= target.fluency &&
-        maturity >= target.maturity &&
-        bs >= target.bs
-      : true;
+    const gtePassed = fluency >= target.fluency &&
+                      maturity >= target.maturity &&
+                      bs >= target.bs;
+
+    const gteMatch = p.useGTE ? gtePassed : true;
+    const gteScore = p.useGTE && gtePassed ? 1 : 0;
 
     const inTotalRange =
       total >= (p.totalRange?.[0] || 0) &&
@@ -102,15 +103,17 @@ export function matchProfileWithWiggleRoom(
           return fluency < maturity && maturity < bs;
         case 'BS>RM<EF':
           return bs > maturity && fluency > maturity;
+        case 'BS=RM=EF':
+          return fluency === maturity && maturity === bs;
         default:
           return true;
       }
     })();
 
     let matchScore = 0;
-    if (gteMatch) matchScore += 1;
     if (inTotalRange) matchScore += 1;
     if (categoryMatch) matchScore += 1;
+    matchScore += gteScore;
 
     return { ...p, avgDiff, matchScore };
   });
@@ -126,13 +129,12 @@ export function matchProfileWithWiggleRoom(
   const bestMatch = topThree[0];
 
   if (!bestMatch || bestMatch.matchScore < 2) {
-    // If the best match is kinda sus, fallback
     return getFallbackProfile(total, profileDescriptions.profiles);
   }
 
   let adjustedFlag = bestMatch.flag;
 
-   // 🌿 Absolute override for magical humans
+  // 🌿 Absolute override for magical humans
   if (fluency >= 95 && maturity >= 105 && bs >= 135) {
     adjustedFlag = 'forest green';
   }
@@ -172,4 +174,3 @@ export function matchProfileWithWiggleRoom(
     }))
   };
 }
-
