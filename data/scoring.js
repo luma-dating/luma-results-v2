@@ -140,17 +140,18 @@ export function matchProfileWithWiggleRoom(
   }
 
   // 🍋 Downgrade logic
-  if (bestMatch.avgDiff >= 3) {
-    const flagShift = {
-      'forest green': 'lime green',
-      'lime green': 'sunshine yellow',
-      'sunshine yellow': 'lemon yellow',
-      'lemon yellow': 'orange',
-      'orange': 'brick red',
-      'brick red': 'hell boy red'
-    };
-    adjustedFlag = flagShift[adjustedFlag] || adjustedFlag;
-  }
+  // 🍋 Soft downgrade only if the match was off and total score isn’t elite
+if (bestMatch.avgDiff >= 6 && total < 310) {
+  const flagShift = {
+    'forest green': 'lime green',
+    'lime green': 'sunshine yellow',
+    'sunshine yellow': 'lemon yellow',
+    'lemon yellow': 'orange',
+    'orange': 'brick red',
+    'brick red': 'hell boy red'
+  };
+  adjustedFlag = flagShift[adjustedFlag] || adjustedFlag;
+}
 
   // 🪄 Upgrade logic for solid attachment scores
   if (attachmentScore >= 23 && bestMatch.avgDiff <= 5) {
