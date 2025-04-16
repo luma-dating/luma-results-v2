@@ -106,7 +106,7 @@
       "tagline": "You’ve seen some things.",
       "description": "You combine deep skepticism with sincere care. You’ll call out the nonsense, but secretly still want connection.",
       "totalRange": [280, 284],
-      "categoryRule": "EF=RM=BS",
+      "categoryRule": "BS>RM>EF",
       "target": {"fluency": 100, "maturity": 90, "bs": 110},
       "useGTE": true
     },
@@ -136,7 +136,7 @@
       "tagline": "Eyes Wide, Heart Open",
       "description": "You’re hopeful, not naive. You move through the world with faith in people — and just enough realism to recalibrate.",
       "totalRange": [295, 299],
-      "categoryRule": "BS>RM>EF",
+      "categoryRule": "BS=RM=EF",
       "target": {"fluency": 90, "maturity": 100, "bs": 110},
       "useGTE": true
     },
@@ -198,6 +198,56 @@
       "totalRange": [250, 254],
       "categoryRule": "EF<RM<BS",
       "target": {"fluency": 80, "maturity": 85, "bs": 95},
+      "useGTE": true
+    },
+    {
+      "name": "Introspective Firecracker",
+      "flag": "orange", 
+      "tagline": "Big Feelings, Big Reflections",
+      "description": "You're wild and wise. You burn bright, feel deeply, and ask yourself all of the right questions - eventually.",
+      "totalRange": [245-249],
+      "categoryRule": "EF=RM=BS",
+      "target": {"fluency": 70, "maturity": 70, "bs": 70},
+      "useGTE": true
+    },
+    {
+      "name": "Cynical Adventurer", 
+      "flag": "orange", 
+      "tagline": "Trust is earned.",
+      "description": "You're fun, charming and just detached enough to feel safe. But when someone gets in, you ride hard for them.",
+      "totalRange": [240-244],
+      "categoryRule": "EF<RM>BS",
+      "target": {"fluency": 70, "maturity": 80, "bs": 70},
+      "useGTE": true
+    },
+    {
+      "name": "Spicy Realist", 
+      "flag": "orange", 
+      "tagline": "Bold Truths, Big Heart", 
+      "description": "You don't sugarcoat - but you do care. You'll challenge people and also stay when it's hard.",
+      "totalRange": [235-239], 
+      "categoryRule": "BS>RM>EF", 
+      "target": {"fluency": 70, "maturity": 75, "bs": 80}, 
+      "useGTE": true
+    },
+    {
+      "name": "Compassionate Chaos", 
+      "flag": "orange", 
+      "tagline": "Bold Truths, Big Heart", 
+      "description": "You mean well, even when you're a tornado. You feel a lot, say most of it, and are still figuring out with to do with it.",
+      "totalRange": [230-234],
+      "categoryRule": "EF>RM>BS", 
+      "target": {"fluency": 80, "maturity": 75, "bs": 70},
+      "useGTE": true
+    },
+    {
+      "name": "Rollercoaster Rider", 
+      "flag": "orange", 
+      "tagline": "Thrilling, but unstable.",
+      "descriptions": "Your emotions run the show. You love hard, crash hard, and are still learning how to coast.", 
+      "totalRange": [225-229],
+      "categoryRule": "EF>RM<BS", 
+      "target": {"fluency": 75, "maturity": 80, "bs": 75},
       "useGTE": true
     },
     {
@@ -295,6 +345,36 @@
       "range": [0, 17],
       "tagline": "Hot-and-cold heart.",
       "description": "You feel pulled in two directions: desperate for intimacy, but scared of it too."
+    }
+  ]
+  "flagDescriptions": [
+    {
+      "name": "Forest Green",
+      "description": "Like the color of pine, the scent of the earth, you are solid, steady and a place where everyone can find a moment of peace."
+    },
+    {
+      "name": "Limegreen",
+      "description": "You're a green flag babes! You've just got a touch more sunshine than the forest through the trees - rock your neon."
+    },
+    {
+      "name": "Sunshine Yellow", 
+      "description": "You're a bright ray of sunshine on a summer's day and everyone loves you - except for when you shine a little too long in their eyes."
+    },
+    {
+      "name": "Lemon Yellow", 
+      "description": "A yellow flag, you've got a lot going right for you, truly. We also both know you've got some room for improvement."
+    },
+    {
+      "name": "Orange",
+      "description": "Oh babes, you're teetering on the edge of being a walking red flag and we don't want that. Let's do some reflections."
+    }, 
+    {
+      "name": "Brick Red", 
+      "description": "You're a red flag babe. Brick Red. You're either catching a brick or throwing one - no one ever really knows."
+    },
+    {
+      "name": "Hell Boy Red", 
+      "description": "You tried really hard to get this score because it's nearly impossible. Honestly, we don't know whether to be impressed or scared of you."
     }
   ]
 }
