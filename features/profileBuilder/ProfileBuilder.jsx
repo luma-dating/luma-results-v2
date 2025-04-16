@@ -42,10 +42,27 @@ export default function ProfileBuilder() {
   const [profile, setProfile] = useState(defaultProfile);
   const [isSaving, setIsSaving] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState(false);
+  const [summaryTone, setSummaryTone] = useState('');
 
   useEffect(() => {
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(profile));
   }, [profile]);
+
+  useEffect(() => {
+    if (step === 5) {
+      // 💬 Auto-generate summary tone on final review
+      const prompt = `Summarize this profile in one emotionally intelligent sentence: ${JSON.stringify(profile)}`;
+
+      fetch('/api/gpt-summary', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt })
+      })
+        .then(res => res.json())
+        .then(data => setSummaryTone(data.summary))
+        .catch(() => setSummaryTone('You come across as emotionally grounded with a nuanced lens on growth.'));
+    }
+  }, [step, profile]);
 
   const handleNext = async () => {
     if (step === steps.length - 1) {
@@ -191,6 +208,10 @@ export default function ProfileBuilder() {
         {step === 5 && (
           <div className="space-y-6 bg-gray-50 border border-gray-200 rounded-lg p-6">
             <h2 className="text-xl font-semibold">Review Your Profile</h2>
+
+            <p className="italic text-green-800 border-l-4 border-green-400 pl-4 py-2 bg-green-50 rounded">
+              {summaryTone || 'Generating summary...'}
+            </p>
 
             <pre className="bg-white border text-sm rounded p-4 overflow-auto">
               {JSON.stringify(profile, null, 2)}
