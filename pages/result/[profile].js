@@ -35,8 +35,6 @@ export default function ProfileResult() {
 
     if (!router.isReady || !fluency || !maturity || !bs || !total) return;
 
-    const { fluency, maturity, bs, total } = router.query;
-
 const parsedFluency = parseInt(fluency, 10) || 0;
 const parsedMaturity = parseInt(maturity, 10) || 0;
 const parsedBS = parseInt(bs, 10) || 0;
