@@ -30,6 +30,17 @@ export default function ProfileBuilder() {
     }));
   };
 
+  const handleBlueprintChange = (field, value) => {
+    setProfile((prev) => ({
+      ...prev,
+      emotionalBlueprint: {
+        ...prev.emotionalBlueprint,
+        [field]: value
+      },
+      updatedAt: new Date().toISOString()
+    }));
+  };
+
   return (
     <div className="max-w-2xl mx-auto p-6">
       <h1 className="text-2xl font-bold mb-4">Build Your Profile</h1>
@@ -70,6 +81,43 @@ export default function ProfileBuilder() {
           <div>
             <label className="block font-medium">Looking for...</label>
             <input type="text" className="w-full border rounded px-3 py-2" placeholder="e.g., Women, Nonbinary people" value={profile.lookingFor.join(', ')} onChange={(e) => handleChange('lookingFor', e.target.value.split(',').map(s => s.trim()))} />
+          </div>
+        </div>
+      )}
+
+      {step === 1 && (
+        <div className="space-y-4">
+          <div>
+            <label className="block font-medium">When I feel safe, I...</label>
+            <textarea className="w-full border rounded px-3 py-2" value={profile.emotionalBlueprint.whenIFeelSafe} onChange={(e) => handleBlueprintChange('whenIFeelSafe', e.target.value)} />
+          </div>
+          <div>
+            <label className="block font-medium">Something that earns my trust fast...</label>
+            <textarea className="w-full border rounded px-3 py-2" value={profile.emotionalBlueprint.trustIsEarnedBy} onChange={(e) => handleBlueprintChange('trustIsEarnedBy', e.target.value)} />
+          </div>
+          <div>
+            <label className="block font-medium">How I move through conflict...</label>
+            <textarea className="w-full border rounded px-3 py-2" value={profile.emotionalBlueprint.howIHandleConflict} onChange={(e) => handleBlueprintChange('howIHandleConflict', e.target.value)} />
+          </div>
+          <div>
+            <label className="block font-medium">A soft red flag I admit to having...</label>
+            <textarea className="w-full border rounded px-3 py-2" value={profile.emotionalBlueprint.softRedFlag} onChange={(e) => handleBlueprintChange('softRedFlag', e.target.value)} />
+          </div>
+          <div>
+            <label className="block font-medium">I’ve outgrown...</label>
+            <textarea className="w-full border rounded px-3 py-2" value={profile.emotionalBlueprint.iveOutgrown} onChange={(e) => handleBlueprintChange('iveOutgrown', e.target.value)} />
+          </div>
+          <div>
+            <label className="block font-medium">I still struggle with...</label>
+            <textarea className="w-full border rounded px-3 py-2" value={profile.emotionalBlueprint.iStillStruggleWith} onChange={(e) => handleBlueprintChange('iStillStruggleWith', e.target.value)} />
+          </div>
+          <div>
+            <label className="block font-medium">Here’s how I show up for someone I love...</label>
+            <textarea className="w-full border rounded px-3 py-2" value={profile.emotionalBlueprint.howILove} onChange={(e) => handleBlueprintChange('howILove', e.target.value)} />
+          </div>
+          <div>
+            <label className="block font-medium">My emotional north star is...</label>
+            <textarea className="w-full border rounded px-3 py-2" value={profile.emotionalBlueprint.northStar} onChange={(e) => handleBlueprintChange('northStar', e.target.value)} />
           </div>
         </div>
       )}
