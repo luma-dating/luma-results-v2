@@ -30,51 +30,45 @@ export default function ProfileResult() {
   } = router.query;
 
   useEffect(() => {
-    console.log("🧭 Router Ready:", router.isReady);
-    console.log("📦 Query Params:", { profile, flag, fluency, maturity, bs, total, attachment });
+    if (!router.isReady) return;
 
-    if (!router.isReady || !fluency || !maturity || !bs || !total) return;
+    // If scoring params are missing, bail
+    if (!fluency || !maturity || !bs || !total) return;
 
-const parsedFluency = parseInt(fluency, 10) || 0;
-const parsedMaturity = parseInt(maturity, 10) || 0;
-const parsedBS = parseInt(bs, 10) || 0;
-const parsedTotal = parseInt(total, 10) || (parsedFluency + parsedMaturity + parsedBS);
+    const parsedFluency = parseInt(fluency as string, 10) || 0;
+    const parsedMaturity = parseInt(maturity as string, 10) || 0;
+    const parsedBS = parseInt(bs as string, 10) || 0;
+    const parsedTotal = parseInt(total as string, 10) || (parsedFluency + parsedMaturity + parsedBS);
 
-// Now send these into matchProfileWithWiggleRoom(parsedFluency, parsedMaturity, parsedBS, attachmentScore, parsedTotal)
     setScores({
-  fluency: parsedFluency,
-  maturity: parsedMaturity,
-  bs: parsedBS,
-  total: parsedTotal
-});
+      fluency: parsedFluency,
+      maturity: parsedMaturity,
+      bs: parsedBS,
+      total: parsedTotal,
+    });
 
     if (attachment) {
-      setAttachmentStyle(attachment);
+      setAttachmentStyle(attachment as string);
     } else {
       const reverseIndexes = [13, 16, 18];
       const attValues = [...Array(6)].map((_, i) => {
         const index = 13 + i;
-        const raw = parseInt(router.query[`Q${index}`] || 0, 10);
+        const raw = parseInt((router.query[`Q${index}`] as string) || '0', 10);
         const isReversed = reverseIndexes.includes(index);
         const final = isReversed ? Math.round((8 - raw) * 0.85) : raw;
-        console.log(`🔄 Q${index}: raw=${raw}, reversed=${isReversed}, final=${final}`);
         return final;
       });
 
-      console.log("📎 Attachment Values:", attValues);
       const attScore = attValues.reduce((a, b) => a + b, 0);
-      console.log("📊 Attachment Score:", attScore);
-
       const style = profileDescriptions.attachmentStyles?.find(
         (style) => style?.range && attScore >= style.range[0] && attScore <= style.range[1]
       );
 
-      console.log("🧠 Matched Attachment Style:", style?.name || "None found");
       if (style) setAttachmentStyle(style.name);
     }
 
     if (profile) {
-      setResolvedProfile(profile);
+      setResolvedProfile(profile as string);
     } else {
       const fallback = profileDescriptions.fallbacks?.find(f => f.flag === flag);
       setResolvedProfile(fallback?.name || 'Unknown');
@@ -85,7 +79,7 @@ const parsedTotal = parseInt(total, 10) || (parsedFluency + parsedMaturity + par
     alt1 && { name: alt1, flag: alt1Flag },
     alt2 && { name: alt2, flag: alt2Flag },
     alt3 && { name: alt3, flag: alt3Flag }
-  ].filter(Boolean);
+  ].filter(Boolean) as { name: string; flag: string }[];
 
   const profileData = profileDescriptions.profiles?.find(p => p.name === resolvedProfile);
   const fallback = profileDescriptions.fallbacks?.find(f => f.flag === flag) || {
@@ -100,7 +94,7 @@ const parsedTotal = parseInt(total, 10) || (parsedFluency + parsedMaturity + par
     <main className="min-h-screen flex flex-col justify-center items-center px-6 py-12">
       <ResultCard
         profile={resolvedProfile}
-        flag={flag}
+        flag={flag as string}
         scores={scores}
         tagline={tagline}
         description={description}
