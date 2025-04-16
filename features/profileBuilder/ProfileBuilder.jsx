@@ -41,6 +41,14 @@ export default function ProfileBuilder() {
     }));
   };
 
+  const handleSnapshotChange = (field, value) => {
+    setProfile((prev) => ({
+      ...prev,
+      [field]: value,
+      updatedAt: new Date().toISOString()
+    }));
+  };
+
   return (
     <div className="max-w-2xl mx-auto p-6">
       <h1 className="text-2xl font-bold mb-4">Build Your Profile</h1>
@@ -118,6 +126,27 @@ export default function ProfileBuilder() {
           <div>
             <label className="block font-medium">My emotional north star is...</label>
             <textarea className="w-full border rounded px-3 py-2" value={profile.emotionalBlueprint.northStar} onChange={(e) => handleBlueprintChange('northStar', e.target.value)} />
+          </div>
+        </div>
+      )}
+
+      {step === 2 && (
+        <div className="space-y-4">
+          <div>
+            <label className="block font-medium">In relationships, I’m usually the one who...</label>
+            <textarea className="w-full border rounded px-3 py-2" placeholder="e.g. Brings up hard stuff first, Sends playlists, etc." value={profile.relationshipHabits.join(', ')} onChange={(e) => handleSnapshotChange('relationshipHabits', e.target.value.split(',').map(s => s.trim()))} />
+          </div>
+          <div>
+            <label className="block font-medium">I most want to be met with...</label>
+            <textarea className="w-full border rounded px-3 py-2" placeholder="e.g. Consistency, Softness, Humor" value={profile.whatIWantToBeMetWith.join(', ')} onChange={(e) => handleSnapshotChange('whatIWantToBeMetWith', e.target.value.split(',').map(s => s.trim()))} />
+          </div>
+          <div>
+            <label className="block font-medium">3 words I’d want someone to use to describe me after 6 months of dating:</label>
+            <input type="text" className="w-full border rounded px-3 py-2" placeholder="e.g. Warm, Weird, Wise" value={profile.threeWordsOthersWouldUse.join(', ')} onChange={(e) => handleSnapshotChange('threeWordsOthersWouldUse', e.target.value.split(',').map(s => s.trim()))} />
+          </div>
+          <div>
+            <label className="block font-medium">My red flag, but make it poetic:</label>
+            <textarea className="w-full border rounded px-3 py-2" value={profile.poeticRedFlag} onChange={(e) => handleSnapshotChange('poeticRedFlag', e.target.value)} />
           </div>
         </div>
       )}
