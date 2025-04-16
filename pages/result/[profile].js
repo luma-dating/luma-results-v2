@@ -35,11 +35,14 @@ export default function ProfileResult() {
 
     if (!router.isReady || !fluency || !maturity || !bs || !total) return;
 
-    const fluencyInt = parseInt(fluency, 10);
-    const maturityInt = parseInt(maturity, 10);
-    const bsInt = parseInt(bs, 10);
-    const totalInt = parseInt(total, 10);
+    const { fluency, maturity, bs, total } = router.query;
 
+const parsedFluency = parseInt(fluency, 10) || 0;
+const parsedMaturity = parseInt(maturity, 10) || 0;
+const parsedBS = parseInt(bs, 10) || 0;
+const parsedTotal = parseInt(total, 10) || (parsedFluency + parsedMaturity + parsedBS);
+
+// Now send these into matchProfileWithWiggleRoom(parsedFluency, parsedMaturity, parsedBS, attachmentScore, parsedTotal)
     setScores({
       fluency: fluencyInt,
       maturity: maturityInt,
