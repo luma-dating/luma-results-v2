@@ -7,6 +7,7 @@ export default async function handler(req, res) {
     const { form_response } = req.body;
     const answersArray = form_response?.answers || [];
 
+    // Convert quiz answers into a key:value map (Q1: 5, Q2: 3, etc)
     const answers = {};
     for (let i = 0; i < answersArray.length; i++) {
       const ref = answersArray[i]?.field?.ref;
@@ -16,11 +17,13 @@ export default async function handler(req, res) {
       }
     }
 
+    // Build a consistent 72-question array of answers
     const values = Array.from({ length: 72 }, (_, i) => {
       const key = `Q${i + 1}`;
       return parseInt(answers[key] || 0, 10);
     });
 
+    // Indices of reverse-scored questions
     const reverseIndexes = [
       2, 4, 7, 10, 12, 14, 18, 19, 20, 21,
       24, 26, 29, 31, 33, 34, 35, 37, 38, 39,
@@ -30,6 +33,7 @@ export default async function handler(req, res) {
     ];
 
     const reverseScore = (value) => 8 - value;
+
     const scoredAnswers = values.map((val, i) =>
       reverseIndexes.includes(i) ? reverseScore(val) : val
     );
@@ -40,23 +44,8 @@ export default async function handler(req, res) {
     const bs = sum(scoredAnswers.slice(48, 72));
     const total = fluency + maturity + bs;
 
-    let flag = 'red';
-    if (total >= 390 && fluency >= 130 && maturity >= 130 && bs >= 130) flag = 'green';
-    else if (total >= 300 && fluency >= 100 && maturity >= 100 && bs >= 100) flag = 'yellow';
-
-    function getProfile(f, m, b) {
-      if (f > 130 && m > 130 && b > 130) return 'Steady Flame';
-      if (f > 135 && m < 110 && b > 130) return 'Soft Talker, Hard Avoider';
-      if (f > 120 && m < 110 && b < 110) return 'Self-Aware Tornado';
-      if (f < 100 && m < 100 && b < 100) return 'Ghost of Relationships Past';
-      if (m < 120 && b < 120 && f >= 100 && f < 130) return 'Fix-Me Pick-Me';
-      return 'Disorganized Seeker';
-    }
-
-    const profile = getProfile(fluency, maturity, bs);
-
-    const redirectUrl = `https://luma-results-v2.vercel.app/result/${encodeURIComponent(profile)}?fluency=${fluency}&maturity=${maturity}&bs=${bs}&total=${total}&flag=${flag}`;
-
+    // Redirect to the result page with raw scores — let frontend handle all logic
+    const redirectUrl = `https://luma-results-v2.vercel.app/result?fluency=${fluency}&maturity=${maturity}&bs=${bs}&total=${total}`;
     return res.redirect(302, redirectUrl);
   } catch (err) {
     console.error('Scoring error:', err);
