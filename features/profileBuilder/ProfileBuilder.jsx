@@ -232,7 +232,22 @@ export default function ProfileBuilder() {
         <button onClick={handleNext} className="px-4 py-2 bg-blue-600 text-white rounded">{step === steps.length - 1 ? 'Finish' : 'Next'}</button>
       </div>
     </div>
-  );
-}
+)}
+
+      {step === 5 && (
+        <div className="space-y-6 bg-gray-50 border border-gray-200 rounded-lg p-6">
+          <h2 className="text-xl font-semibold">Review Your Profile</h2>
+          <pre className="bg-white border text-sm rounded p-4 overflow-auto">
+            {JSON.stringify(profile, null, 2)}
+          </pre>
+          <p className="text-sm text-gray-500 italic">(This is a preview of your full profile as it will be saved. You’ll be able to edit later.)</p>
+        </div>
+      )}
+
+      <div className="flex justify-between mt-8">
+        <button disabled={step === 0} onClick={handleBack} className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50">Back</button>
+        <button onClick={handleNext} className="px-4 py-2 bg-blue-600 text-white rounded">{step === steps.length - 1 ? 'Finish' : 'Next'}</button>
+      </div>
+    </div>
   );
 }
