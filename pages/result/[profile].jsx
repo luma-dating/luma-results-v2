@@ -31,14 +31,13 @@ export default function ProfileResult() {
 
   useEffect(() => {
     if (!router.isReady) return;
-
-    // If scoring params are missing, bail
     if (!fluency || !maturity || !bs || !total) return;
 
     const parsedFluency = parseInt(fluency, 10) || 0;
-const parsedMaturity = parseInt(maturity, 10) || 0;
-const parsedBS = parseInt(bs, 10) || 0;
-const parsedTotal = parseInt(total, 10) || (parsedFluency + parsedMaturity + parsedBS);
+    const parsedMaturity = parseInt(maturity, 10) || 0;
+    const parsedBS = parseInt(bs, 10) || 0;
+    const parsedTotal = parseInt(total, 10) || (parsedFluency + parsedMaturity + parsedBS);
+
     setScores({
       fluency: parsedFluency,
       maturity: parsedMaturity,
@@ -47,12 +46,12 @@ const parsedTotal = parseInt(total, 10) || (parsedFluency + parsedMaturity + par
     });
 
     if (attachment) {
-      setAttachmentStyle(attachment as string);
+      setAttachmentStyle(attachment);
     } else {
       const reverseIndexes = [13, 16, 18];
       const attValues = [...Array(6)].map((_, i) => {
         const index = 13 + i;
-        const raw = parseInt((router.query[`Q${index}`] as string) || '0', 10);
+        const raw = parseInt(router.query[`Q${index}`] || '0', 10);
         const isReversed = reverseIndexes.includes(index);
         const final = isReversed ? Math.round((8 - raw) * 0.85) : raw;
         return final;
@@ -67,7 +66,7 @@ const parsedTotal = parseInt(total, 10) || (parsedFluency + parsedMaturity + par
     }
 
     if (profile) {
-      setResolvedProfile(profile as string);
+      setResolvedProfile(profile);
     } else {
       const fallback = profileDescriptions.fallbacks?.find(f => f.flag === flag);
       setResolvedProfile(fallback?.name || 'Unknown');
@@ -78,7 +77,7 @@ const parsedTotal = parseInt(total, 10) || (parsedFluency + parsedMaturity + par
     alt1 && { name: alt1, flag: alt1Flag },
     alt2 && { name: alt2, flag: alt2Flag },
     alt3 && { name: alt3, flag: alt3Flag }
-  ].filter(Boolean) as { name: string; flag: string }[];
+  ].filter(Boolean);
 
   const profileData = profileDescriptions.profiles?.find(p => p.name === resolvedProfile);
   const fallback = profileDescriptions.fallbacks?.find(f => f.flag === flag) || {
@@ -93,7 +92,7 @@ const parsedTotal = parseInt(total, 10) || (parsedFluency + parsedMaturity + par
     <main className="min-h-screen flex flex-col justify-center items-center px-6 py-12">
       <ResultCard
         profile={resolvedProfile}
-        flag={flag as string}
+        flag={flag}
         scores={scores}
         tagline={tagline}
         description={description}
