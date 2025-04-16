@@ -117,7 +117,7 @@
       "description": "You’re on a journey to understand both yourself and others. Your curiosity and honesty are your greatest assets.",
       "totalRange": [285, 289],
       "categoryRule": "EF<RM<BS",
-      "target": {"fluency": 90, "maturity": 110, "bs": 100},
+      "target": {"fluency": 80, "maturity": 90, "bs": 110},
       "useGTE": false
     },
     {
