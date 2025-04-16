@@ -44,11 +44,11 @@ const parsedTotal = parseInt(total, 10) || (parsedFluency + parsedMaturity + par
 
 // Now send these into matchProfileWithWiggleRoom(parsedFluency, parsedMaturity, parsedBS, attachmentScore, parsedTotal)
     setScores({
-      fluency: fluencyInt,
-      maturity: maturityInt,
-      bs: bsInt,
-      total: totalInt
-    });
+  fluency: parsedFluency,
+  maturity: parsedMaturity,
+  bs: parsedBS,
+  total: parsedTotal
+});
 
     if (attachment) {
       setAttachmentStyle(attachment);
