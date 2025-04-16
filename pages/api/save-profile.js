@@ -1,4 +1,6 @@
-// /pages/api/save-profile.js
+// pages/api/save-profile.js
+
+import { supabase } from '@/lib/supabase';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -8,16 +10,29 @@ export default async function handler(req, res) {
   try {
     const profile = req.body;
 
-    // In a real app, you'd store this in a database.
-    // For now, we'll simulate a save with a simple log.
-    console.log('Saving profile:', profile);
+    const { data, error } = await supabase
+      .from('profiles')
+      .insert([
+        {
+          name: profile.name || '',
+          pronouns: profile.pronouns || '',
+          birth_year: profile.birthYear || null,
+          location: profile.location || '',
+          relationship_style: profile.relationshipStyle || '',
+          looking_for: profile.lookingFor || [],
+          open_to: profile.datingIntentions || [],
+          profile_json: profile
+        }
+      ]);
 
-    // Simulate a delay for realism
-    await new Promise((resolve) => setTimeout(resolve, 800));
+    if (error) {
+      console.error('❌ Supabase insert error:', error);
+      return res.status(500).json({ error: 'Failed to save profile' });
+    }
 
-    res.status(200).json({ message: 'Profile saved successfully!' });
-  } catch (error) {
-    console.error('API error:', error);
-    res.status(500).json({ error: 'Failed to save profile' });
+    return res.status(200).json({ message: '✅ Profile saved!', data });
+  } catch (err) {
+    console.error('🔥 Save handler error:', err);
+    return res.status(500).json({ error: 'Unexpected error while saving profile' });
   }
 }
