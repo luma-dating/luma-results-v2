@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { userProfileSchema } from '@/models/userProfileSchema';
+import ProfilePreviewCard from './ProfilePreviewCard';
 
 const LOCAL_STORAGE_KEY = 'lumaProfileDraft';
 
@@ -119,6 +120,9 @@ export default function ProfileBuilder() {
       <p className="text-gray-600 mb-2">
         Step {step + 1} of {steps.length}: <strong>{steps[step]}</strong>
       </p>
+
+      <div className="grid md:grid-cols-2 gap-6">
+      <div>
 
       <div className="w-full bg-gray-200 rounded-full h-2 mb-4">
         <div
@@ -241,6 +245,8 @@ export default function ProfileBuilder() {
         >
           {step === steps.length - 1 ? 'Finish' : 'Next'}
         </button>
+        </div>
+  <ProfilePreviewCard profile={profile} />
       </div>
     </div>
   );
