@@ -56,7 +56,7 @@
       "tagline": "Structure with soul.",
       "description": "You've thought aboute every angle. You build strong emotional frameworks, even if spontaneity scares you.",
       "totalRange": [320, 324],
-      "categoryRule": "EF>RM<BS",
+      "categoryRule": "EF=RM=BS",
       "target": {"fluency": 105, "maturity": 95, "bs": 115},
       "useGTE": true
     },
@@ -76,7 +76,7 @@
       "tagline": "Your Heart Leads the way",
       "description": "Love is a language you're fluent in. You believe in magic and long looks - and sometimes forget the fine print.",
       "totalRange": [305, 309],
-      "categoryRule": "EF=RM=BS",
+      "categoryRule": "EF<RM<BS",
       "target": {"fluency": 102, "maturity": 102, "bs": 102},
       "useGTE": true
     },
@@ -96,7 +96,7 @@
       "tagline": "Soft heart, side-eye-ready",
       "description": "You crave connection but want it earned. You’ll love deeply — after a vibe check and an internal review board.",
       "totalRange": [315, 319],
-      "categoryRule": "EF<RM<BS",
+      "categoryRule": "EF>RM<BS",
       "target": {"fluency": 95, "maturity": 105, "bs": 115},
       "useGTE": true
     },
@@ -106,7 +106,7 @@
       "tagline": "You’ve seen some things.",
       "description": "You combine deep skepticism with sincere care. You’ll call out the nonsense, but secretly still want connection.",
       "totalRange": [280, 284],
-      "categoryRule": "EF>RM<BS",
+      "categoryRule": "EF=RM=BS",
       "target": {"fluency": 100, "maturity": 90, "bs": 110},
       "useGTE": true
     },
@@ -116,7 +116,7 @@
       "tagline": "You’re learning as you love.",
       "description": "You’re on a journey to understand both yourself and others. Your curiosity and honesty are your greatest assets.",
       "totalRange": [285, 289],
-      "categoryRule": "EF<RM>BS",
+      "categoryRule": "EF<RM<BS",
       "target": {"fluency": 90, "maturity": 110, "bs": 100},
       "useGTE": true
     },
