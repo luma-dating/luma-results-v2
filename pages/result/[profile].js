@@ -35,11 +35,10 @@ export default function ProfileResult() {
     // If scoring params are missing, bail
     if (!fluency || !maturity || !bs || !total) return;
 
-    const parsedFluency = parseInt(fluency as string, 10) || 0;
-    const parsedMaturity = parseInt(maturity as string, 10) || 0;
-    const parsedBS = parseInt(bs as string, 10) || 0;
-    const parsedTotal = parseInt(total as string, 10) || (parsedFluency + parsedMaturity + parsedBS);
-
+    const parsedFluency = parseInt(fluency, 10) || 0;
+const parsedMaturity = parseInt(maturity, 10) || 0;
+const parsedBS = parseInt(bs, 10) || 0;
+const parsedTotal = parseInt(total, 10) || (parsedFluency + parsedMaturity + parsedBS);
     setScores({
       fluency: parsedFluency,
       maturity: parsedMaturity,
