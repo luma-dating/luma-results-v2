@@ -1,3 +1,5 @@
+// pages/score.js
+
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { matchProfileWithWiggleRoom, calculateAttachmentStyle } from '@/data/scoring';
@@ -9,11 +11,16 @@ export default function ScoreRedirect() {
     if (!router.isReady) return;
 
     const query = router.query;
+
+    // Adjusted to start at Q4 (Typeform offset fix)
     const values = Array.from({ length: 72 }, (_, i) => {
-      const key = `Q${i + 3}`;
-      if ([28, 32].includes(i)) return 0;
+      const key = `Q${i + 4}`; // Q4 is index 0
       return parseInt(query[key] || 0, 10);
     });
+
+    // Hardcoding skipped questions if needed (double-check these)
+    const skipIndexes = [27, 31]; // zero-indexed: Q31, Q35
+    skipIndexes.forEach(i => values[i] = 0);
 
     const reverseIndexes = [
       0, 2, 4, 7, 10, 13, 15, 18, 20, 21, 22, 23,
@@ -28,8 +35,7 @@ export default function ScoreRedirect() {
       reverseIndexes.includes(i) ? reverseScore(val) : val
     );
 
-    const sum = (arr) =>
-      arr.reduce((acc, val) => acc + (typeof val === 'number' ? val : 0), 0);
+    const sum = (arr) => arr.reduce((acc, val) => acc + (typeof val === 'number' ? val : 0), 0);
 
     const fluency = sum(scoredAnswers.slice(0, 24));
     const maturity = sum(scoredAnswers.slice(24, 48));
@@ -40,10 +46,6 @@ export default function ScoreRedirect() {
     const attachmentSlice = attachmentIndexes.map(i => scoredAnswers[i]);
     const attachmentScore = sum(attachmentSlice);
     const attachmentStyle = calculateAttachmentStyle(attachmentSlice);
-
-    console.log("📎 Attachment Slice:", attachmentSlice);
-    console.log("📊 Attachment Score:", attachmentScore);
-    console.log("🧠 Matched Attachment Style:", attachmentStyle?.name);
 
     const result = matchProfileWithWiggleRoom(fluency, maturity, bs, attachmentScore, total);
 
