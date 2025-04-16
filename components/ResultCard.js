@@ -1,5 +1,6 @@
 import React from 'react';
 import profileData from '@/data/profileDescriptions.json';
+import Link from 'next/link';
 
 export default function ResultCard({ profile, flag, scores, tagline, description, attachmentStyle, topThree = [] }) {
   const profileEntry = profileData.profiles?.[profile];
@@ -82,11 +83,16 @@ export default function ResultCard({ profile, flag, scores, tagline, description
         </div>
       )}
 
-      <div className="mt-10">
-        <Link href="https://www.simpleempathykc.com" className="text-blue-100 hover:underline" target="_blank" rel="noopener noreferrer">
-  Back to Simple Empathy
-</Link>
-      </div>
+ <div className="mt-10">
+  <a 
+    href="https://www.simpleempathykc.com" 
+    className="text-blue-100 hover:underline" 
+    target="_blank" 
+    rel="noopener noreferrer"
+  >
+    Back to Simple Empathy
+  </a>
+</div>
     </section>
   );
 }
