@@ -205,7 +205,7 @@
       "flag": "orange", 
       "tagline": "Big Feelings, Big Reflections",
       "description": "You're wild and wise. You burn bright, feel deeply, and ask yourself all of the right questions - eventually.",
-      "totalRange": [245-249],
+      "totalRange": [245, 249],
       "categoryRule": "EF=RM=BS",
       "target": {"fluency": 70, "maturity": 70, "bs": 70},
       "useGTE": true
@@ -215,7 +215,7 @@
       "flag": "orange", 
       "tagline": "Trust is earned.",
       "description": "You're fun, charming and just detached enough to feel safe. But when someone gets in, you ride hard for them.",
-      "totalRange": [240-244],
+      "totalRange": [240, 244],
       "categoryRule": "EF<RM>BS",
       "target": {"fluency": 70, "maturity": 80, "bs": 70},
       "useGTE": true
@@ -225,7 +225,7 @@
       "flag": "orange", 
       "tagline": "Bold Truths, Big Heart", 
       "description": "You don't sugarcoat - but you do care. You'll challenge people and also stay when it's hard.",
-      "totalRange": [235-239], 
+      "totalRange": [235, 239], 
       "categoryRule": "BS>RM>EF", 
       "target": {"fluency": 70, "maturity": 75, "bs": 80}, 
       "useGTE": true
@@ -235,7 +235,7 @@
       "flag": "orange", 
       "tagline": "Bold Truths, Big Heart", 
       "description": "You mean well, even when you're a tornado. You feel a lot, say most of it, and are still figuring out with to do with it.",
-      "totalRange": [230-234],
+      "totalRange": [230, 234],
       "categoryRule": "EF>RM>BS", 
       "target": {"fluency": 80, "maturity": 75, "bs": 70},
       "useGTE": true
@@ -245,7 +245,7 @@
       "flag": "orange", 
       "tagline": "Thrilling, but unstable.",
       "descriptions": "Your emotions run the show. You love hard, crash hard, and are still learning how to coast.", 
-      "totalRange": [225-229],
+      "totalRange": [225, 229],
       "categoryRule": "EF>RM<BS", 
       "target": {"fluency": 75, "maturity": 80, "bs": 75},
       "useGTE": true
