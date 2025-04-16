@@ -12,14 +12,14 @@ export default function ScoreRedirect() {
 
     const query = router.query;
 
-    // Adjusted to start at Q4 (Typeform offset fix)
+    // Adjusted offset: Typeform Q4 is our index 0
     const values = Array.from({ length: 72 }, (_, i) => {
-      const key = `Q${i + 4}`; // Q4 is index 0
+      const key = `Q${i + 4}`; // Skip Q1–Q3
       return parseInt(query[key] || 0, 10);
     });
 
-    // Hardcoding skipped questions if needed (double-check these)
-    const skipIndexes = [27, 31]; // zero-indexed: Q31, Q35
+    // Optional: force skip values for certain misbehaving questions
+    const skipIndexes = [27, 31]; // Q31, Q35
     skipIndexes.forEach(i => values[i] = 0);
 
     const reverseIndexes = [
@@ -35,7 +35,8 @@ export default function ScoreRedirect() {
       reverseIndexes.includes(i) ? reverseScore(val) : val
     );
 
-    const sum = (arr) => arr.reduce((acc, val) => acc + (typeof val === 'number' ? val : 0), 0);
+    const sum = (arr) =>
+      arr.reduce((acc, val) => acc + (typeof val === 'number' ? val : 0), 0);
 
     const fluency = sum(scoredAnswers.slice(0, 24));
     const maturity = sum(scoredAnswers.slice(24, 48));
