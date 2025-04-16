@@ -171,6 +171,18 @@ export default function ProfileBuilder() {
             <option value="no">No</option>
             <option value="yes">Yes</option>
           </select>
+
+          <div>
+            <label className="block font-medium">
+              Would you consider someone who doesn’t meet your dealbreakers if they were emotionally exceptional?
+            </label>
+            <textarea
+              className="w-full border rounded px-3 py-2"
+              placeholder="Only if they show deep accountability and therapy receipts..."
+              value={profile.dealbreakerOverride || ''}
+              onChange={(e) => handleChange('dealbreakerOverride', e.target.value)}
+            />
+          </div>
         </div>
       )}
 
