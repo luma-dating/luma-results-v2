@@ -55,7 +55,13 @@ function getFallbackProfile(totalScore, profiles) {
   };
 }
 
-export function matchProfileWithWiggleRoom(fluency, maturity, bs, attachmentScore = 0, total = 0) {
+export function matchProfileWithWiggleRoom(
+  fluency,
+  maturity,
+  bs,
+  attachmentScore = 0,
+  total = 0
+) {
   const scoredMatches = profileDescriptions.profiles.map((p) => {
     const target = p.target || {};
 
@@ -66,27 +72,67 @@ export function matchProfileWithWiggleRoom(fluency, maturity, bs, attachmentScor
     ];
 
     const avgDiff = diff.reduce((a, b) => a + b, 0) / 3;
+
     const gteMatch = p.useGTE
-      ? fluency >= target.fluency && maturity >= target.maturity && bs >= target.bs
+      ? fluency >= target.fluency &&
+        maturity >= target.maturity &&
+        bs >= target.bs
       : true;
 
-    return { ...p, avgDiff, gteMatch };
+    const inTotalRange =
+      total >= (p.totalRange?.[0] || 0) &&
+      total <= (p.totalRange?.[1] || 1000);
+
+    const categoryMatch = (() => {
+      const efVsRm = fluency - maturity;
+      const rmVsBs = maturity - bs;
+      switch (p.categoryRule) {
+        case 'EF>RM<BS':
+          return fluency > maturity && bs > maturity;
+        case 'EF<RM>BS':
+          return fluency < maturity && bs < maturity;
+        case 'EF=RM=BS':
+          return (
+            Math.abs(fluency - maturity) <= 10 &&
+            Math.abs(maturity - bs) <= 10
+          );
+        case 'BS>RM>EF':
+          return bs > maturity && maturity > fluency;
+        case 'EF<RM<BS':
+          return fluency < maturity && maturity < bs;
+        case 'BS>RM<EF':
+          return bs > maturity && fluency > maturity;
+        default:
+          return true;
+      }
+    })();
+
+    let matchScore = 0;
+    if (gteMatch) matchScore += 1;
+    if (inTotalRange) matchScore += 1;
+    if (categoryMatch) matchScore += 1;
+
+    return { ...p, avgDiff, matchScore };
   });
 
-  const sortedMatches = scoredMatches
-    .filter((p) => p.gteMatch)
-    .sort((a, b) => a.avgDiff - b.avgDiff);
+  const sortedMatches = scoredMatches.sort((a, b) => {
+    if (b.matchScore !== a.matchScore) {
+      return b.matchScore - a.matchScore;
+    }
+    return a.avgDiff - b.avgDiff;
+  });
 
   const topThree = sortedMatches.slice(0, 3);
   const bestMatch = topThree[0];
 
-  if (!bestMatch) {
+  if (!bestMatch || bestMatch.matchScore < 2) {
+    // If the best match is kinda sus, fallback
     return getFallbackProfile(total, profileDescriptions.profiles);
   }
 
   let adjustedFlag = bestMatch.flag;
 
-  // 🌿 Absolute override
+   // 🌿 Absolute override for magical humans
   if (fluency >= 95 && maturity >= 105 && bs >= 135) {
     adjustedFlag = 'forest green';
   }
@@ -104,7 +150,7 @@ export function matchProfileWithWiggleRoom(fluency, maturity, bs, attachmentScor
     adjustedFlag = flagShift[adjustedFlag] || adjustedFlag;
   }
 
-  // 🪄 Upgrade boost
+  // 🪄 Upgrade logic for solid attachment scores
   if (attachmentScore >= 23 && bestMatch.avgDiff <= 5) {
     const flagBoost = {
       'hell boy red': 'brick red',
@@ -120,6 +166,10 @@ export function matchProfileWithWiggleRoom(fluency, maturity, bs, attachmentScor
   return {
     profile: bestMatch.name,
     flag: adjustedFlag,
-    topThree: topThree.map((p) => ({ name: p.name, flag: p.flag }))
+    topThree: topThree.map((p) => ({
+      name: p.name,
+      flag: p.flag
+    }))
   };
 }
+
