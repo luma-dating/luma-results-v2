@@ -18,10 +18,11 @@ export default async function handler(req, res) {
     }
 
     // Build a consistent 72-question array of answers
+    console.log("Parsed answer keys:", Object.keys(answers));
     const values = Array.from({ length: 72 }, (_, i) => {
-      const key = `Q${i + 1}`;
-      return parseInt(answers[key] || 0, 10);
-    });
+  const key = `Q${i + 4}`; // Start from Q4 instead of Q1
+  return parseInt(answers[key] || 0, 10);
+});
 
     // Indices of reverse-scored questions
     const reverseIndexes = [
