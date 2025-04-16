@@ -189,5 +189,50 @@ export default function ProfileBuilder() {
         <button onClick={handleNext} className="px-4 py-2 bg-blue-600 text-white rounded">{step === steps.length - 1 ? 'Finish' : 'Next'}</button>
       </div>
     </div>
+    )}
+
+    {step === 4 && (
+        <div className="space-y-4">
+          <div>
+            <label className="block font-medium">Only show my profile to people with compatible relationship styles</label>
+            <select className="w-full border rounded px-3 py-2" value={profile.visibility.matchRelationshipTypeOnly ? 'yes' : 'no'} onChange={(e) => handleVisibilityChange('matchRelationshipTypeOnly', e.target.value === 'yes')}>
+              <option value="yes">Yes</option>
+              <option value="no">No</option>
+            </select>
+          </div>
+
+          <div>
+            <label className="block font-medium">Only show my profile to people who are open to my gender</label>
+            <select className="w-full border rounded px-3 py-2" value={profile.visibility.matchGenderPreferencesOnly ? 'yes' : 'no'} onChange={(e) => handleVisibilityChange('matchGenderPreferencesOnly', e.target.value === 'yes')}>
+              <option value="yes">Yes</option>
+              <option value="no">No</option>
+            </select>
+          </div>
+
+          <div>
+            <label className="block font-medium">Only show me to people who share at least 2 of my emotional flags</label>
+            <select className="w-full border rounded px-3 py-2" value={profile.visibility.matchSharedFlagsOnly ? 'yes' : 'no'} onChange={(e) => handleVisibilityChange('matchSharedFlagsOnly', e.target.value === 'yes')}>
+              <option value="yes">Yes</option>
+              <option value="no">No</option>
+            </select>
+          </div>
+
+          <div>
+            <label className="block font-medium">Enable public link to my profile</label>
+            <select className="w-full border rounded px-3 py-2" value={profile.visibility.publicProfileEnabled ? 'yes' : 'no'} onChange={(e) => handleVisibilityChange('publicProfileEnabled', e.target.value === 'yes')}>
+              <option value="no">No</option>
+              <option value="yes">Yes</option>
+            </select>
+          </div>
+        </div>
+      )}
+
+      <div className="flex justify-between mt-8">
+        <button disabled={step === 0} onClick={handleBack} className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50">Back</button>
+        <button onClick={handleNext} className="px-4 py-2 bg-blue-600 text-white rounded">{step === steps.length - 1 ? 'Finish' : 'Next'}</button>
+      </div>
+    </div>
+  );
+}
   );
 }
