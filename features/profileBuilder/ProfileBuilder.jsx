@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { userProfileSchema } from '@/models/userProfileSchema';
 
 const defaultProfile = JSON.parse(JSON.stringify(userProfileSchema));
-
 defaultProfile.createdAt = new Date().toISOString();
 defaultProfile.updatedAt = new Date().toISOString();
 
@@ -13,6 +12,15 @@ const steps = [
   'Compatibility Filters',
   'Visibility Settings',
   'Review'
+];
+
+const affirmations = [
+  "You’re doing a beautiful job articulating who you are.",
+  "Your emotional honesty is magnetic.",
+  "You're putting words to parts of yourself others only sense.",
+  "These preferences help ensure you’re seen fully.",
+  "Your boundaries are valid. You’re showing up with clarity.",
+  "Look at you building emotional clarity like a damn champion."
 ];
 
 export default function ProfileBuilder() {
@@ -50,14 +58,6 @@ export default function ProfileBuilder() {
     }));
   };
 
-  const handleSnapshotChange = (field, value) => {
-    setProfile((prev) => ({
-      ...prev,
-      [field]: value,
-      updatedAt: new Date().toISOString()
-    }));
-  };
-
   const handleCompatibilityChange = (field, value) => {
     setProfile((prev) => ({
       ...prev,
@@ -80,16 +80,13 @@ export default function ProfileBuilder() {
   const handleSaveProfile = async () => {
     setIsSaving(true);
     setSaveSuccess(false);
-
     try {
       const response = await fetch('/api/save-profile', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(profile),
+        body: JSON.stringify(profile)
       });
-
       if (!response.ok) throw new Error('Failed to save');
-
       setSaveSuccess(true);
     } catch (err) {
       console.error('Save failed:', err);
@@ -102,193 +99,119 @@ export default function ProfileBuilder() {
   return (
     <div className="max-w-2xl mx-auto p-6">
       <h1 className="text-2xl font-bold mb-4">Build Your Profile</h1>
-      <p className="text-gray-600 mb-6">Step {step + 1} of {steps.length}: <strong>{steps[step]}</strong></p>
+      <p className="text-gray-600 mb-2">
+        Step {step + 1} of {steps.length}: <strong>{steps[step]}</strong>
+      </p>
+
+      <div className="w-full bg-gray-200 rounded-full h-2 mb-4">
+        <div
+          className="bg-[#A4DE02] h-2 rounded-full transition-all duration-300 ease-in-out"
+          style={{ width: `${(step / (steps.length - 1)) * 100}%` }}
+        ></div>
+      </div>
+
+      <p className="text-sm italic text-green-700 mb-6">
+        {affirmations[step]}
+      </p>
 
       {step === 0 && (
         <div className="space-y-4">
-          {/* Core Details Inputs */}
-          {/* ... */}
+          <label className="block font-medium">Name</label>
+          <input
+            className="w-full border rounded px-3 py-2"
+            value={profile.name || ''}
+            onChange={(e) => handleChange('name', e.target.value)}
+          />
         </div>
       )}
 
       {step === 1 && (
         <div className="space-y-4">
-          {/* Emotional Blueprint Inputs */}
-          {/* ... */}
+          <label className="block font-medium">When I feel safe, I...</label>
+          <textarea
+            className="w-full border rounded px-3 py-2"
+            value={profile.emotionalBlueprint.whenIFeelSafe || ''}
+            onChange={(e) => handleBlueprintChange('whenIFeelSafe', e.target.value)}
+          />
+          <label className="block font-medium">Attachment nuance</label>
+          <textarea
+            className="w-full border rounded px-3 py-2"
+            placeholder="e.g. I show up as avoidant when I’m overwhelmed but usually secure"
+            value={profile.attachmentStyleNotes || ''}
+            onChange={(e) => handleChange('attachmentStyleNotes', e.target.value)}
+          />
         </div>
       )}
 
-      {step === 2 && (
+      {step === 4 && (
         <div className="space-y-4">
-          {/* Relational Energy Snapshots */}
-          {/* ... */}
+          <label className="block font-medium">Public Profile</label>
+          <select
+            className="w-full border rounded px-3 py-2"
+            value={profile.visibility.publicProfileEnabled ? 'yes' : 'no'}
+            onChange={(e) => handleVisibilityChange('publicProfileEnabled', e.target.value === 'yes')}
+          >
+            <option value="no">No</option>
+            <option value="yes">Yes</option>
+          </select>
         </div>
       )}
-
-      {step === 3 && (
-        <div className="space-y-4">
-          <div>
-            <label className="block font-medium">Do you have kids?</label>
-            <select className="w-full border rounded px-3 py-2" value={profile.hasKids ? 'yes' : 'no'} onChange={(e) => handleCompatibilityChange('hasKids', e.target.value === 'yes')}>
-              <option value="no">No</option>
-              <option value="yes">Yes</option>
-            </select>
-          </div>
-          {profile.hasKids && (
-            <div>
-              <label className="block font-medium">Number of kids</label>
-              <input type="number" className="w-full border rounded px-3 py-2" value={profile.numberOfKids || ''} onChange={(e) => handleCompatibilityChange('numberOfKids', parseInt(e.target.value, 10))} />
-            </div>
-          )}
-
-          <div>
-            <label className="block font-medium">Are you open to dating someone with kids?</label>
-            <select className="w-full border rounded px-3 py-2" value={profile.openToPartnerWithKids ? 'yes' : 'no'} onChange={(e) => handleCompatibilityChange('openToPartnerWithKids', e.target.value === 'yes')}>
-              <option value="no">No</option>
-              <option value="yes">Yes</option>
-            </select>
-          </div>
-
-          <div>
-            <label className="block font-medium">Maximum number of kids you're open to</label>
-            <select className="w-full border rounded px-3 py-2" value={profile.maxPartnerKids || ''} onChange={(e) => handleCompatibilityChange('maxPartnerKids', parseInt(e.target.value, 10))}>
-              <option value="">Select...</option>
-              {[1, 2, 3, 4, 5].map((num) => (
-                <option key={num} value={num}>{num}</option>
-              ))}
-            </select>
-          </div>
-
-          <div>
-            <label className="block font-medium">Is religion a dealbreaker for you?</label>
-            <select className="w-full border rounded px-3 py-2" value={profile.religionIsDealbreaker ? 'yes' : 'no'} onChange={(e) => handleCompatibilityChange('religionIsDealbreaker', e.target.value === 'yes')}>
-              <option value="no">No</option>
-              <option value="yes">Yes</option>
-            </select>
-          </div>
-          {profile.religionIsDealbreaker && (
-            <>
-              <div>
-                <label className="block font-medium">Preferred religion(s)</label>
-                <input type="text" className="w-full border rounded px-3 py-2" value={profile.preferredReligions.join(', ')} onChange={(e) => handleCompatibilityChange('preferredReligions', e.target.value.split(',').map(s => s.trim()))} />
-              </div>
-              <div>
-                <label className="block font-medium">Religious vibe preference</label>
-                <input type="text" className="w-full border rounded px-3 py-2" value={profile.religiousVibe} onChange={(e) => handleCompatibilityChange('religiousVibe', e.target.value)} />
-              </div>
-            </>
-          )}
-
-          <div>
-            <label className="block font-medium">Is politics a dealbreaker for you?</label>
-            <select className="w-full border rounded px-3 py-2" value={profile.politicsIsDealbreaker ? 'yes' : 'no'} onChange={(e) => handleCompatibilityChange('politicsIsDealbreaker', e.target.value === 'yes')}>
-              <option value="no">No</option>
-              <option value="yes">Yes</option>
-            </select>
-          </div>
-          {profile.politicsIsDealbreaker && (
-            <>
-              <div>
-                <label className="block font-medium">Political alignment</label>
-                <select className="w-full border rounded px-3 py-2" value={profile.politicalAlignment} onChange={(e) => handleCompatibilityChange('politicalAlignment', e.target.value)}>
-                  <option value="">Select...</option>
-                  <option value="Progressive">Progressive / Left</option>
-                  <option value="Moderate">Moderate</option>
-                  <option value="Conservative">Conservative / Right</option>
-                  <option value="Nuanced">Doesn’t fit a label</option>
-                  <option value="Not political">Not political</option>
-                </select>
-              </div>
-              <div>
-                <label className="block font-medium">I could date someone with different politics if...</label>
-                <input type="text" className="w-full border rounded px-3 py-2" value={profile.politicalNuance} onChange={(e) => handleCompatibilityChange('politicalNuance', e.target.value)} />
-              </div>
-            </>
-          )}
-
-          <div>
-            <label className="block font-medium">Substances I’m not okay with in a partner:</label>
-            <input type="text" className="w-full border rounded px-3 py-2" placeholder="e.g., Alcohol, Weed, Psychedelics" value={profile.substanceBoundaries.join(', ')} onChange={(e) => handleCompatibilityChange('substanceBoundaries', e.target.value.split(',').map(s => s.trim()))} />
-          </div>
-
-          <div>
-            <label className="block font-medium">Open to long distance?</label>
-            <select className="w-full border rounded px-3 py-2" value={profile.openToLongDistance ? 'yes' : 'no'} onChange={(e) => handleCompatibilityChange('openToLongDistance', e.target.value === 'yes')}>
-              <option value="no">No</option>
-              <option value="yes">Yes</option>
-            </select>
-          </div>
-
-          <div>
-            <label className="block font-medium">Dating intentions</label>
-            <input type="text" className="w-full border rounded px-3 py-2" placeholder="e.g., Dating with intention, Emotional connection" value={profile.datingIntentions.join(', ')} onChange={(e) => handleCompatibilityChange('datingIntentions', e.target.value.split(',').map(s => s.trim()))} />
-          </div>
-        </div>
-      )}
-
-      <div className="flex justify-between mt-8">
-        <button disabled={step === 0} onClick={handleBack} className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50">Back</button>
-        <button onClick={handleNext} className="px-4 py-2 bg-blue-600 text-white rounded">{step === steps.length - 1 ? 'Finish' : 'Next'}</button>
-      </div>
-    </div>
-    )}
-
-    {step === 4 && (
-        <div className="space-y-4">
-          <div>
-            <label className="block font-medium">Only show my profile to people with compatible relationship styles</label>
-            <select className="w-full border rounded px-3 py-2" value={profile.visibility.matchRelationshipTypeOnly ? 'yes' : 'no'} onChange={(e) => handleVisibilityChange('matchRelationshipTypeOnly', e.target.value === 'yes')}>
-              <option value="yes">Yes</option>
-              <option value="no">No</option>
-            </select>
-          </div>
-
-          <div>
-            <label className="block font-medium">Only show my profile to people who are open to my gender</label>
-            <select className="w-full border rounded px-3 py-2" value={profile.visibility.matchGenderPreferencesOnly ? 'yes' : 'no'} onChange={(e) => handleVisibilityChange('matchGenderPreferencesOnly', e.target.value === 'yes')}>
-              <option value="yes">Yes</option>
-              <option value="no">No</option>
-            </select>
-          </div>
-
-          <div>
-            <label className="block font-medium">Only show me to people who share at least 2 of my emotional flags</label>
-            <select className="w-full border rounded px-3 py-2" value={profile.visibility.matchSharedFlagsOnly ? 'yes' : 'no'} onChange={(e) => handleVisibilityChange('matchSharedFlagsOnly', e.target.value === 'yes')}>
-              <option value="yes">Yes</option>
-              <option value="no">No</option>
-            </select>
-          </div>
-
-          <div>
-            <label className="block font-medium">Enable public link to my profile</label>
-            <select className="w-full border rounded px-3 py-2" value={profile.visibility.publicProfileEnabled ? 'yes' : 'no'} onChange={(e) => handleVisibilityChange('publicProfileEnabled', e.target.value === 'yes')}>
-              <option value="no">No</option>
-              <option value="yes">Yes</option>
-            </select>
-          </div>
-        </div>
-      )}
-
-      <div className="flex justify-between mt-8">
-        <button disabled={step === 0} onClick={handleBack} className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50">Back</button>
-        <button onClick={handleNext} className="px-4 py-2 bg-blue-600 text-white rounded">{step === steps.length - 1 ? 'Finish' : 'Next'}</button>
-      </div>
-    </div>
-)}
 
       {step === 5 && (
         <div className="space-y-6 bg-gray-50 border border-gray-200 rounded-lg p-6">
           <h2 className="text-xl font-semibold">Review Your Profile</h2>
+
+          <div className="mb-4">
+            <span
+              className={`inline-block px-3 py-1 text-sm font-semibold rounded-full text-white`}
+              style={{
+                backgroundColor:
+                  profile.flag === 'forest green' ? '#3E6B2F' :
+                  profile.flag === 'lime green' ? '#A4DE02' :
+                  profile.flag === 'sunshine yellow' ? '#F9D923' :
+                  profile.flag === 'hell boy red' ? '#A10D0D' : '#888'
+              }}
+            >
+              {profile.flag}
+            </span>
+          </div>
+
           <pre className="bg-white border text-sm rounded p-4 overflow-auto">
             {JSON.stringify(profile, null, 2)}
           </pre>
-          <p className="text-sm text-gray-500 italic">(This is a preview of your full profile as it will be saved. You’ll be able to edit later.)</p>
+
+          <div>
+            <label className="block font-medium mb-2">
+              What are you most proud of sharing in this profile?
+            </label>
+            <textarea
+              className="w-full border rounded px-3 py-2"
+              placeholder="Give yourself some love. You did this."
+              value={profile.selfReflection || ''}
+              onChange={(e) => handleChange('selfReflection', e.target.value)}
+            />
+          </div>
+
+          <p className="text-sm text-gray-500 italic">
+            (This is a preview of your full profile as it will be saved. You’ll be able to edit later.)
+          </p>
         </div>
       )}
 
       <div className="flex justify-between mt-8">
-        <button disabled={step === 0} onClick={handleBack} className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50">Back</button>
-        <button onClick={handleNext} className="px-4 py-2 bg-blue-600 text-white rounded">{step === steps.length - 1 ? 'Finish' : 'Next'}</button>
+        <button
+          disabled={step === 0}
+          onClick={handleBack}
+          className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50"
+        >
+          Back
+        </button>
+        <button
+          onClick={handleNext}
+          className="px-4 py-2 bg-blue-600 text-white rounded"
+        >
+          {step === steps.length - 1 ? 'Finish' : 'Next'}
+        </button>
       </div>
     </div>
   );
