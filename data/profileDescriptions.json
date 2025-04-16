@@ -108,7 +108,7 @@
       "totalRange": [280, 284],
       "categoryRule": "BS>RM>EF",
       "target": {"fluency": 100, "maturity": 90, "bs": 110},
-      "useGTE": true
+      "useGTE": false
     },
     {
       "name": "Earnest Explorer",
@@ -118,7 +118,7 @@
       "totalRange": [285, 289],
       "categoryRule": "EF<RM<BS",
       "target": {"fluency": 90, "maturity": 110, "bs": 100},
-      "useGTE": true
+      "useGTE": false
     },
     {
       "name": "Resilient Seeker",
@@ -128,7 +128,7 @@
       "totalRange": [290, 294],
       "categoryRule": "EF=RM=BS",
       "target": {"fluency": 98, "maturity": 98, "bs": 98},
-      "useGTE": true
+      "useGTE": false
     },
     {
       "name": "Spirited Believer",
@@ -138,7 +138,7 @@
       "totalRange": [295, 299],
       "categoryRule": "BS=RM=EF",
       "target": {"fluency": 90, "maturity": 100, "bs": 110},
-      "useGTE": true
+      "useGTE": false
     },
     {
       "name": "Rubber Ducky",
@@ -148,7 +148,7 @@
       "totalRange": [275, 279],
       "categoryRule": "EF<RM<BS",
       "target": {"fluency": 85, "maturity": 95, "bs": 105},
-      "useGTE": true
+      "useGTE": false
     },
     {
       "name": "Hopeful Idealist",
@@ -158,7 +158,7 @@
       "totalRange": [255, 259],
       "categoryRule": "EF>RM<BS",
       "target": {"fluency": 95, "maturity": 85, "bs": 105},
-      "useGTE": true
+      "useGTE": false
     },
     {
       "name": "Gentle Challenger",
@@ -168,7 +168,7 @@
       "totalRange": [260, 264],
       "categoryRule": "EF<RM>BS",
       "target": {"fluency": 85, "maturity": 105, "bs": 95},
-      "useGTE": true
+      "useGTE": false
     },
     {
       "name": "Playful Protector",
@@ -178,7 +178,7 @@
       "totalRange": [270, 274],
       "categoryRule": "EF=RM=BS",
       "target": {"fluency": 90, "maturity": 90, "bs": 90},
-      "useGTE": true
+      "useGTE": false
     },
     {
       "name": "Tender Tactician",
@@ -188,7 +188,7 @@
       "totalRange": [265, 269],
       "categoryRule": "BS>RM>EF",
       "target": {"fluency": 85, "maturity": 90, "bs": 100},
-      "useGTE": true
+      "useGTE": false
     },
     {
       "name": "Delicate Teacup",
