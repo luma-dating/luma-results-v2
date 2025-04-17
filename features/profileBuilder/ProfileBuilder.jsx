@@ -43,6 +43,7 @@ export default function ProfileBuilder() {
   const [isSaving, setIsSaving] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState(false);
   const [summaryTone, setSummaryTone] = useState('');
+  const [isEditingSummary, setIsEditingSummary] = useState(false);
 
   useEffect(() => {
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(profile));
@@ -50,9 +51,7 @@ export default function ProfileBuilder() {
 
   useEffect(() => {
     if (step === 5) {
-      // 💬 Auto-generate summary tone on final review
       const prompt = `Summarize this profile in one emotionally intelligent sentence: ${JSON.stringify(profile)}`;
-
       fetch('/api/gpt-summary', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -63,6 +62,21 @@ export default function ProfileBuilder() {
         .catch(() => setSummaryTone('You come across as emotionally grounded with a nuanced lens on growth.'));
     }
   }, [step, profile]);
+
+  const regenerateSummary = async () => {
+    const prompt = `Summarize this profile in one emotionally intelligent sentence: ${JSON.stringify(profile)}`;
+    try {
+      const res = await fetch('/api/gpt-summary', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt })
+      });
+      const data = await res.json();
+      setSummaryTone(data.summary);
+    } catch (err) {
+      setSummaryTone('Could not regenerate summary.');
+    }
+  };
 
   const handleNext = async () => {
     if (step === steps.length - 1) {
@@ -146,9 +160,7 @@ export default function ProfileBuilder() {
           ></div>
         </div>
 
-        <p className="text-sm italic text-green-700 mb-6">
-          {affirmations[step]}
-        </p>
+        <p className="text-sm italic text-green-700 mb-6">{affirmations[step]}</p>
 
         {step === 0 && (
           <div className="space-y-4">
@@ -206,12 +218,58 @@ export default function ProfileBuilder() {
         )}
 
         {step === 5 && (
-          <div className="space-y-6 bg-gray-50 border border-gray-200 rounded-lg p-6">
-            <h2 className="text-xl font-semibold">Review Your Profile</h2>
-
-            <p className="italic text-green-800 border-l-4 border-green-400 pl-4 py-2 bg-green-50 rounded">
-              {summaryTone || 'Generating summary...'}
-            </p>
+          <div className="relative space-y-2">
+            {isEditingSummary ? (
+              <>
+                <textarea
+                  className="w-full border rounded px-3 py-2 bg-green-50 text-green-900"
+                  value={summaryTone}
+                  onChange={(e) => setSummaryTone(e.target.value)}
+                />
+                <button
+                  onClick={() => setIsEditingSummary(false)}
+                  className="text-sm text-green-700 underline"
+                >
+                  ✅ Save
+                </button>
+              </>
+            ) : (
+              <>
+                <p
+                  className="font-playfair text-lg leading-snug rounded px-4 py-3 text-white shadow-md transition-all"
+                  style={{
+                    background: (() => {
+                      switch (profile.flag) {
+                        case 'forest green': return 'linear-gradient(90deg, #3E6B2F, #5B8F3D)';
+                        case 'lime green': return 'linear-gradient(90deg, #A4DE02, #C5F529)';
+                        case 'sunshine yellow': return 'linear-gradient(90deg, #F9D923, #FFE45E)';
+                        case 'lemon yellow': return 'linear-gradient(90deg, #FFF685, #FAFBA3)';
+                        case 'orange': return 'linear-gradient(90deg, #FFA500, #FFBF69)';
+                        case 'brick red': return 'linear-gradient(90deg, #B22222, #D94F4F)';
+                        case 'hell boy red': return 'linear-gradient(90deg, #A10D0D, #D83232)';
+                        default: return 'linear-gradient(90deg, #6E7F63, #A1A1A1)';
+                      }
+                    })()
+                  }}
+                >
+                  {summaryTone || 'Generating summary...'}
+                </p>
+                <div className="flex gap-4 mt-2">
+                  <button
+                    onClick={regenerateSummary}
+                    className="px-4 py-1 bg-lime-600 text-white text-sm rounded hover:bg-lime-700 transition"
+                  >
+                    🔁 Regenerate
+                  </button>
+                  <button
+                    onClick={() => setIsEditingSummary(true)}
+                    className="text-sm text-green-700 underline"
+                  >
+                    ✏️ Edit
+                  </button>
+                </div>
+              </>
+            )}
 
             <pre className="bg-white border text-sm rounded p-4 overflow-auto">
               {JSON.stringify(profile, null, 2)}
