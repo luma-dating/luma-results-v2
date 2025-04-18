@@ -48,4 +48,6 @@ export default function ScoreRedirect() {
       </div>
     </main>
   );
+  export { scoreQuiz, calculateAttachmentStyle, matchProfileWithWiggleRoom };
+  );
 }
