@@ -34,7 +34,7 @@ const questions = [
   "gender": "false",
   "trauma": "false",
   "attachment": "secure",
-  "specialScoring": "midRangePenaltysecureBoost”
+  "specialScoring": "midRangePenaltysecureBoost"
 },
 {
     "id": "Q13",
