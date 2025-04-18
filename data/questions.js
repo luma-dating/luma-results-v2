@@ -1,15 +1,12 @@
-// data/questions.js
-
 const questions = [
-  [
     {
     "id": "Q9",
     "text": "I can name what I’m feeling, even when it’s more than one thing at a time.",
     "reverse": false,
     "gender": false,
     "trauma": false,
-    "attachment": “secure”,
-    “specialScoring”: “secureBoost”
+    "attachment": "secure",
+    "specialScoring": "secureBoost"
   },
   {
     "id": "Q10",
@@ -17,8 +14,8 @@ const questions = [
     "reverse": false,
     "gender": false,
     "trauma": false,
-    "attachment": “secure”,
-    “specialScoring”: “secureBoost”
+    "attachment": "secure”,
+    "specialScoring": "secureBoost"
   },
   {
     "id": "Q11",
@@ -27,7 +24,7 @@ const questions = [
     "gender": false,
     "trauma": false,
     "attachment": "avoidant",
-    “specialScoring”: “avoidantBoost”
+    "specialScoring": "avoidantBoost"
   },
  {
   "id": "Q12",
@@ -35,7 +32,7 @@ const questions = [
   "reverse": false,
   "gender": false,
   "trauma": false,
-  "attachment": “secure”,
+  "attachment": "secure",
   "specialScoring": "midRangePenaltysecureBoost”
 },
 {
@@ -45,7 +42,7 @@ const questions = [
     "gender": true,
     "trauma": false,
     "attachment": "secure",
-    “specialScoring”: “secureBoost”
+    "specialScoring": "secureBoost"
   },
  {
     "id": "Q14",
@@ -53,8 +50,8 @@ const questions = [
     "reverse": false,
     "gender": false,
     "trauma": false,
-     "attachment": "secure",
-    “specialScoring”: “secureBoost”
+    "attachment": "secure”,
+    "specialScoring": "secureBoost"
   },  
 {
     "id": "Q15",
@@ -62,8 +59,8 @@ const questions = [
     "reverse": true,
     "gender": false,
     "trauma": false,
-     "attachment": "secure",
-    “specialScoring”: “secureBoost”
+    "attachment": "secure”,
+    "specialScoring": "secureBoost"
   },
  {
     "id": "Q16",
@@ -71,8 +68,8 @@ const questions = [
     "reverse": false,
     "gender": false,
     "trauma": false,
-     "attachment": "secure",
-    “specialScoring”: “secureBoost”
+    "attachment": "secure”,
+    "specialScoring": "secureBoost"
   },
 {
     "id": "Q17",
@@ -80,8 +77,8 @@ const questions = [
     "reverse": false,
     "gender": false,
     "trauma": false,
-      "attachment": "secure",
-    “specialScoring”: “secureBoost”
+     "attachment": "secure”,
+    "specialScoring": "secureBoost"
   },
   {
     "id": "Q18",
@@ -89,8 +86,8 @@ const questions = [
     "reverse": false,
     "gender": false,
     "trauma": false,
-      "attachment": "secure",
-    “specialScoring”: “secureBoost”
+    "attachment": "secure”,
+    "specialScoring": "secureBoost"
   },
   {
     "id": "Q19",
@@ -98,8 +95,8 @@ const questions = [
     "reverse": false,
     "gender": false,
     "trauma": false,
-     "attachment": "secure",
-    “specialScoring”: “secureBoost”
+     "attachment": "secure”,
+    "specialScoring": "secureBoost"
   },
   {
     "id": "Q20",
@@ -107,8 +104,8 @@ const questions = [
     "reverse": false,
     "gender": false,
     "trauma": false,
-      "attachment": "secure",
-    “specialScoring”: “secureBoost”
+   "attachment": "secure”,
+    "specialScoring": "secureBoost"
   },
   {
     "id": "Q21",
@@ -116,8 +113,8 @@ const questions = [
     "reverse": false,
     "gender": false,
     "trauma": false,
-      "attachment": "secure",
-    “specialScoring”: “secureBoost”
+     "attachment": "secure”,
+    "specialScoring": "secureBoost"
   },
   {
     "id": "Q22",
@@ -125,8 +122,8 @@ const questions = [
     "reverse": false,
     "gender": false,
     "trauma": false,
-      "attachment": "secure",
-    “specialScoring”: “secureBoost”
+    "attachment": "secure”,
+    "specialScoring": "secureBoost"
   },
   {
     "id": "Q23",
@@ -134,8 +131,8 @@ const questions = [
     "reverse": false,
     "gender": false,
     "trauma": false,
-      "attachment": "secure",
-    “specialScoring”: “secureBoost”
+     "attachment": "secure”,
+    "specialScoring": "secureBoost"
   },
   {
     "id": "Q24",
@@ -144,7 +141,7 @@ const questions = [
     "gender": false,
     "trauma": true,
     "attachment": "avoidant",
-    “specialScoring”: “avoidantBoost”
+    "specialScoring": "avoidantBoost"
   },
  {
   "id": "Q25",
@@ -161,8 +158,8 @@ const questions = [
     "reverse": false,
     "gender": false,
     "trauma": true,
-      "attachment": "secure",
-    “specialScoring”: “secureBoost”
+     "attachment": "secure”,
+    "specialScoring": "secureBoost"
   },
   {
     "id": "Q27",
@@ -170,8 +167,8 @@ const questions = [
     "reverse": false,
     "gender": false,
     "trauma": false,
-      "attachment": "secure",
-    “specialScoring”: “secureBoost”
+     "attachment": "secure”,
+    "specialScoring": "secureBoost"
   },
   {
     "id": "Q28",
@@ -179,8 +176,8 @@ const questions = [
     "reverse": false,
     "gender": false,
     "trauma": false,
-    "attachment": "secure",
-    “specialScoring”: “secureBoost”
+   "attachment": "secure”,
+    "specialScoring": "secureBoost"
   },
 {
     "id": "Q29",
@@ -188,8 +185,8 @@ const questions = [
     "reverse": false,
     "gender": false,
     "trauma": false,
-      "attachment": "secure",
-    “specialScoring”: “secureBoost”
+     "attachment": "secure”,
+    "specialScoring": "secureBoost"
   },  
 {
     "id": "Q30",
@@ -197,8 +194,8 @@ const questions = [
     "reverse": false,
     "gender": false,
     "trauma": false,
-      "attachment": "secure",
-    “specialScoring”: “secureBoost”
+    "attachment": "secure”,
+    "specialScoring": "secureBoost"
   },
   {
     "id": "Q31",
@@ -206,8 +203,8 @@ const questions = [
     "reverse": false,
     "gender": false,
     "trauma": false,
-      "attachment": "secure",
-    “specialScoring”: “secureBoost”
+    "attachment": "secure”,
+    "specialScoring": "secureBoost"
   },
   {
     "id": "Q32",
@@ -216,7 +213,7 @@ const questions = [
     "gender": true,
     "trauma": false,
     "attachment": "avoidant",
-    “specialScoring”: “avoidantBoost”
+    "specialScoring": "avoidantBoost"
   }
   {
     "id": "Q33",
@@ -224,8 +221,8 @@ const questions = [
     "reverse": false,
     "gender": false,
     "trauma": false,
-      "attachment": "secure",
-    “specialScoring”: “secureBoost”
+    "attachment": "secure”,
+    "specialScoring": "secureBoost"
   },
   {
     "id": "Q34",
@@ -242,8 +239,8 @@ const questions = [
     "reverse": false,
     "gender": false,
     "trauma": false,
-    "attachment": "secure",
-    “specialScoring”: “secureBoost”
+   "attachment": "secure”,
+    "specialScoring": "secureBoost"
   },
   {
     "id": "Q36",
@@ -252,7 +249,7 @@ const questions = [
     "gender": false,
     "trauma": false,
     "attachment": "avoidant",
-   “specialScoring”: “avoidantBoost”
+   "specialScoring": "avoidantBoost"
   }
   {
     "id": "Q37",
@@ -260,8 +257,8 @@ const questions = [
     "reverse": false,
     "gender": false,
     "trauma": false,
-      "attachment": "secure",
-    “specialScoring”: “secureBoost”
+   "attachment": "secure”,
+    "specialScoring": "secureBoost"
   },
   {
     "id": "Q38",
@@ -269,8 +266,8 @@ const questions = [
     "reverse": true,
     "gender": true,
     "trauma": true,
-      "attachment": "secure",
-    “specialScoring”: “secureBoost”
+   "attachment": "secure”,
+    "specialScoring": "secureBoost"
   },
   {
     "id": "Q39",
@@ -278,8 +275,8 @@ const questions = [
     "reverse": false,
     "gender": true,
     "trauma": false,
-     "attachment": "secure",
-    “specialScoring”: “secureBoost”
+     "attachment": "secure”,
+    "specialScoring": "secureBoost"
   },
   {
     "id": "Q40",
@@ -287,8 +284,8 @@ const questions = [
     "reverse": false,
     "gender": false,
     "trauma": false,
-      "attachment": "secure",
-    “specialScoring”: “secureBoost”
+    "attachment": "secure”,
+    "specialScoring": "secureBoost"
   },
  {
     "id": "Q41",
@@ -297,7 +294,7 @@ const questions = [
     "gender": false,
     "trauma": false,
     "attachment": "avoidant",
-    “specialScoring”: “avoidantBoost”
+    "specialScoring": "avoidantBoost"
   }
   {
     "id": "Q42",
@@ -305,8 +302,8 @@ const questions = [
     "reverse": false,
     "gender": false,
     "trauma": false,
-      "attachment": "secure",
-    “specialScoring”: “secureBoost”
+    "attachment": "secure”,
+    "specialScoring": "secureBoost"
   },
   {
     "id": "Q43",
@@ -314,8 +311,8 @@ const questions = [
     "reverse": true,
     "gender": false,
     "trauma": true,
-      "attachment": "secure",
-    “specialScoring”: “secureBoost”
+    "attachment": "secure”,
+    "specialScoring": "secureBoost"
   },
   {
     "id": "Q44",
@@ -323,197 +320,197 @@ const questions = [
     "reverse": false,
     "gender": false,
     "trauma": false,
-     "attachment": "secure",
-    “specialScoring”: “secureBoost”
+    "attachment": "secure”,
+    "specialScoring": "secureBoost"
   },
   {
     "id": "Q45",
     "text": "I’ve tried to ‘fix’ someone I was dating instead of accepting them.",
-    "reverse": true,
-    "gender": true,
-    "trauma": false,
+    "reverse": "true",
+    "gender": "true",
+    "trauma": "false",
+    "attachment": "secure”,
+    "specialScoring": "secureBoost"
+  },
+  {
+    "id": "Q46",
+    "text": "I find it hard to uphold boundaries when someone is upset with me or my boundaries.",
+    "reverse": "true",
+    "gender": "false",
+    "trauma": "false",
+    "attachment": "anxious",
+    "specialScoring": "anxiousBoost"
+  },
+  {
+    "id": "Q47",
+    "text": "I’ve said yes when I meant no, just to avoid a hard conversation.",
+    "reverse": "true",
+    "gender": "true",
+    "trauma": "false",
+    "attachment": "anxious",
+    "specialScoring": "anxiousBoost"
+  },
+  {
+    "id": "Q48",
+    "text": "When a relationship ends, I take time to reflect and grow before moving on.",
+    "reverse": "false",
+    "gender": "false",
+    "trauma": "false",
     "attachment": "secure",
-    “specialScoring”: “secureBoost”
+    "specialScoring": "secureBoost"
   },
   {
-    id: "Q46",
-    text: "I find it hard to uphold boundaries when someone is upset with me or my boundaries.",
-    reverse: true,
-    gender: false,
-    trauma: false,
-    attachment: "anxious",
-    specialScoring: "anxiousBoost"
+    "id": "Q49",
+    "text": "I often feel like too many people 'get their feelings hurt' these days and think they need to toughen up.",
+    "reverse": "true",
+    "gender": "false",
+    "trauma": "false",
+    "attachment": "avoidant",
+    "specialScoring": "avoidantBoost"
   },
   {
-    id: "Q47",
-    text: "I’ve said yes when I meant no, just to avoid a hard conversation.",
-    reverse: true,
-    gender: true,
-    trauma: false,
-    attachment: "anxious",
-    specialScoring: "anxiousBoost"
+    "id": "Q50",
+    "text": "I boast about my emotional intelligence to impress people when we first meet.",
+    "reverse": "true",
+    "gender": "false",
+    "trauma": "false",
+    "attachment": "anxious",
+    "specialScoring": "anxiousBoost"
   },
   {
-    id: "Q48",
-    text: "When a relationship ends, I take time to reflect and grow before moving on.",
-    reverse: false,
-    gender: false,
-    trauma: false,
-    attachment: "secure",
-    specialScoring: "secureBoost"
+    "id": "Q51",
+    "text": "I tend to overstep with loved ones as I believe I know their needs better.",
+    "reverse": "true",
+    "gender": "false",
+    "trauma": "false",
+    "attachment": "anxious",
+    "specialScoring": "anxiousBoost"
   },
   {
-    id: "Q49",
-    text: "I often feel like too many people 'get their feelings hurt' these days and think they need to toughen up.",
-    reverse: true,
-    gender: false,
-    trauma: false,
-    attachment: "avoidant",
-    specialScoring: "avoidantBoost"
+    "id": "Q52",
+    "text": "I've prematurely ended a relationship without explanation to protect someone's feelings.",
+    "reverse": "true",
+    "gender": "false",
+    "trauma": "false",
+    "attachment": "avoidant",
+    "specialScoring": "avoidantBoost"
   },
   {
-    id: "Q50",
-    text: "I boast about my emotional intelligence to impress people when we first meet.",
-    reverse: true,
-    gender: false,
-    trauma: false,
-    attachment: "anxious",
-    specialScoring: "anxiousBoost"
+    "id": "Q53",
+    "text": "I think that people who have strong boundaries are just emotionally hiding themselves out of fear.",
+    "reverse": "true",
+    "gender": "false",
+    "trauma": "false",
+    "attachment": "avoidant",
+    "specialScoring": "avoidantBoost"
   },
   {
-    id: "Q51",
-    text: "I tend to overstep with loved ones as I believe I know their needs better.",
-    reverse: true,
-    gender: false,
-    trauma: false,
-    attachment: "anxious",
-    specialScoring: "anxiousBoost"
+    "id": "Q54",
+    "text": "I think that I only attract people who don't know how to love me well.",
+    "reverse": "true",
+    "gender": "true",
+    "trauma": "false",
+    "attachment": "anxious",
+    "specialScoring": "anxiousBoost"
   },
   {
-    id: "Q52",
-    text: "I've prematurely ended a relationship without explanation to protect someone's feelings.",
-    reverse: true,
-    gender: false,
-    trauma: false,
-    attachment: "avoidant",
-    specialScoring: "avoidantBoost"
+    "id": "Q55",
+    "text": "I need people to tend to my emotional needs first, even if they've expressed not having the capacity.",
+    "reverse": "true",
+    "gender": "false",
+    "trauma": "false",
+    "attachment": "anxious",
+    "specialScoring": "anxiousBoost"
   },
   {
-    id: "Q53",
-    text: "I think that people who have strong boundaries are just emotionally hiding themselves out of fear.",
-    reverse: true,
-    gender: false,
-    trauma: false,
-    attachment: "avoidant",
-    specialScoring: "avoidantBoost"
+    "id": "Q56",
+    "text": "On a first date I make sure that people know I was not the crazy one in my last relationship.",
+    "reverse": "true",
+    "gender": "false",
+    "trauma": "false",
+    "attachment": "avoidant",
+    "specialScoring": "avoidantBoost"
   },
   {
-    id: "Q54",
-    text: "I think that I only attract people who don't know how to love me well.",
-    reverse: true,
-    gender: true,
-    trauma: false,
-    attachment: "anxious",
-    specialScoring: "anxiousBoost"
+    "id": "Q57",
+    "text": "I find myself testing people in different ways because I'm worried they'll leave me.",
+    "reverse": "true",
+    "gender": "false",
+    "trauma": "false",
+    "attachment": "anxious",
+    "specialScoring": "anxiousBoost"
   },
   {
-    id: "Q55",
-    text: "I need people to tend to my emotional needs first, even if they've expressed not having the capacity.",
-    reverse: true,
-    gender: false,
-    trauma: false,
-    attachment: "anxious",
-    specialScoring: "anxiousBoost"
+    "id": "Q58",
+    "text": "I think that I'm more emotionally intelligent than any of my exes.",
+    "reverse": "true",
+    "gender": "false",
+    "trauma": "false",
+    "attachment": "avoidant",
+    "specialScoring": "avoidantBoost"
   },
   {
-    id: "Q56",
-    text: "On a first date I make sure that people know I was not the crazy one in my last relationship.",
-    reverse: true,
-    gender: false,
-    trauma: false,
-    attachment: "avoidant",
-    specialScoring: "avoidantBoost"
+    "id": "Q59",
+    "text": "I’ve apologized just to end a conversation, not because I meant it.",
+    "reverse": "true",
+    "gender": "true",
+    "trauma": "false",
+    "attachment": "anxious",
+    "specialScoring": "anxiousBoost"
   },
   {
-    id: "Q57",
-    text: "I find myself testing people in different ways because I'm worried they'll leave me.",
-    reverse: true,
-    gender: false,
-    trauma: false,
-    attachment: "anxious",
-    specialScoring: "anxiousBoost"
+    "id": "Q60",
+    "text": "I’ve kept people around emotionally just in case I want them later.",
+    "reverse": "true",
+    "gender": "false",
+    "trauma": "false",
+    "attachment": "avoidant",
+    "specialScoring": "avoidantBoost"
   },
   {
-    id: "Q58",
-    text: "I think that I'm more emotionally intelligent than any of my exes.",
-    reverse: true,
-    gender: false,
-    trauma: false,
-    attachment: "avoidant",
-    specialScoring: "avoidantBoost"
+    "id": "Q61",
+    "text": "If someone needs space, I push harder to stay connected.",
+    "reverse": "true",
+    "gender": "false",
+    "trauma": "false",
+    "attachment": "anxious",
+    "specialScoring": "anxiousBoost"
   },
   {
-    id: "Q59",
-    text: "I’ve apologized just to end a conversation, not because I meant it.",
-    reverse: true,
-    gender: true,
-    trauma: false,
-    attachment: "anxious",
-    specialScoring: "anxiousBoost"
+    "id": "Q62",
+    "text": "I’ve gotten angry when someone asked for space.",
+    "reverse": "true",
+    "gender": "false",
+    "trauma": "false",
+    "attachment": "anxious",
+    "specialScoring": "anxiousBoost"
   },
   {
-    id: "Q60",
-    text: "I’ve kept people around emotionally just in case I want them later.",
-    reverse: true,
-    gender: false,
-    trauma: false,
-    attachment: "avoidant",
-    specialScoring: "avoidantBoost"
+    "id": "Q63",
+    "text": "I can be dismissive without realizing it.",
+    "reverse": "true",
+    "gender": "false",
+    "trauma": "false",
+    "attachment": "avoidant",
+    "specialScoring": "avoidantBoost"
   },
   {
-    id: "Q61",
-    text: "If someone needs space, I push harder to stay connected.",
-    reverse: true,
-    gender: false,
-    trauma: false,
-    attachment: "anxious",
-    specialScoring: "anxiousBoost"
+    "id": "Q64",
+    "text": "I sometimes get emotionally activated but mask it under logic.",
+    "reverse": "true",
+    "gender": "false",
+    "trauma": "true",
+    "attachment": "avoidant",
+    "specialScoring": "avoidantBoost"
   },
   {
-    id: "Q62",
-    text: "I’ve gotten angry when someone asked for space.",
-    reverse: true,
-    gender: false,
-    trauma: false,
-    attachment: "anxious",
-    specialScoring: "anxiousBoost"
-  },
-  {
-    id: "Q63",
-    text: "I can be dismissive without realizing it.",
-    reverse: true,
-    gender: false,
-    trauma: false,
-    attachment: "avoidant",
-    specialScoring: "avoidantBoost"
-  },
-  {
-    id: "Q64",
-    text: "I sometimes get emotionally activated but mask it under logic.",
-    reverse: true,
-    gender: false,
-    trauma: true,
-    attachment: "avoidant",
-    specialScoring: "avoidantBoost"
-  },
-  {
-    id: "Q65",
-    text: "I crave emotional closeness, but when I get it, I feel scared and unsure of what to do.",
-    reverse: true,
-    gender: false,
-    trauma: true,
-    attachment: "avoidant",
-    specialScoring: "avoidantBoost"
+    "id": "Q65",
+    "text": "I crave emotional closeness, but when I get it, I feel scared and unsure of what to do.",
+    "reverse": "true",
+    "gender": "false",
+    "trauma": "true",
+    "attachment": "avoidant",
+    "specialScoring": "avoidantBoost"
   }
 ];
 
