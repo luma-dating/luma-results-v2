@@ -1,53 +1,41 @@
-import { useEffect } from 'react';
-import { useRouter } from 'next/router';
-import { scoreQuiz, matchProfileWithWiggleRoom } from '@/data/scoring';
+// data/scoring.js
 
-export default function ScoreRedirect() {
-  const router = useRouter();
+export function calculateAttachmentStyle(qs = []) {
+  if (!Array.isArray(qs) || qs.length !== 6) return null;
+  const total = qs.reduce((sum, val) => sum + (parseInt(val, 10) || 0), 0);
+  return { score: total }; // placeholder logic, adjust to match your actual style calculation
+}
 
-  useEffect(() => {
-    if (!router.isReady) return;
+export function scoreQuiz(responses = {}, gender = '', trauma = false) {
+  let fluency = 0;
+  let maturity = 0;
+  let bs = 0;
 
-    const query = router.query;
-    const responses = {};
-    let gender = '';
-    let trauma = false;
+  const attachment = {
+    secure: 0,
+    anxious: 0,
+    avoidant: 0,
+    disorganized: 0
+  };
 
-    Object.keys(query).forEach((key) => {
-      if (key.startsWith('Q')) {
-        responses[key] = parseInt(query[key], 10);
-      } else if (key === 'gender') {
-        gender = query[key];
-      } else if (key === 'trauma') {
-        trauma = query[key] === 'true';
-      }
-    });
+  // This is where your real logic goes
+  // You can simplify or copy from your current implementation
 
-    const { fluency, maturity, bs, total, attachmentStyle } = scoreQuiz(responses, gender, trauma);
+  const total = fluency + maturity + bs;
+  const attachmentStyle = 'anxious'; // placeholder result
 
-    const attachmentQuestions = ['Q13', 'Q14', 'Q15', 'Q16', 'Q17', 'Q18'];
-    const attachmentValues = attachmentQuestions.map((q) => responses[q] || 0);
-    const attachmentScoreObj = calculateAttachmentStyle(attachmentValues);
+  return { fluency, maturity, bs, total, attachmentStyle };
+}
 
-    const result = matchProfileWithWiggleRoom(fluency, maturity, bs, attachmentScoreObj?.score || 0, total);
-
-    const topParams = result.topThree?.map((p, i) =>
-      `alt${i + 1}=${encodeURIComponent(p.name)}&alt${i + 1}Flag=${encodeURIComponent(p.flag)}`
-    ).join('&') || '';
-
-    const redirectUrl = `/result/${encodeURIComponent(result.profile)}?fluency=${fluency}&maturity=${maturity}&bs=${bs}&total=${total}&flag=${result.flag}&attachment=${encodeURIComponent(attachmentStyle || '')}&${topParams}`;
-
-    router.replace(redirectUrl);
-  }, [router]);
-
-  return (
-    <main className="min-h-screen flex items-center justify-center bg-white text-center p-6">
-      <div>
-        <h1 className="text-xl font-semibold">Scoring your results...</h1>
-        <p className="text-gray-500 mt-2">Please wait a moment.</p>
-      </div>
-    </main>
-  );
-  export { scoreQuiz, calculateAttachmentStyle, matchProfileWithWiggleRoom };
-  );
+export function matchProfileWithWiggleRoom(fluency, maturity, bs, attachmentScore = 0, total = 0) {
+  // Placeholder logic – replace with actual matching rules
+  return {
+    profile: 'The Curious Explorer',
+    flag: 'lime green',
+    topThree: [
+      { name: 'The Curious Explorer', flag: 'lime green' },
+      { name: 'The Soft Void', flag: 'brick red' },
+      { name: 'Mystery Human', flag: 'gray' }
+    ]
+  };
 }
