@@ -33,9 +33,14 @@ export default function ResultCard({
   );
   const flagClass = flagColors[colorKey] || 'bg-gray-100 text-luma-textPrimary';
 
-  const flagDescriptionEntry = profileData.flagDescriptions?.find(
-    (entry) => entry.flag.toLowerCase() === flag?.toLowerCase()
-  );
+  const flagDescriptionEntry = Array.isArray(profileData.flagDescriptions)
+  ? profileData.flagDescriptions.find(
+      (entry) =>
+        entry?.flag &&
+        flag &&
+        entry.flag.toLowerCase() === flag.toLowerCase()
+    )
+  : null;
 
   return (
     <section className={`max-w-xl w-full shadow-xl rounded-2xl p-8 ${flagClass} font-body`}>
@@ -44,11 +49,11 @@ export default function ResultCard({
         Flag: <span className="capitalize">{flag}</span>
       </p>
 
-      {flagDescriptionEntry && (
-        <p className="italic text-sm mb-4 text-luma-accentText">
-          {flagDescriptionEntry.description}
-        </p>
-      )}
+     {flagDescriptionEntry?.description && (
+  <p className="italic text-sm mb-4 text-luma-accentText">
+    {flagDescriptionEntry.description}
+  </p>
+)}
 
       {profileTagline && (
         <p className="italic text-luma-accentText mb-6">{profileTagline}</p>
