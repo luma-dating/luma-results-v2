@@ -13,14 +13,9 @@ export default function ResultCard({
   const profileEntry = profileData.profiles?.[profile];
 
   const profileDescription =
-    profileEntry?.description ||
-    description ||
-    'No description available.';
+    profileEntry?.description || description || 'No description available.';
 
-  const profileTagline =
-    profileEntry?.tagline ||
-    tagline ||
-    '';
+  const profileTagline = profileEntry?.tagline || tagline || '';
 
   const flagColors = {
     'forest green': 'bg-luma-evergreen text-white',
@@ -58,7 +53,7 @@ export default function ResultCard({
       {profileTagline && (
         <p className="italic text-luma-accentText mb-6">{profileTagline}</p>
       )}
-      {(
+
       <div className="mb-8">
         <h2 className="text-xl font-semibold mb-2 text-luma-evergreen">Your Scores</h2>
         <ul className="space-y-1">
@@ -68,10 +63,13 @@ export default function ResultCard({
           <li>Total Score: <strong>{scores.total}</strong></li>
         </ul>
       </div>
-      )}
+
       {attachmentStyle && (
         <div className="mb-8">
           <h2 className="text-xl font-semibold mb-2 text-luma-evergreen">Attachment Style</h2>
           <p>{attachmentStyle}</p>
         </div>
       )}
+    </section>
+  );
+}
