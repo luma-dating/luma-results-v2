@@ -72,34 +72,45 @@ export function scoreQuiz(responses = {}, gender = '', trauma = false) {
 
     let score = q.reverse ? 6 - val : val;
 
-    // Adjust for gender-based leniency
     if (q.gender && ['female', 'non-binary', 'trans female'].includes(gender.toLowerCase())) {
       score += 1;
     }
 
-    // Trauma baseline uplift
     if (trauma && q.trauma) {
       score += 1;
     }
 
-    if (q.specialScoring === 'midRangePenalty' && val >= 3 && val <= 4) {
-      bs -= 1;
-    }
-    if (q.specialScoring === 'anxiousTrigger') {
-      attachment.anxious += score <= 2 ? 1 : 0;
-    }
-    if (q.specialScoring === 'lowScoreAnxiousBoost') {
-      if (score <= 3) attachment.anxious += 1;
+    switch (q.specialScoring) {
+      case 'midRangePenalty':
+        if (val >= 3 && val <= 4) bs -= 1;
+        break;
+      case 'anxiousTrigger':
+        attachment.anxious += score <= 2 ? 1 : 0;
+        break;
+      case 'lowScoreAnxiousBoost':
+        if (score <= 3) attachment.anxious += 1;
+        break;
+      case 'avoidantPenalty':
+        if (score <= 2) attachment.avoidant += 2;
+        break;
+      case 'secureBoost':
+        if (score >= 5) attachment.secure += 1;
+        break;
+      case 'disorganizedSignal':
+        if (score >= 5) attachment.disorganized += 2;
+        break;
+      default:
+        break;
     }
 
-    // Apply category scoring
     if (q.attachment && attachment[q.attachment] !== undefined) {
       attachment[q.attachment] += score;
     }
 
-    if (q.id && q.id < 'Q22') fluency += score;
-    else if (q.id >= 'Q22' && q.id < 'Q42') maturity += score;
-    else bs += score;
+    const qNum = parseInt(q.id.replace('Q', ''), 10);
+    if (qNum >= 9 && qNum <= 31) fluency += score;
+    else if (qNum >= 32 && qNum <= 50) maturity += score;
+    else if (qNum >= 51 && qNum <= 65) bs += score;
   });
 
   const total = fluency + maturity + bs;
