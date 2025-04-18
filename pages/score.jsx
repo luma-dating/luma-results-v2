@@ -1,70 +1,171 @@
-// pages/score.js
-import React from 'react';
-import { useEffect } from 'react';
-import { useRouter } from 'next/router';
-import { matchProfileWithWiggleRoom, calculateAttachmentStyle } from '@/data/scoring';
+// data/score.js
 
-export default function ScoreRedirect() {
-  const router = useRouter();
+import attachmentProfiles from '@/data/attachmentProfiles';
+import rawDescriptions from '@/data/profileDescriptions';
+import questions from '@/data/questions';
 
-  useEffect(() => {
-    if (!router.isReady) return;
+const profileDescriptions = typeof rawDescriptions?.default === 'object'
+  ? rawDescriptions.default
+  : rawDescriptions;
 
-    const query = router.query;
+export function calculateAttachmentStyle(qs = []) {
+  if (!Array.isArray(qs) || qs.length !== 6) return null;
+  const total = qs.reduce((sum, val) => sum + (parseInt(val, 10) || 0), 0);
+  return attachmentProfiles.find(({ range }) => total >= range[0] && total <= range[1]) || null;
+}
 
-    // Adjusted: Typeform Q9 is our index 0 (Q1–Q8 are metadata or T/F)
-    const values = Array.from({ length: 57 }, (_, i) => {
-      const key = `Q${i + 9}`; // Start at Q9
-      return parseInt(query[key] || 0, 10);
-    });
+function getFallbackProfile(totalScore, profiles) {
+  const fallbackTiers = [
+    { min: 325, flag: 'forest green' },
+    { min: 300, flag: 'lime green' },
+    { min: 275, flag: 'sunshine yellow' },
+    { min: 250, flag: 'orange' },
+    { min: 200, flag: 'brick red' },
+    { min: 150, flag: 'hell boy red' }
+  ];
+  const tier = fallbackTiers.find(t => totalScore >= t.min);
+  if (!tier) {
+    return {
+      profile: 'The Soft Void',
+      flag: 'hell boy red',
+      topThree: []
+    };
+  }
+  const fallback = profiles
+    .filter(p => p.flag === tier.flag && p.totalRange)
+    .sort((a, b) => (a.totalRange[0] || 0) - (b.totalRange[0] || 0))[0];
+  if (fallback) {
+    return {
+      profile: fallback.name,
+      flag: fallback.flag,
+      topThree: []
+    };
+  }
+  return {
+    profile: 'Mystery Human',
+    flag: tier.flag,
+    topThree: []
+  };
+}
 
-    // Optional: force skip values for certain misbehaving questions
-    const skipIndexes = []; // Add any bad questions here
-    skipIndexes.forEach(i => values[i] = 0);
+export function scoreQuiz(responses = {}, gender = '', trauma = false) {
+  let fluency = 0;
+  let maturity = 0;
+  let bs = 0;
+  let attachment = {
+    secure: 0,
+    anxious: 0,
+    avoidant: 0,
+    disorganized: 0
+  };
 
-    const reverseIndexes = [
-      0, 2, 4, 7, 10, 13, 15, 18, 20, 21, 22, 23,
-      24, 26, 28, 30, 31, 32, 33, 34, 35, 36, 37,
-      38, 39, 40, 41, 42, 43, 44, 45, 46,
-      47, 48, 49, 50, 51, 52, 53, 54, 55, 56
-    ];
+  questions.forEach((q) => {
+    const val = parseInt(responses[q.id], 10);
+    if (isNaN(val)) return;
+    let score = q.reverse ? 6 - val : val;
 
-    const reverseScore = (value) => Math.round((8 - value) * 0.85);
+    if (q.gender && ['female', 'non-binary', 'trans female'].includes(gender.toLowerCase())) {
+      score += 1;
+    }
+    if (trauma && q.trauma) {
+      score += 1;
+    }
 
-    const scoredAnswers = values.map((val, i) =>
-      reverseIndexes.includes(i) ? reverseScore(val) : val
-    );
+    if (q.specialScoring === 'midRangePenalty' && val >= 3 && val <= 4) {
+      bs -= 1;
+    }
+    if (q.specialScoring === 'anxiousTrigger') {
+      attachment.anxious += score <= 3 ? 1 : 0;
+    }
+    if (q.specialScoring === 'avoidantTrigger') {
+      attachment.avoidant += score <= 3 ? 1 : 0;
+    }
+    if (q.specialScoring === 'secureBoost') {
+      attachment.secure += score >= 5 ? 1 : 0;
+    }
+    if (q.specialScoring === 'disorganizedFlag') {
+      attachment.disorganized += score <= 3 ? 1 : 0;
+    }
+    if (q.specialScoring === 'lowScoreAnxiousBoost') {
+      if (score <= 3) attachment.anxious += 1;
+    }
 
-    const sum = (arr) =>
-      arr.reduce((acc, val) => acc + (typeof val === 'number' ? val : 0), 0);
+    if (q.attachment && attachment[q.attachment] !== undefined) {
+      attachment[q.attachment] += score;
+    }
 
-    const fluency = sum(scoredAnswers.slice(0, 19));
-    const maturity = sum(scoredAnswers.slice(19, 38));
-    const bs = sum(scoredAnswers.slice(38, 57));
-    const total = fluency + maturity + bs;
+    if (q.id && parseInt(q.id.replace('Q', '')) < 22) fluency += score;
+    else if (parseInt(q.id.replace('Q', '')) >= 22 && parseInt(q.id.replace('Q', '')) < 42) maturity += score;
+    else bs += score;
+  });
 
-    const attachmentIndexes = [10, 11, 12, 13, 14, 15];
-    const attachmentSlice = attachmentIndexes.map(i => scoredAnswers[i]);
-    const attachmentScore = sum(attachmentSlice);
-    const attachmentStyle = calculateAttachmentStyle(attachmentSlice);
+  const total = fluency + maturity + bs;
+  const topAttachment = Object.entries(attachment).sort((a, b) => b[1] - a[1])[0][0];
 
-    const result = matchProfileWithWiggleRoom(fluency, maturity, bs, attachmentScore, total);
+  return { fluency, maturity, bs, total, attachmentStyle: topAttachment };
+}
 
-    const topParams = result.topThree?.map((p, i) =>
-      `alt${i + 1}=${encodeURIComponent(p.name)}&alt${i + 1}Flag=${encodeURIComponent(p.flag)}`
-    ).join('&') || '';
+export function matchProfileWithWiggleRoom(
+  fluency,
+  maturity,
+  bs,
+  attachmentScore = 0,
+  total = 0
+) {
+  const scoredMatches = profileDescriptions.profiles.map((p) => {
+    const inTotalRange =
+      total >= (p.totalRange?.[0] || 0) &&
+      total <= (p.totalRange?.[1] || 1000);
 
-    const redirectUrl = `/result/${encodeURIComponent(result.profile)}?fluency=${fluency}&maturity=${maturity}&bs=${bs}&total=${total}&flag=${result.flag}&attachment=${encodeURIComponent(attachmentStyle?.name || '')}&${topParams}`;
+    const categoryMatch = (() => {
+      switch (p.categoryRule) {
+        case 'EF>RM<BS': return fluency > maturity && bs > maturity;
+        case 'EF<RM>BS': return fluency < maturity && bs < maturity;
+        case 'EF=RM=BS': return (
+          Math.abs(fluency - maturity) <= 10 &&
+          Math.abs(maturity - bs) <= 10
+        );
+        case 'BS>RM>EF': return bs > maturity && maturity > fluency;
+        case 'EF<RM<BS': return fluency < maturity && maturity < bs;
+        case 'BS>RM<EF': return bs > maturity && fluency > maturity;
+        case 'BS=RM=EF': return fluency === maturity && maturity === bs;
+        default: return true;
+      }
+    })();
 
-    router.replace(redirectUrl);
-  }, [router]);
+    let matchScore = 0;
+    if (inTotalRange) matchScore += 1;
+    if (categoryMatch) matchScore += 2;
 
-  return (
-    <main className="min-h-screen flex items-center justify-center bg-white text-center p-6">
-      <div>
-        <h1 className="text-xl font-semibold">Scoring your results...</h1>
-        <p className="text-gray-500 mt-2">Please wait a moment.</p>
-      </div>
-    </main>
-  );
+    return { ...p, matchScore };
+  });
+
+  const sortedMatches = scoredMatches.sort((a, b) => b.matchScore - a.matchScore);
+  const topThree = sortedMatches.slice(0, 3);
+  const bestMatch = topThree[0];
+
+  if (!bestMatch || bestMatch.matchScore < 2) {
+    return getFallbackProfile(total, profileDescriptions.profiles);
+  }
+
+  let adjustedFlag = bestMatch.flag;
+  if (total >= 350) adjustedFlag = 'forest green';
+
+  if (attachmentScore >= 23 && bestMatch.matchScore >= 2) {
+    const flagBoost = {
+      'hell boy red': 'brick red',
+      'brick red': 'orange',
+      'orange': 'lemon yellow',
+      'lemon yellow': 'sunshine yellow',
+      'sunshine yellow': 'lime green',
+      'lime green': 'forest green'
+    };
+    adjustedFlag = flagBoost[adjustedFlag] || adjustedFlag;
+  }
+
+  return {
+    profile: bestMatch.name,
+    flag: adjustedFlag,
+    topThree: topThree.map((p) => ({ name: p.name, flag: p.flag }))
+  };
 }
