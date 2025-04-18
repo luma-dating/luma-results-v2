@@ -1,172 +1,50 @@
-// data/score.js
+// pages/score.jsx
 
-import attachmentProfiles from '@/data/attachmentProfiles';
-import rawDescriptions from '@/data/profileDescriptions';
-import questions from '@/data/questions';
-import React from 'react';
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
+import { scoreQuiz, calculateAttachmentStyle, matchProfileWithWiggleRoom } from '@/lib/scoring'; // or '@/data/scoring' if that's where you're keeping it
 
-const profileDescriptions = typeof rawDescriptions?.default === 'object'
-  ? rawDescriptions.default
-  : rawDescriptions;
+export default function ScorePage() {
+  const router = useRouter();
 
-export function calculateAttachmentStyle(qs = []) {
-  if (!Array.isArray(qs) || qs.length !== 6) return null;
-  const total = qs.reduce((sum, val) => sum + (parseInt(val, 10) || 0), 0);
-  return attachmentProfiles.find(({ range }) => total >= range[0] && total <= range[1]) || null;
-}
+  useEffect(() => {
+    if (!router.isReady) return;
 
-function getFallbackProfile(totalScore, profiles) {
-  const fallbackTiers = [
-    { min: 325, flag: 'forest green' },
-    { min: 300, flag: 'lime green' },
-    { min: 275, flag: 'sunshine yellow' },
-    { min: 250, flag: 'orange' },
-    { min: 200, flag: 'brick red' },
-    { min: 150, flag: 'hell boy red' }
-  ];
-  const tier = fallbackTiers.find(t => totalScore >= t.min);
-  if (!tier) {
-    return {
-      profile: 'The Soft Void',
-      flag: 'hell boy red',
-      topThree: []
-    };
-  }
-  const fallback = profiles
-    .filter(p => p.flag === tier.flag && p.totalRange)
-    .sort((a, b) => (a.totalRange[0] || 0) - (b.totalRange[0] || 0))[0];
-  if (fallback) {
-    return {
-      profile: fallback.name,
-      flag: fallback.flag,
-      topThree: []
-    };
-  }
-  return {
-    profile: 'Mystery Human',
-    flag: tier.flag,
-    topThree: []
-  };
-}
+    const { query } = router;
 
-export function scoreQuiz(responses = {}, gender = '', trauma = false) {
-  let fluency = 0;
-  let maturity = 0;
-  let bs = 0;
-  let attachment = {
-    secure: 0,
-    anxious: 0,
-    avoidant: 0,
-    disorganized: 0
-  };
+    const responses = {};
+    let gender = '';
+    let trauma = false;
 
-  questions.forEach((q) => {
-    const val = parseInt(responses[q.id], 10);
-    if (isNaN(val)) return;
-    let score = q.reverse ? 6 - val : val;
+    Object.entries(query).forEach(([key, value]) => {
+      if (key.startsWith('Q')) responses[key] = parseInt(value, 10) || 0;
+      if (key === 'gender') gender = value;
+      if (key === 'trauma') trauma = value === 'true';
+    });
 
-    if (q.gender && ['female', 'non-binary', 'trans female'].includes(gender.toLowerCase())) {
-      score += 1;
-    }
-    if (trauma && q.trauma) {
-      score += 1;
-    }
+    const { fluency, maturity, bs, total, attachmentStyle } = scoreQuiz(responses, gender, trauma);
 
-    if (q.specialScoring === 'midRangePenalty' && val >= 3 && val <= 4) {
-      bs -= 1;
-    }
-    if (q.specialScoring === 'anxiousTrigger') {
-      attachment.anxious += score <= 3 ? 1 : 0;
-    }
-    if (q.specialScoring === 'avoidantTrigger') {
-      attachment.avoidant += score <= 3 ? 1 : 0;
-    }
-    if (q.specialScoring === 'secureBoost') {
-      attachment.secure += score >= 5 ? 1 : 0;
-    }
-    if (q.specialScoring === 'disorganizedFlag') {
-      attachment.disorganized += score <= 3 ? 1 : 0;
-    }
-    if (q.specialScoring === 'lowScoreAnxiousBoost') {
-      if (score <= 3) attachment.anxious += 1;
-    }
+    const attachmentValues = ['Q10', 'Q11', 'Q12', 'Q13', 'Q14', 'Q15']
+      .map(key => parseInt(responses[key], 10) || 0);
+    const attachmentMeta = calculateAttachmentStyle(attachmentValues);
 
-    if (q.attachment && attachment[q.attachment] !== undefined) {
-      attachment[q.attachment] += score;
-    }
+    const result = matchProfileWithWiggleRoom(fluency, maturity, bs, attachmentValues.reduce((a, b) => a + b, 0), total);
 
-    if (q.id && parseInt(q.id.replace('Q', '')) < 22) fluency += score;
-    else if (parseInt(q.id.replace('Q', '')) >= 22 && parseInt(q.id.replace('Q', '')) < 42) maturity += score;
-    else bs += score;
-  });
+    const topParams = result.topThree?.map((p, i) =>
+      `alt${i + 1}=${encodeURIComponent(p.name)}&alt${i + 1}Flag=${encodeURIComponent(p.flag)}`
+    ).join('&') || '';
 
-  const total = fluency + maturity + bs;
-  const topAttachment = Object.entries(attachment).sort((a, b) => b[1] - a[1])[0][0];
+    const redirectUrl = `/result/${encodeURIComponent(result.profile)}?fluency=${fluency}&maturity=${maturity}&bs=${bs}&total=${total}&flag=${result.flag}&attachment=${encodeURIComponent(attachmentMeta?.name || '')}&${topParams}`;
 
-  return { fluency, maturity, bs, total, attachmentStyle: topAttachment };
-}
+    router.replace(redirectUrl);
+  }, [router]);
 
-export function matchProfileWithWiggleRoom(
-  fluency,
-  maturity,
-  bs,
-  attachmentScore = 0,
-  total = 0
-) {
-  const scoredMatches = profileDescriptions.profiles.map((p) => {
-    const inTotalRange =
-      total >= (p.totalRange?.[0] || 0) &&
-      total <= (p.totalRange?.[1] || 1000);
-
-    const categoryMatch = (() => {
-      switch (p.categoryRule) {
-        case 'EF>RM<BS': return fluency > maturity && bs > maturity;
-        case 'EF<RM>BS': return fluency < maturity && bs < maturity;
-        case 'EF=RM=BS': return (
-          Math.abs(fluency - maturity) <= 10 &&
-          Math.abs(maturity - bs) <= 10
-        );
-        case 'BS>RM>EF': return bs > maturity && maturity > fluency;
-        case 'EF<RM<BS': return fluency < maturity && maturity < bs;
-        case 'BS>RM<EF': return bs > maturity && fluency > maturity;
-        case 'BS=RM=EF': return fluency === maturity && maturity === bs;
-        default: return true;
-      }
-    })();
-
-    let matchScore = 0;
-    if (inTotalRange) matchScore += 1;
-    if (categoryMatch) matchScore += 2;
-
-    return { ...p, matchScore };
-  });
-
-  const sortedMatches = scoredMatches.sort((a, b) => b.matchScore - a.matchScore);
-  const topThree = sortedMatches.slice(0, 3);
-  const bestMatch = topThree[0];
-
-  if (!bestMatch || bestMatch.matchScore < 2) {
-    return getFallbackProfile(total, profileDescriptions.profiles);
-  }
-
-  let adjustedFlag = bestMatch.flag;
-  if (total >= 350) adjustedFlag = 'forest green';
-
-  if (attachmentScore >= 23 && bestMatch.matchScore >= 2) {
-    const flagBoost = {
-      'hell boy red': 'brick red',
-      'brick red': 'orange',
-      'orange': 'lemon yellow',
-      'lemon yellow': 'sunshine yellow',
-      'sunshine yellow': 'lime green',
-      'lime green': 'forest green'
-    };
-    adjustedFlag = flagBoost[adjustedFlag] || adjustedFlag;
-  }
-
-  return {
-    profile: bestMatch.name,
-    flag: adjustedFlag,
-    topThree: topThree.map((p) => ({ name: p.name, flag: p.flag }))
-  };
+  return (
+    <main className="min-h-screen flex items-center justify-center bg-white text-center p-6">
+      <div>
+        <h1 className="text-xl font-semibold">Scoring your results...</h1>
+        <p className="text-gray-500 mt-2">Please wait a moment.</p>
+      </div>
+    </main>
+  );
 }
