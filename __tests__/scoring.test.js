@@ -1,4 +1,10 @@
-import { scoreQuiz, matchProfileWithWiggleRoom } from '@/lib/scoring';
+import { scoreQuiz, matchProfileWithWiggleRoom } from '@/data/scoring';
+import rawQuestions from '@/data/questions';
+
+const questions = Array.isArray(rawQuestions.default)
+  ? rawQuestions.default
+  : rawQuestions;
+
 
 const mockResponses = {
   Q9: 5, Q10: 4, Q11: 2, Q12: 3, Q13: 2, Q14: 4, Q15: 3, Q16: 5,

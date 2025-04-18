@@ -1,3 +1,5 @@
+import { scoreQuiz, matchProfileWithWiggleRoom } from '@/data/scoring';
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
@@ -7,46 +9,47 @@ export default async function handler(req, res) {
     const { form_response } = req.body;
     const answersArray = form_response?.answers || [];
 
-    // Convert quiz answers into a key:value map (Q1: 5, Q2: 3, etc)
+    // Step 1: Map Typeform answers by ref
     const answers = {};
     for (let i = 0; i < answersArray.length; i++) {
       const ref = answersArray[i]?.field?.ref;
+      const choice = answersArray[i]?.choice?.label;
       const value = answersArray[i]?.number;
+
       if (ref && typeof value === 'number') {
         answers[ref] = value;
+      } else if (ref && typeof choice === 'string') {
+        answers[ref] = choice.toLowerCase();
       }
     }
 
-    // Build a consistent 72-question array of answers
-    console.log("Parsed answer keys:", Object.keys(answers));
-    const values = Array.from({ length: 72 }, (_, i) => {
-  const key = `Q${i + 4}`; // Start from Q4 instead of Q1
-  return parseInt(answers[key] || 0, 10);
-});
+    // Step 2: Extract gender and trauma
+    const gender = answers['Q3'] || '';
+    const trauma = answers['Q4'] === 'true';
 
-    // Indices of reverse-scored questions
-    const reverseIndexes = [
-      2, 4, 7, 10, 12, 14, 18, 19, 20, 21,
-      24, 26, 29, 31, 33, 34, 35, 37, 38, 39,
-      40, 41, 42, 43, 44, 45, 46, 47, 48, 49,
-      50, 51, 52, 53, 54, 55, 56, 57, 58, 60,
-      61, 62, 63, 64, 65, 66, 67, 68, 71
-    ];
+    // Step 3: Build responses object for Likert Q9–Q65
+    const responses = {};
+    for (let i = 9; i <= 65; i++) {
+      const key = `Q${i}`;
+      if (answers[key]) {
+        responses[key] = answers[key];
+      }
+    }
 
-    const reverseScore = (value) => 8 - value;
-
-    const scoredAnswers = values.map((val, i) =>
-      reverseIndexes.includes(i) ? reverseScore(val) : val
+    // Step 4: Score it up
+    const result = scoreQuiz(responses, gender, trauma);
+    const profileMatch = matchProfileWithWiggleRoom(
+      result.fluency,
+      result.maturity,
+      result.bs,
+      result.attachmentStyle,
+      result.total
     );
 
-    const sum = (arr) => arr.reduce((a, b) => a + b, 0);
-    const fluency = sum(scoredAnswers.slice(0, 24));
-    const maturity = sum(scoredAnswers.slice(24, 48));
-    const bs = sum(scoredAnswers.slice(48, 72));
-    const total = fluency + maturity + bs;
+    const { profile, flag } = profileMatch;
 
-    // Redirect to the result page with raw scores — let frontend handle all logic
-    const redirectUrl = `https://luma-results-v2.vercel.app/result?fluency=${fluency}&maturity=${maturity}&bs=${bs}&total=${total}`;
+    // Step 5: Redirect to result page
+    const redirectUrl = `https://luma-results-v2.vercel.app/result/${encodeURIComponent(profile)}?flag=${encodeURIComponent(flag)}`;
     return res.redirect(302, redirectUrl);
   } catch (err) {
     console.error('Scoring error:', err);
