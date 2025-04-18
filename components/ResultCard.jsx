@@ -74,3 +74,4 @@ export default function ResultCard({
           <h2 className="text-xl font-semibold mb-2 text-luma-evergreen">Attachment Style</h2>
           <p>{attachmentStyle}</p>
         </div>
+)}
