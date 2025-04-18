@@ -3,6 +3,7 @@
 import attachmentProfiles from '@/data/attachmentProfiles';
 import rawDescriptions from '@/data/profileDescriptions';
 import questions from '@/data/questions';
+import React from 'react';
 
 const profileDescriptions = typeof rawDescriptions?.default === 'object'
   ? rawDescriptions.default
