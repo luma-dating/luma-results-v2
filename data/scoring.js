@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { scoreQuiz, calculateAttachmentStyle, matchProfileWithWiggleRoom } from '@/data/scoring';
+import { scoreQuiz, matchProfileWithWiggleRoom } from '@/data/scoring';
 
 export default function ScoreRedirect() {
   const router = useRouter();
