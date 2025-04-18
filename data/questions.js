@@ -251,7 +251,7 @@ const questions = [
     "trauma": "false",
     "attachment": "avoidant",
    "specialScoring": "avoidantBoost"
-  }
+  },
   {
     "id": "Q37",
     "text": "I value boundaries for both myself and others, even when they get in the way of something I desire.",
@@ -321,7 +321,7 @@ const questions = [
     "reverse": "false",
     "gender": "false",
     "trauma": "false",
-    "attachment": "secure",
+   "attachment": "secure",
     "specialScoring": "secureBoost"
   },
   {
