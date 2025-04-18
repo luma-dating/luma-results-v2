@@ -56,7 +56,7 @@ export default function ResultCard({
       )}
 
       {profileTagline && (
-        <p className="italic text-luma-accentText mb-6">"{profileTagline}"</p>
+        <p className="italic text-luma-accentText mb-6">{profileTagline}</p>
       )}
 
       <div className="mb-8">
@@ -74,4 +74,4 @@ export default function ResultCard({
           <h2 className="text-xl font-semibold mb-2 text-luma-evergreen">Attachment Style</h2>
           <p>{attachmentStyle}</p>
         </div>
-)}
+      )}
