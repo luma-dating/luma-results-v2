@@ -1,32 +1,31 @@
 // pages/score.jsx
-import React from 'react';
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { scoreQuiz, calculateAttachmentStyle, matchProfileWithWiggleRoom } from '@/data/scoring'; // or '@/data/scoring' if that's where you're keeping it
 
-export default function ScorePage() {
+export default function ScoreRedirect() {
   const router = useRouter();
 
   useEffect(() => {
     if (!router.isReady) return;
 
-    const { query } = router;
-
+    const  query  = router.query;
     const responses = {};
     let gender = '';
     let trauma = false;
 
     Object.entries(query).forEach(([key, value]) => {
-      if (key.startsWith('Q')) responses[key] = parseInt(value, 10) || 0;
+      if (key.startsWith('Q')) responses[key] = parseInt(value, 10);
       if (key === 'gender') gender = value;
       if (key === 'trauma') trauma = value === 'true';
     });
 
     const { fluency, maturity, bs, total, attachmentStyle } = scoreQuiz(responses, gender, trauma);
 
-    const attachmentValues = ['Q10', 'Q11', 'Q12', 'Q13', 'Q14', 'Q15']
-      .map(key => parseInt(responses[key], 10) || 0);
-    const attachmentMeta = calculateAttachmentStyle(attachmentValues);
+    const attachmentValues = Object.entries(responses)
+  .filter(([key]) => key.startsWith('Q'))
+  .map(([, val]) => val || 0);
+const attachmentScoreObj = calculateAttachmentStyle(attachmentValues);
 
     const result = matchProfileWithWiggleRoom(fluency, maturity, bs, attachmentValues.reduce((a, b) => a + b, 0), total);
 
