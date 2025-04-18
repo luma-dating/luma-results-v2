@@ -513,6 +513,6 @@ const questions = [
     "attachment": "avoidant",
     "specialScoring": "avoidantBoost"
   }
-];
+],
 
 export default questions;
