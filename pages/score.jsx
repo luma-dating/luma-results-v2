@@ -1,5 +1,5 @@
 // pages/score.jsx
-
+import React from 'react';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { scoreQuiz, calculateAttachmentStyle, matchProfileWithWiggleRoom } from '@/data/scoring'; // or '@/data/scoring' if that's where you're keeping it
