@@ -26,22 +26,6 @@ export default function ResendBuilder() {
     setFormData(filled);
   };
 
-  const loadPreset = (preset) => {
-    const profiles = {
-      flame: Array(57).fill(6),
-      tornado: [...Array(19).fill(7), ...Array(19).fill(4), ...Array(19).fill(3)],
-      flirt: [...Array(19).fill(7), ...Array(19).fill(4), ...Array(19).fill(2)],
-      empath: [...Array(19).fill(6), ...Array(19).fill(2), ...Array(19).fill(5)],
-      figuring: Array(57).fill(3)
-    };
-    const selected = profiles[preset] || [];
-    const filled = {};
-    selected.forEach((val, i) => {
-      filled[`Q${i + 9}`] = val;
-    });
-    setFormData(filled);
-  };
-
   return (
     <main className="min-h-screen p-6 bg-white">
       <h1 className="text-2xl font-bold mb-4">Resend Results Link Generator</h1>
@@ -64,10 +48,3 @@ export default function ResendBuilder() {
           Fill from CSV
         </button>
       </div>
-
-      <div className="flex flex-wrap gap-2 mb-4">
-        <button onClick={() => loadPreset('flame')} className="bg-green-600 text-white px-3 py-1 rounded">Steady Flame</button>
-        <button onClick={() => loadPreset('tornado')} className="bg-yellow-500 text-white px-3 py-1 rounded">Self-Aware Tornado</button>
-        <button onClick={() => loadPreset('flirt')} className="bg-pink-500 text-white px-3 py-1 rounded">Boundary Flirt</button>
-        <button onClick={() => loadPreset('empath')} className="bg-red-400 text-white px-3 py-1 rounded">Burnt Empath</button>
-        <button onClick={() => loadPreset('figuring')} className="bg-gray-600 text-white px-3 py-1
