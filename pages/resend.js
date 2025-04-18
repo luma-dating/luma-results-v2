@@ -1,19 +1,22 @@
-import React from 'react';
-import { useState } from 'react';
+// pages/resend.js
+
+import React, { useState } from 'react';
 
 export default function ResendBuilder() {
   const [formData, setFormData] = useState({});
   const [url, setUrl] = useState('');
   const [csvInput, setCsvInput] = useState('');
+  const [gender, setGender] = useState('');
 
-  const handleChange = (e, i) => {
+  const handleChange = (e, key) => {
     const val = parseInt(e.target.value, 10) || 0;
-    setFormData({ ...formData, [`Q${i + 9}`]: val });
+    setFormData({ ...formData, [key]: val });
   };
 
   const buildUrl = () => {
     const query = Object.keys(formData)
       .map((key) => `${key}=${formData[key]}`)
+      .concat(`gender=${encodeURIComponent(gender)}`)
       .join('&');
     setUrl(`https://luma-results-v2.vercel.app/score?${query}`);
   };
@@ -21,9 +24,10 @@ export default function ResendBuilder() {
   const fillFromCsv = () => {
     const parts = csvInput.split(',').map((v) => parseInt(v.trim(), 10));
     const filled = {};
-    parts.forEach((val, i) => {
-      if (i < 57) filled[`Q${i + 9}`] = val;
-    });
+    // First 5 are Q1-Q5
+    parts.slice(0, 5).forEach((val, i) => filled[`Q${i + 1}`] = val);
+    // Next 57 are Q9-Q65
+    parts.slice(5).forEach((val, i) => filled[`Q${i + 9}`] = val);
     setFormData(filled);
   };
 
@@ -31,14 +35,14 @@ export default function ResendBuilder() {
     <main className="min-h-screen p-6 bg-white">
       <h1 className="text-2xl font-bold mb-4">Resend Results Link Generator</h1>
       <p className="mb-4 text-sm text-gray-500">
-        Enter or paste 57 answers from Q9 onward. You don’t have to fill out all 57 — just the ones you have.
+        Enter or paste 62 answers (5 T/F + 57 Likert). You don’t have to fill out all — just the ones you have.
       </p>
 
       <div className="mb-4">
         <textarea
           className="w-full p-2 border rounded mb-2"
           rows={3}
-          placeholder="Paste 57 comma-separated values here (e.g. 5,6,7,4,...)"
+          placeholder="Paste comma-separated values here (e.g. 1,0,1,... Likert)"
           value={csvInput}
           onChange={(e) => setCsvInput(e.target.value)}
         />
@@ -50,9 +54,39 @@ export default function ResendBuilder() {
         </button>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-        {Array.from({ length: 57 }).map((_, i) => (
-          <div key={i}>
+      <div className="mb-4">
+        <label className="block text-sm font-medium mb-1">Gender</label>
+        <select
+          className="border p-1 w-full"
+          value={gender}
+          onChange={(e) => setGender(e.target.value)}
+        >
+          <option value="">Select gender</option>
+          <option value="female">Female</option>
+          <option value="non-binary">Non-binary</option>
+          <option value="trans female">Trans Female</option>
+          <option value="male">Male</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mb-4">
+        {[...Array(5)].map((_, i) => (
+          <div key={`Q${i + 1}`}>
+            <label className="block text-sm">Q{i + 1} (T/F)</label>
+            <input
+              type="number"
+              min="0"
+              max="1"
+              className="border p-1 w-full"
+              value={formData[`Q${i + 1}`] || ''}
+              onChange={(e) => handleChange(e, `Q${i + 1}`)}
+            />
+          </div>
+        ))}
+
+        {[...Array(57)].map((_, i) => (
+          <div key={`Q${i + 9}`}>
             <label className="block text-sm">Q{i + 9}</label>
             <input
               type="number"
@@ -60,7 +94,7 @@ export default function ResendBuilder() {
               max="7"
               className="border p-1 w-full"
               value={formData[`Q${i + 9}`] || ''}
-              onChange={(e) => handleChange(e, i)}
+              onChange={(e) => handleChange(e, `Q${i + 9}`)}
             />
           </div>
         ))}
