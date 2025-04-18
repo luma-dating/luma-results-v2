@@ -33,7 +33,7 @@ const attachmentScoreObj = calculateAttachmentStyle(attachmentValues);
       `alt${i + 1}=${encodeURIComponent(p.name)}&alt${i + 1}Flag=${encodeURIComponent(p.flag)}`
     ).join('&') || '';
 
-    const redirectUrl = `/result/${encodeURIComponent(result.profile)}?fluency=${fluency}&maturity=${maturity}&bs=${bs}&total=${total}&flag=${result.flag}&attachment=${encodeURIComponent(attachmentMeta?.name || '')}&${topParams}`;
+    const redirectUrl = `/result/${encodeURIComponent(result.profile)}?fluency=${fluency}&maturity=${maturity}&bs=${bs}&total=${total}&flag=${result.flag}&attachment=${encodeURIComponent(attachmentScoreObj?.style || '')}&${topParams}`;
 
     router.replace(redirectUrl);
   }, [router]);
