@@ -22,20 +22,21 @@ export default function ResultCard({
     tagline ||
     '';
 
-  const flagColors = {
-    'lime green': 'bg-luma-lime text-luma-textPrimary',
-    'evergreen': 'bg-luma-evergreen text-white',
-    'sky blue': 'bg-luma-skyBlue text-black',
-    'soft yellow': 'bg-luma-softYellow text-black',
-    'hellboy red': 'bg-luma-redFlag text-white',
-  };
+const flagColors = {
+  'forest green': 'bg-luma-evergreen text-white',
+  'limegreen': 'bg-luma-lime text-luma-textPrimary',
+  'sunshine yellow': 'bg-luma-softYellow text-black',
+  'lemon yellow': 'bg-luma-lemon text-black',
+  'orange': 'bg-luma-orange text-black',
+  'brick red': 'bg-luma-brick text-white',
+  'hell boy red': 'bg-luma-redFlag text-white',
+};
 
-  const normalizedFlag = flag?.toLowerCase().replace(/\s/g, '');
-  const flagDescriptionEntry = profileData.flagDescriptions?.find(
-    (f) => f.name.toLowerCase().replace(/\s/g, '') === normalizedFlag
-  );
-
-  const flagClass = flagColors[flag?.toLowerCase()] || 'bg-gray-100 text-luma-textPrimary';
+  const normalizedFlag = flag?.toLowerCase().replace(/\s+/g, '');
+const colorKey = Object.keys(flagColors).find(
+  (key) => key.replace(/\s+/g, '') === normalizedFlag
+);
+const flagClass = flagColors[colorKey] || 'bg-gray-100 text-luma-textPrimary';
 
   return (
     <section className={`max-w-xl w-full shadow-xl rounded-2xl p-8 ${flagClass} font-body`}>
