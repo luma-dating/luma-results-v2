@@ -296,7 +296,7 @@ const questions = [
     "trauma": "false",
     "attachment": "avoidant",
     "specialScoring": "avoidantBoost"
-  }
+  },
   {
     "id": "Q42",
     "text": "I check in with the person that I'm in a relationship with to make sure I'm communicating in a way that lands well.",
