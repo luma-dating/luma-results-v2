@@ -215,7 +215,7 @@ const questions = [
     "trauma": "false",
     "attachment": "avoidant",
     "specialScoring": "avoidantBoost"
-  }
+  },
   {
     "id": "Q33",
     "text": "If someone tells me I hurt them, I want to understand—not defend.",
