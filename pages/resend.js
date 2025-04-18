@@ -47,4 +47,44 @@ export default function ResendBuilder() {
         >
           Fill from CSV
         </button>
-      </div> //
+      </div>
+
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+        {Array.from({ length: 57 }).map((_, i) => (
+          <div key={i}>
+            <label className="block text-sm">Q{i + 9}</label>
+            <input
+              type="number"
+              min="1"
+              max="7"
+              className="border p-1 w-full"
+              value={formData[`Q${i + 9}`] || ''}
+              onChange={(e) => handleChange(e, i)}
+            />
+          </div>
+        ))}
+      </div>
+
+      <button
+        onClick={buildUrl}
+        className="mt-6 px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700"
+      >
+        Generate Link
+      </button>
+
+      {url && (
+        <div className="mt-4">
+          <p className="text-sm text-gray-600">Copy and send this link:</p>
+          <a
+            href={url}
+            className="text-blue-600 underline break-all"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {url}
+          </a>
+        </div>
+      )}
+    </main>
+  );
+}
