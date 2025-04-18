@@ -2,6 +2,7 @@
 
 import attachmentProfiles from '@/data/attachmentProfiles';
 import rawDescriptions from '@/data/profileDescriptions';
+import questions from '@/data/questions';
 
 const profileDescriptions = typeof rawDescriptions?.default === 'object'
   ? rawDescriptions.default
@@ -54,6 +55,59 @@ function getFallbackProfile(totalScore, profiles) {
   };
 }
 
+export function scoreQuiz(responses = {}, gender = '', trauma = false) {
+  let fluency = 0;
+  let maturity = 0;
+  let bs = 0;
+  let attachment = {
+    secure: 0,
+    anxious: 0,
+    avoidant: 0,
+    disorganized: 0
+  };
+
+  questions.forEach((q) => {
+    const val = parseInt(responses[q.id], 10);
+    if (isNaN(val)) return;
+
+    let score = q.reverse ? 6 - val : val;
+
+    // Adjust for gender-based leniency
+    if (q.gender && ['female', 'non-binary', 'trans female'].includes(gender.toLowerCase())) {
+      score += 1;
+    }
+
+    // Trauma baseline uplift
+    if (trauma && q.trauma) {
+      score += 1;
+    }
+
+    if (q.specialScoring === 'midRangePenalty' && val >= 3 && val <= 4) {
+      bs -= 1;
+    }
+    if (q.specialScoring === 'anxiousTrigger') {
+      attachment.anxious += score <= 2 ? 1 : 0;
+    }
+    if (q.specialScoring === 'lowScoreAnxiousBoost') {
+      if (score <= 3) attachment.anxious += 1;
+    }
+
+    // Apply category scoring
+    if (q.attachment && attachment[q.attachment] !== undefined) {
+      attachment[q.attachment] += score;
+    }
+
+    if (q.id && q.id < 'Q22') fluency += score;
+    else if (q.id >= 'Q22' && q.id < 'Q42') maturity += score;
+    else bs += score;
+  });
+
+  const total = fluency + maturity + bs;
+  const topAttachment = Object.entries(attachment).sort((a, b) => b[1] - a[1])[0][0];
+
+  return { fluency, maturity, bs, total, attachmentStyle: topAttachment };
+}
+
 export function matchProfileWithWiggleRoom(
   fluency,
   maturity,
@@ -97,10 +151,7 @@ export function matchProfileWithWiggleRoom(
     return { ...p, matchScore };
   });
 
-  const sortedMatches = scoredMatches.sort((a, b) => {
-    return b.matchScore - a.matchScore;
-  });
-
+  const sortedMatches = scoredMatches.sort((a, b) => b.matchScore - a.matchScore);
   const topThree = sortedMatches.slice(0, 3);
   const bestMatch = topThree[0];
 
@@ -129,9 +180,6 @@ export function matchProfileWithWiggleRoom(
   return {
     profile: bestMatch.name,
     flag: adjustedFlag,
-    topThree: topThree.map((p) => ({
-      name: p.name,
-      flag: p.flag
-    }))
+    topThree: topThree.map((p) => ({ name: p.name, flag: p.flag }))
   };
 }
