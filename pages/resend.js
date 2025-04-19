@@ -1,6 +1,10 @@
 // pages/resend.js
-
 import React, { useState } from 'react';
+import {
+  scoreQuiz,
+  calculateAttachmentStyle,
+  matchProfileWithWiggleRoom
+} from '@/data/scoring';
 
 export default function ResendBuilder() {
   const [formData, setFormData] = useState({});
@@ -14,19 +18,39 @@ export default function ResendBuilder() {
   };
 
   const buildUrl = () => {
-    const query = Object.keys(formData)
-      .map((key) => `${key}=${formData[key]}`)
-      .concat(`gender=${encodeURIComponent(gender)}`)
-      .join('&');
-    setUrl(`https://luma-results-v2.vercel.app/score?${query}`);
+    // Calculate scores
+    const quizScore = scoreQuiz(formData, gender, false);
+    const attachment = calculateAttachmentStyle(formData);
+    const result = matchProfileWithWiggleRoom(
+      quizScore.raw.fluency,
+      quizScore.raw.maturity,
+      quizScore.raw.bs,
+      attachment.score,
+      quizScore.raw.fluency + quizScore.raw.maturity + quizScore.raw.bs
+    );
+
+    const topParams =
+      result.topThree
+        ?.map(
+          (p, i) =>
+            `alt${i + 1}=${encodeURIComponent(p.name)}&alt${i + 1}Flag=${encodeURIComponent(p.flag)}`
+        )
+        .join('&') || '';
+
+    const finalUrl = `/result/${encodeURIComponent(result.profile)}?` +
+      `fluency=${quizScore.fluency}&maturity=${quizScore.maturity}&bs=${quizScore.bs}&total=${quizScore.raw.fluency + quizScore.raw.maturity + quizScore.raw.bs}` +
+      `&flag=${encodeURIComponent(result.flag)}` +
+      `&attachment=${encodeURIComponent(attachment.style || '')}` +
+      `&attachmentScore=${attachment.score || 0}` +
+      `&${topParams}`;
+
+    setUrl(`https://luma-results-v2.vercel.app${finalUrl}`);
   };
 
   const fillFromCsv = () => {
     const parts = csvInput.split(',').map((v) => parseInt(v.trim(), 10));
     const filled = {};
-    // First 5 are Q1-Q5
     parts.slice(0, 5).forEach((val, i) => filled[`Q${i + 1}`] = val);
-    // Next 57 are Q9-Q65
     parts.slice(5).forEach((val, i) => filled[`Q${i + 9}`] = val);
     setFormData(filled);
   };
@@ -35,7 +59,7 @@ export default function ResendBuilder() {
     <main className="min-h-screen p-6 bg-white">
       <h1 className="text-2xl font-bold mb-4">Resend Results Link Generator</h1>
       <p className="mb-4 text-sm text-gray-500">
-        Enter or paste 62 answers (5 T/F + 57 Likert). You don’t have to fill out all — just the ones you have.
+        Paste 62 answers. Hit “generate.” Send the link. Wonder where your life went.
       </p>
 
       <div className="mb-4">
