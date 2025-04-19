@@ -1,9 +1,5 @@
 import React from 'react';
-import rawDescriptions from '@/data/profileDescriptions.json';
-
-const profileData = typeof rawDescriptions?.default === 'object'
-  ? rawDescriptions.default
-  : rawDescriptions;
+import profileData from '@/data/profileDescriptions.json';
 
 export default function ResultCard({
   profile,
@@ -13,11 +9,17 @@ export default function ResultCard({
   description,
   attachmentStyle,
   attachmentScore,
-  topThree = []
+  topThree = [],
 }) {
-  const normalizedProfile = profile?.toLowerCase();
+  const normalizedProfile = profile?.toLowerCase().trim();
+  const normalizedFlag = flag?.toLowerCase().replace(/\s+/g, '');
+
+  // DEBUG LOGGING (remove when done)
+  console.log('[ResultCard] Looking for profile:', normalizedProfile);
+  console.log('[ResultCard] Available profiles:', profileData.profiles.map(p => p.name));
+
   const profileEntry = profileData.profiles.find(
-    (p) => p.name.toLowerCase() === normalizedProfile
+    (p) => p.name?.toLowerCase().trim() === normalizedProfile
   );
 
   const profileName = profileEntry?.name || profile || 'Mystery Human';
@@ -25,37 +27,37 @@ export default function ResultCard({
   const profileTagline = profileEntry?.tagline || tagline || 'You defy classification.';
 
   const flagColors = {
-    'forest green': 'bg-luma-evergreen text-white',
+    'forestgreen': 'bg-luma-evergreen text-white',
     'limegreen': 'bg-luma-lime text-luma-textPrimary',
-    'sunshine yellow': 'bg-luma-softYellow text-black',
-    'lemon yellow': 'bg-luma-lemon text-black',
+    'sunshineyellow': 'bg-luma-softYellow text-black',
+    'lemonyellow': 'bg-luma-lemon text-black',
     'orange': 'bg-luma-orange text-black',
-    'brick red': 'bg-luma-brick text-white',
-    'hell boy red': 'bg-luma-redFlag text-white'
+    'brickred': 'bg-luma-brick text-white',
+    'hellboyred': 'bg-luma-redFlag text-white',
   };
 
-  const normalizedFlag = flag?.toLowerCase().replace(/\s+/g, '');
   const colorKey = Object.keys(flagColors).find(
     (key) => key.replace(/\s+/g, '') === normalizedFlag
   );
   const flagClass = flagColors[colorKey] || 'bg-gray-100 text-luma-textPrimary';
 
-  const flagDescription = profileData.flagDescriptions?.find(
-    (entry) =>
-      entry?.name?.toLowerCase() === flag?.toLowerCase()
-  )?.description;
+  const flagDescriptionEntry = Array.isArray(profileData.flagDescriptions)
+    ? profileData.flagDescriptions.find(
+        (entry) =>
+          entry?.name?.toLowerCase().replace(/\s+/g, '') === normalizedFlag
+      )
+    : null;
 
   return (
     <section className={`max-w-xl w-full shadow-xl rounded-2xl p-8 ${flagClass} font-body`}>
       <h1 className="text-4xl font-display font-bold mb-4">{profileName}</h1>
-
       <p className="text-lg font-semibold mb-2">
         Flag: <span className="capitalize">{flag}</span>
       </p>
 
-      {flagDescription && (
+      {flagDescriptionEntry?.description && (
         <p className="italic text-sm mb-4 text-luma-accentText">
-          {flagDescription}
+          {flagDescriptionEntry.description}
         </p>
       )}
 
