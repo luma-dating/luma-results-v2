@@ -146,7 +146,7 @@ const questions = [
  {
   "id": "Q25",
   "text": "I often absorb others’ moods and mistake them for my own.",
-  "reverse": false,
+  "reverse": true,
   "gender": false,
   "trauma": false,
   "attachment": "anxious",
@@ -155,7 +155,7 @@ const questions = [
   {
     "id": "Q26",
     "text": "When I get emotional, I blame myself for being ‘too much.’",
-    "reverse": false,
+    "reverse": true,
     "gender": false,
     "trauma": true,
      "attachment": "secure",
@@ -211,7 +211,7 @@ const questions = [
     "text": "I avoid conflict to keep the peace—even when I feel hurt.",
     "reverse": true,
     "gender": true,
-    "trauma": false,
+    "trauma": true,
     "attachment": "avoidant",
     "specialScoring": "avoidantBoost"
   },
@@ -227,7 +227,7 @@ const questions = [
   {
     "id": "Q34",
     "text": "I need a lot of reassurance in relationships, even when things are going well.",
-   "reverse": false,
+   "reverse": true,
   "gender": false,
   "trauma": true,
   "attachment": "anxious",
