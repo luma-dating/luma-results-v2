@@ -39,7 +39,7 @@ export default function ProfileResult() {
     const parsedMaturity = parseInt(maturity, 10) || 0;
     const parsedBS = parseInt(bs, 10) || 0;
     const parsedTotal = parseInt(total, 10) || (parsedFluency + parsedMaturity + parsedBS);
-
+    
     setScores({
       fluency: parsedFluency,
       maturity: parsedMaturity,
@@ -89,6 +89,7 @@ export default function ProfileResult() {
 
   const description = profileData?.description || fallback.description;
   const tagline = profileData?.tagline || fallback.tagline;
+  const attachmentScore = parseInt(router.query.attachmentScore, 10) || 0;
 
   return scores && resolvedProfile ? (
     <main className="min-h-screen flex flex-col justify-center items-center px-6 py-12">
