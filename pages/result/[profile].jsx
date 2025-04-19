@@ -3,7 +3,6 @@ import { useRouter } from 'next/router';
 import rawDescriptions from '@/data/profileDescriptions.json';
 import ResultCard from '@/components/ResultCard';
 
-// Load profiles cleanly
 const profileDescriptions = typeof rawDescriptions?.default === 'object'
   ? rawDescriptions.default
   : rawDescriptions;
@@ -12,6 +11,7 @@ export default function ProfileResult() {
   const router = useRouter();
   const [scores, setScores] = useState(null);
   const [attachmentStyle, setAttachmentStyle] = useState(null);
+  const [attachmentScore, setAttachmentScore] = useState(null);
   const [resolvedProfile, setResolvedProfile] = useState(null);
 
   const {
@@ -22,7 +22,7 @@ export default function ProfileResult() {
     bs,
     total,
     attachment,
-    attachmentScore,
+    attachmentScore: attachmentScoreParam,
     alt1,
     alt1Flag,
     alt2,
@@ -31,15 +31,13 @@ export default function ProfileResult() {
     alt3Flag
   } = router.query;
 
-  useEffect(() => {
+   useEffect(() => {
     if (!router.isReady) return;
-    if (!fluency || !maturity || !bs || !total) return;
 
     const parsedFluency = parseInt(fluency, 10) || 0;
     const parsedMaturity = parseInt(maturity, 10) || 0;
     const parsedBS = parseInt(bs, 10) || 0;
     const parsedTotal = parseInt(total, 10) || (parsedFluency + parsedMaturity + parsedBS);
-    const parsedAttachmentScore = parseInt(attachmentScore, 10) || 0;
 
     setScores({
       fluency: parsedFluency,
@@ -48,21 +46,16 @@ export default function ProfileResult() {
       total: parsedTotal
     });
 
+    setResolvedProfile(decodeURIComponent(profile || 'Mystery Human'));
+
     if (attachment) {
-      setAttachmentStyle({
-        name: attachment,
-        score: parsedAttachmentScore
-      });
+      setAttachmentStyle(attachment);
     }
 
-    if (profile) {
-      setResolvedProfile(profile);
-      console.log('Resolved Profile:', profile);
-    } else {
-      const fallback = profileDescriptions.fallbacks?.find(f => f.flag === flag);
-      setResolvedProfile(fallback?.name || 'Unknown');
+    if (attachmentScoreParam !== undefined) {
+      setAttachmentScore(parseInt(attachmentScoreParam, 10));
     }
-  }, [router.isReady, profile, fluency, maturity, bs, total, attachment, attachmentScore]);
+  }, [router.isReady, profile, fluency, maturity, bs, total, attachment, attachmentScoreParam]);
 
   const topThree = [
     alt1 && { name: alt1, flag: alt1Flag },
