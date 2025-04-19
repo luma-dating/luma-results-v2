@@ -1,5 +1,5 @@
 import React from 'react';
-import profileData from '@/data/profileDescriptions.json';
+import { profiles, flagDescriptions } from '@/data/profileDescriptions';
 
 
 export default function ResultCard({
@@ -19,9 +19,9 @@ export default function ResultCard({
   const allNames = profileData.profiles.map(p => p.name);
   console.log('[ResultCard] Available profile names:', allNames);
 
-  const profileEntry = profileData.profiles.find(
-    (p) => p.name.toLowerCase() === normalizedProfile
-  );
+ const profileEntry = profiles.find(
+  (p) => p.name.toLowerCase() === normalizedProfile
+);
 
   console.log('[ResultCard] Matched profile entry:', profileEntry);
 
@@ -46,12 +46,14 @@ export default function ResultCard({
   );
   const flagClass = flagColors[colorKey] || 'bg-gray-100 text-luma-textPrimary';
 
-  const flagDescriptionEntry = Array.isArray(profileData.flagDescriptions)
-    ? profileData.flagDescriptions.find(
-        (entry) =>
-          entry?.name?.toLowerCase().replace(/\s+/g, '') === normalizedFlag
-      )
-    : null;
+  const flagDescriptionEntry = Array.isArray(flagDescriptions)
+  ? flagDescriptions.find(
+      (entry) =>
+        entry?.name &&
+        flag &&
+        entry.name.toLowerCase() === flag.toLowerCase()
+    )
+  : null;
 
   return (
     <section className={`max-w-xl w-full shadow-xl rounded-2xl p-8 ${flagClass} font-body`}>
