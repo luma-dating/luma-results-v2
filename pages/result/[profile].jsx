@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import rawDescriptions from '@/data/profileDescriptions.json';
 import ResultCard from '@/components/ResultCard';
 
+console.log('Resolved Profile:', resolvedProfile);
 
 const profileDescriptions = typeof rawDescriptions?.default === 'object'
   ? rawDescriptions.default
