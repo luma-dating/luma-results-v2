@@ -1,4 +1,4 @@
-import attachmentDescriptions from '@/data/attachmentDescriptions.json';
+import attachmentDescriptions from '@/data/attachmentProfiles.json';
 import rawDescriptions from '@/data/profileDescriptions';
 import questions from '@/data/questions';
 
@@ -56,7 +56,7 @@ export function calculateAttachmentStyle(responses = {}) {
   );
 
   if (overrideToMixed) {
-    profile = attachmentDescriptions.find((p) => p.name === 'Anxious or Avoidant');
+    profile = attachmentProfiles.find((p) => p.name === 'Anxious or Avoidant');
   }
 
   return {
