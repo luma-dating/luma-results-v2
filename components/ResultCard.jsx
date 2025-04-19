@@ -1,5 +1,9 @@
 import React from 'react';
-import profileData from '@/data/profileDescriptions.json';
+import rawDescriptions from '@/data/profileDescriptions.json';
+
+const profileData = typeof rawDescriptions?.default === 'object'
+  ? rawDescriptions.default
+  : rawDescriptions;
 
 export default function ResultCard({
   profile,
