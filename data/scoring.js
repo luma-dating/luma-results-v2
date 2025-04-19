@@ -2,10 +2,6 @@ import attachmentProfiles from '@/data/attachmentProfiles.json';
 import rawDescriptions from '@/data/profileDescriptions';
 import questions from '@/data/questions';
 
-const profileDescriptions = typeof rawDescriptions?.default === 'object'
-  ? rawDescriptions.default
-  : rawDescriptions;
-
 export function calculateAttachmentStyle(responses = {}) {
   let secureScore = 0;
   let anxiousScore = 0;
