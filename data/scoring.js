@@ -1,4 +1,4 @@
-import attachmentDescriptions from '@/data/attachmentProfiles.json';
+import attachmentProfiles from '@/data/attachmentProfiles.json';
 import rawDescriptions from '@/data/profileDescriptions';
 import questions from '@/data/questions';
 
