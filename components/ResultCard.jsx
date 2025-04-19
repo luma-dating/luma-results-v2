@@ -1,6 +1,3 @@
-import React from 'react';
-import profileData from '@/data/profileDescriptions.json';
-
 export default function ResultCard({
   profile,
   flag,
@@ -11,20 +8,24 @@ export default function ResultCard({
   attachmentScore,
   topThree = [],
 }) {
-  const normalizedProfile = profile?.toLowerCase().trim();
-  const normalizedFlag = flag?.toLowerCase().replace(/\s+/g, '');
+  const normalizedProfile = profile?.toLowerCase();
+  console.log('[ResultCard] Incoming profile prop:', profile);
+  console.log('[ResultCard] Normalized profile:', normalizedProfile);
 
-  // DEBUG LOGGING (remove when done)
-  console.log('[ResultCard] Looking for profile:', normalizedProfile);
-  console.log('[ResultCard] Available profiles:', profileData.profiles.map(p => p.name));
+  const allNames = profileData.profiles.map(p => p.name);
+  console.log('[ResultCard] Available profile names:', allNames);
 
   const profileEntry = profileData.profiles.find(
-    (p) => p.name?.toLowerCase().trim() === normalizedProfile
+    (p) => p.name.toLowerCase() === normalizedProfile
   );
 
+  console.log('[ResultCard] Matched profile entry:', profileEntry);
+
   const profileName = profileEntry?.name || profile || 'Mystery Human';
-  const profileDescription = profileEntry?.description || description || 'No description available.';
-  const profileTagline = profileEntry?.tagline || tagline || 'You defy classification.';
+  const profileDescription =
+    profileEntry?.description || description || 'No description available.';
+  const profileTagline =
+    profileEntry?.tagline || tagline || 'You defy classification.';
 
   const flagColors = {
     'forestgreen': 'bg-luma-evergreen text-white',
