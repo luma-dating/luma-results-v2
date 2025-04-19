@@ -63,7 +63,9 @@ export default function ProfileResult() {
     alt3 && { name: alt3, flag: alt3Flag }
   ].filter(Boolean);
 
-  const profileData = profileDescriptions.profiles?.find(p => p.name === resolvedProfile);
+  const profileData = profileDescriptions.profiles?.find(
+  (p) => p.name.toLowerCase() === resolvedProfile?.toLowerCase()
+);
   const fallback = profileDescriptions.fallbacks?.find(f => f.flag === flag) || {
     tagline: 'You defy classification.',
     description: 'Your results don’t fit a tidy box, and that’s not a bug—it’s a feature.'
