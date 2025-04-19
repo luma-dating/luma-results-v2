@@ -1,3 +1,5 @@
+// pages/result/[profile].js
+
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import rawDescriptions from '@/data/profileDescriptions.json';
@@ -9,30 +11,25 @@ const profileDescriptions = typeof rawDescriptions?.default === 'object'
 
 export default function ProfileResult() {
   const router = useRouter();
+
   const [scores, setScores] = useState(null);
   const [attachmentStyle, setAttachmentStyle] = useState(null);
   const [attachmentScore, setAttachmentScore] = useState(null);
   const [resolvedProfile, setResolvedProfile] = useState(null);
 
-  const {
-    profile,
-    flag,
-    fluency,
-    maturity,
-    bs,
-    total,
-    attachment,
-    attachmentScore: attachmentScoreParam,
-    alt1,
-    alt1Flag,
-    alt2,
-    alt2Flag,
-    alt3,
-    alt3Flag
-  } = router.query;
-
-   useEffect(() => {
+  useEffect(() => {
     if (!router.isReady) return;
+
+    const {
+      profile,
+      flag,
+      fluency,
+      maturity,
+      bs,
+      total,
+      attachment,
+      attachmentScore: attachmentScoreParam
+    } = router.query;
 
     const parsedFluency = parseInt(fluency, 10) || 0;
     const parsedMaturity = parseInt(maturity, 10) || 0;
@@ -55,7 +52,17 @@ export default function ProfileResult() {
     if (attachmentScoreParam !== undefined) {
       setAttachmentScore(parseInt(attachmentScoreParam, 10));
     }
-  }, [router.isReady, profile, fluency, maturity, bs, total, attachment, attachmentScoreParam]);
+  }, [router.isReady]);
+
+  const {
+    flag,
+    alt1,
+    alt1Flag,
+    alt2,
+    alt2Flag,
+    alt3,
+    alt3Flag
+  } = router.query;
 
   const topThree = [
     alt1 && { name: alt1, flag: alt1Flag },
@@ -64,9 +71,10 @@ export default function ProfileResult() {
   ].filter(Boolean);
 
   const profileData = profileDescriptions.profiles?.find(
-  (p) => p.name.toLowerCase() === resolvedProfile?.toLowerCase()
-);
-  const fallback = profileDescriptions.fallbacks?.find(f => f.flag === flag) || {
+    (p) => p.name.toLowerCase() === resolvedProfile?.toLowerCase()
+  );
+
+  const fallback = {
     tagline: 'You defy classification.',
     description: 'Your results don’t fit a tidy box, and that’s not a bug—it’s a feature.'
   };
@@ -82,8 +90,8 @@ export default function ProfileResult() {
         scores={scores}
         tagline={tagline}
         description={description}
-        attachmentStyle={attachmentStyle?.name}
-        attachmentScore={attachmentStyle?.score}
+        attachmentStyle={attachmentStyle}
+        attachmentScore={attachmentScore}
         topThree={topThree}
       />
     </main>
