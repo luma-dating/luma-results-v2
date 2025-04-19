@@ -100,8 +100,8 @@ export function scoreQuiz(responses = {}, gender = '', trauma = false) {
   };
 }
 
-export function matchProfileWithWiggleRoom(fluency, maturity, bs, attachmentScore = 0, total = 0) {
-  const scoredMatches = profileDescriptions.profiles.map((p) => {
+export function matchProfileWithWiggleRoom(fluency, maturity, bs, attachmentScore = 0, total = 0, profilesList = []) {
+  const scoredMatches = profilesList.map((p) => {
     const inTotalRange = total >= (p.totalRange?.[0] || 0) && total <= (p.totalRange?.[1] || 1000);
 
     const categoryMatch = (() => {
