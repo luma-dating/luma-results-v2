@@ -257,7 +257,6 @@ export const profiles = [
   }
 ];
   export const flagDescriptions = [
-  {
     {
       "name": "Forest Green",
       "description": "Like the color of pine, the scent of the earth, you are solid, steady and a place where everyone can find a moment of peace."
@@ -287,4 +286,3 @@ export const profiles = [
       "description": "You tried really hard to get this score because it's nearly impossible. Honestly, we don't know whether to be impressed or scared of you."
     }
   ];
-}
