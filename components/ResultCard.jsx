@@ -1,98 +1,90 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 import { profiles, flagDescriptions } from '@/data/profileDescriptions';
+import ResultCard from '@/components/ResultCard';
 
+export default function ProfileResult() {
+  const router = useRouter();
+  const [scores, setScores] = useState(null);
+  const [attachmentStyle, setAttachmentStyle] = useState(null);
+  const [attachmentScore, setAttachmentScore] = useState(null);
+  const [resolvedProfile, setResolvedProfile] = useState(null);
 
-export default function ResultCard({
-  profile,
-  flag,
-  scores,
-  tagline,
-  description,
-  attachmentStyle,
-  attachmentScore,
-  topThree = [],
-}) {
-  const normalizedProfile = profile?.toLowerCase();
-  console.log('[ResultCard] Incoming profile prop:', profile);
-  console.log('[ResultCard] Normalized profile:', normalizedProfile);
+  const {
+    profile,
+    flag,
+    fluency,
+    maturity,
+    bs,
+    total,
+    attachment,
+    attachmentScore: attachmentScoreParam,
+    alt1,
+    alt1Flag,
+    alt2,
+    alt2Flag,
+    alt3,
+    alt3Flag
+  } = router.query;
 
-  const allNames = profileData.profiles.map(p => p.name);
-  console.log('[ResultCard] Available profile names:', allNames);
+  useEffect(() => {
+    if (!router.isReady) return;
 
- const profileEntry = profiles.find(
-  (p) => p.name.toLowerCase() === normalizedProfile
-);
+    const parsedFluency = parseInt(fluency, 10) || 0;
+    const parsedMaturity = parseInt(maturity, 10) || 0;
+    const parsedBS = parseInt(bs, 10) || 0;
+    const parsedTotal = parseInt(total, 10) || (parsedFluency + parsedMaturity + parsedBS);
 
-  console.log('[ResultCard] Matched profile entry:', profileEntry);
+    setScores({
+      fluency: parsedFluency,
+      maturity: parsedMaturity,
+      bs: parsedBS,
+      total: parsedTotal
+    });
 
-  const profileName = profileEntry?.name || profile || 'Mystery Human';
-  const profileDescription =
-    profileEntry?.description || description || 'No description available.';
-  const profileTagline =
-    profileEntry?.tagline || tagline || 'You defy classification.';
+    setResolvedProfile(decodeURIComponent(profile || 'Mystery Human'));
 
-  const flagColors = {
-    'forestgreen': 'bg-luma-evergreen text-white',
-    'limegreen': 'bg-luma-lime text-luma-textPrimary',
-    'sunshineyellow': 'bg-luma-softYellow text-black',
-    'lemonyellow': 'bg-luma-lemon text-black',
-    'orange': 'bg-luma-orange text-black',
-    'brickred': 'bg-luma-brick text-white',
-    'hellboyred': 'bg-luma-redFlag text-white',
+    if (attachment) setAttachmentStyle(attachment);
+    if (attachmentScoreParam !== undefined) {
+      setAttachmentScore(parseInt(attachmentScoreParam, 10));
+    }
+  }, [router.isReady, profile, fluency, maturity, bs, total, attachment, attachmentScoreParam]);
+
+  const topThree = [
+    alt1 && { name: alt1, flag: alt1Flag },
+    alt2 && { name: alt2, flag: alt2Flag },
+    alt3 && { name: alt3, flag: alt3Flag }
+  ].filter(Boolean);
+
+  const profileEntry = profiles.find(
+    (p) => p.name.toLowerCase() === resolvedProfile?.toLowerCase()
+  );
+
+  const fallback = {
+    tagline: 'You defy classification.',
+    description: 'Your results don’t fit a tidy box, and that’s not a bug—it’s a feature.'
   };
 
-  const colorKey = Object.keys(flagColors).find(
-    (key) => key.replace(/\s+/g, '') === normalizedFlag
-  );
-  const flagClass = flagColors[colorKey] || 'bg-gray-100 text-luma-textPrimary';
+  const description = profileEntry?.description || fallback.description;
+  const tagline = profileEntry?.tagline || fallback.tagline;
 
-  const flagDescriptionEntry = Array.isArray(flagDescriptions)
-  ? flagDescriptions.find(
-      (entry) =>
-        entry?.name &&
-        flag &&
-        entry.name.toLowerCase() === flag.toLowerCase()
-    )
-  : null;
-
-  return (
-    <section className={`max-w-xl w-full shadow-xl rounded-2xl p-8 ${flagClass} font-body`}>
-     <h1 className="text-4xl font-display font-bold mb-4">{profileName}</h1>
-      <p className="text-lg font-semibold mb-2">
-        Flag: <span className="capitalize">{flag}</span>
-      </p>
-
-      {flagDescriptionEntry?.description && (
-        <p className="italic text-sm mb-4 text-luma-accentText">
-          {flagDescriptionEntry.description}
-        </p>
-      )}
-
-      {profileTagline && (
-        <p className="italic text-luma-accentText mb-6">{profileTagline}</p>
-      )}
-
-      <div className="mb-8">
-        <h2 className="text-xl font-semibold mb-2 text-luma-evergreen">Your Scores</h2>
-        <ul className="space-y-1">
-          <li>Emotional Fluency: <strong>{scores.fluency}</strong></li>
-          <li>Relational Maturity: <strong>{scores.maturity}</strong></li>
-          <li>BS Detection: <strong>{scores.bs}</strong></li>
-          <li>Total Score: <strong>{scores.total}</strong></li>
-        </ul>
-      </div>
-
-      {attachmentStyle && (
-        <div className="mb-8">
-          <h2 className="text-xl font-semibold mb-2 text-luma-evergreen">Attachment Style</h2>
-          <p>{attachmentStyle}</p>
-          {typeof attachmentScore === 'number' && (
-            <p className="text-sm text-luma-accentText">
-              Score: <strong>{attachmentScore}</strong>
-            </p>
-          )}
-        </div>
-      )}
-    </section>
+  return scores && resolvedProfile ? (
+    <main className="min-h-screen flex flex-col justify-center items-center px-6 py-12">
+      <ResultCard
+        profile={resolvedProfile}
+        flag={flag}
+        scores={scores}
+        tagline={tagline}
+        description={description}
+        attachmentStyle={attachmentStyle}
+        attachmentScore={attachmentScore}
+        topThree={topThree}
+      />
+    </main>
+  ) : (
+    <main className="min-h-screen flex flex-col items-center justify-center text-center">
+      <h2 className="text-xl font-semibold">Loading your result...</h2>
+      <p className="text-gray-500">Please wait just a sec.</p>
+    </main>
   );
 }
