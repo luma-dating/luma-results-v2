@@ -16,12 +16,10 @@ export function calculateAttachmentStyle(responses = {}) {
 
     const reversed = q.reverse ? 8 - raw : raw;
 
-    // Secure scoring
     if (q.specialScoring === 'secureBoost') {
       secureScore += reversed;
     }
 
-    // Special boost logic: record *max* value for anxious/avoidant
     if (q.specialScoring === 'anxiousBoost' || q.specialScoring === 'lowScoreAnxiousBoost') {
       if (reversed > maxAnxiousBoost) maxAnxiousBoost = reversed;
     }
@@ -30,22 +28,16 @@ export function calculateAttachmentStyle(responses = {}) {
       if (reversed > maxAvoidantBoost) maxAvoidantBoost = reversed;
     }
 
-    // Generic attachment addition
     if (q.attachment === 'anxious') anxiousScore += reversed;
     if (q.attachment === 'avoidant') avoidantScore += reversed;
     if (q.attachment === 'secure') secureScore += reversed;
-    if (q.attachment === 'disorganized') {
-      // Optional: add disorganized logic if needed
-    }
   });
 
-  // Add the max anxious/avoidant boost scores
   anxiousScore += maxAnxiousBoost;
   avoidantScore += maxAvoidantBoost;
 
   const finalScore = secureScore;
   const diff = Math.abs(anxiousScore - avoidantScore);
-
   const secureIsHighest = secureScore > anxiousScore && secureScore > avoidantScore;
   const overrideToMixed = !secureIsHighest && diff <= 10;
 
@@ -53,12 +45,9 @@ export function calculateAttachmentStyle(responses = {}) {
   if (overrideToMixed) {
     profile = attachmentProfiles.find((p) => p.name === 'Anxious or Avoidant');
   } else {
-    profile = attachmentProfiles.find(({ range }) =>
-      finalScore >= range[0] && finalScore <= range[1]
-    );
+    profile = attachmentProfiles.find(({ range }) => finalScore >= range[0] && finalScore <= range[1]);
   }
 
-  // Debug log
   console.log('[Attachment Style Debug]', {
     secureScore,
     anxiousScore,
@@ -85,12 +74,7 @@ export function scoreQuiz(responses = {}, gender = '', trauma = false) {
   let fluency = 0;
   let maturity = 0;
   let bs = 0;
-  let attachment = {
-    secure: 0,
-    anxious: 0,
-    avoidant: 0,
-    disorganized: 0
-  };
+  let attachment = { secure: 0, anxious: 0, avoidant: 0, disorganized: 0 };
 
   questions.forEach((q) => {
     const val = parseInt(responses[q.id], 10);
@@ -136,39 +120,20 @@ export function scoreQuiz(responses = {}, gender = '', trauma = false) {
   };
 }
 
-export function matchProfileWithWiggleRoom(
-  fluency,
-  maturity,
-  bs,
-  attachmentScore = 0,
-  total = 0
-) {
+export function matchProfileWithWiggleRoom(fluency, maturity, bs, attachmentScore = 0, total = 0) {
   const scoredMatches = profileDescriptions.profiles.map((p) => {
-    const inTotalRange =
-      total >= (p.totalRange?.[0] || 0) &&
-      total <= (p.totalRange?.[1] || 1000);
+    const inTotalRange = total >= (p.totalRange?.[0] || 0) && total <= (p.totalRange?.[1] || 1000);
 
     const categoryMatch = (() => {
       switch (p.categoryRule) {
-        case 'EF>RM<BS':
-          return fluency > maturity && bs > maturity;
-        case 'EF<RM>BS':
-          return fluency < maturity && bs < maturity;
-        case 'EF=RM=BS':
-          return (
-            Math.abs(fluency - maturity) <= 10 &&
-            Math.abs(maturity - bs) <= 10
-          );
-        case 'BS>RM>EF':
-          return bs > maturity && maturity > fluency;
-        case 'EF<RM<BS':
-          return fluency < maturity && maturity < bs;
-        case 'BS>RM<EF':
-          return bs > maturity && fluency > maturity;
-        case 'BS=RM=EF':
-          return fluency === maturity && maturity === bs;
-        default:
-          return true;
+        case 'EF>RM<BS': return fluency > maturity && bs > maturity;
+        case 'EF<RM>BS': return fluency < maturity && bs < maturity;
+        case 'EF=RM=BS': return Math.abs(fluency - maturity) <= 10 && Math.abs(maturity - bs) <= 10;
+        case 'BS>RM>EF': return bs > maturity && maturity > fluency;
+        case 'EF<RM<BS': return fluency < maturity && maturity < bs;
+        case 'BS>RM<EF': return bs > maturity && fluency > maturity;
+        case 'BS=RM=EF': return fluency === maturity && maturity === bs;
+        default: return true;
       }
     })();
 
@@ -188,10 +153,7 @@ export function matchProfileWithWiggleRoom(
   }
 
   let adjustedFlag = bestMatch.flag;
-
-  if (total >= 350) {
-    adjustedFlag = 'forest green';
-  }
+  if (total >= 350) adjustedFlag = 'forest green';
 
   if (attachmentScore >= 23 && bestMatch.matchScore >= 2) {
     const flagBoost = {
@@ -205,6 +167,13 @@ export function matchProfileWithWiggleRoom(
     adjustedFlag = flagBoost[adjustedFlag] || adjustedFlag;
   }
 
+  console.log('[Profile Match Debug]', {
+    bestMatch,
+    adjustedFlag,
+    topThree,
+    attachmentScore
+  });
+
   return {
     profile: bestMatch?.name || 'Mystery Human',
     flag: adjustedFlag,
@@ -214,23 +183,18 @@ export function matchProfileWithWiggleRoom(
 
 function getFallbackProfile(totalScore, profiles) {
   const fallbackTiers = [
-    { min: 325, flag: 'forest green' },
-    { min: 300, flag: 'lime green' },
-    { min: 275, flag: 'sunshine yellow' },
+    { min: 299, flag: 'forest green' },
+    { min: 289, flag: 'lime green' },
+    { min: 260, flag: 'sunshine yellow' },
     { min: 250, flag: 'orange' },
     { min: 200, flag: 'brick red' },
     { min: 150, flag: 'hell boy red' }
   ];
   const tier = fallbackTiers.find(t => totalScore >= t.min);
   if (!tier) {
-    return {
-      profile: 'The Soft Void',
-      flag: 'hell boy red',
-      topThree: []
-    };
+    return { profile: 'The Soft Void', flag: 'hell boy red', topThree: [] };
   }
-  const fallback = profiles
-    .filter(p => p.flag === tier.flag && p.totalRange)
+  const fallback = profiles.filter(p => p.flag === tier.flag && p.totalRange)
     .sort((a, b) => (a.totalRange[0] || 0) - (b.totalRange[0] || 0))[0];
   if (fallback) {
     return {
