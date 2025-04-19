@@ -255,7 +255,7 @@ export const profiles = [
     "totalRange": [172, 170],
     "useGTE": true
   }
-],
+];
   export const flagDescriptions = [
   {
     {
@@ -286,5 +286,5 @@ export const profiles = [
       "name": "Hell Boy Red", 
       "description": "You tried really hard to get this score because it's nearly impossible. Honestly, we don't know whether to be impressed or scared of you."
     }
-  ]
+  ];
 }
