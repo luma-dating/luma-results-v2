@@ -21,9 +21,9 @@ export default function ResultCard({
       <div className="mb-4">
         <h3 className="font-semibold">Scores</h3>
         <ul>
-          <li>Fluency: {scores.fluency}</li>
-          <li>Maturity: {scores.maturity}</li>
-          <li>BS: {scores.bs}</li>
+          <li>Fluency: {scores.fluency}%</li>
+          <li>Maturity: {scores.maturity}%</li>
+          <li>BS: {scores.bs}%</li>
           <li>Total: {scores.total}</li>
         </ul>
       </div>
