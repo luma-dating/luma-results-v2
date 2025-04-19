@@ -7,55 +7,45 @@ export function calculateAttachmentStyle(responses = {}) {
   let anxiousScore = 0;
   let avoidantScore = 0;
 
-  let maxAnxiousBoost = 0;
-  let maxAvoidantBoost = 0;
-
   questions.flat().forEach((q) => {
     const raw = responses[q.id];
     if (typeof raw !== 'number') return;
 
     const reversed = q.reverse ? 8 - raw : raw;
 
-    if (q.specialScoring === 'secureBoost') {
+    if (q.attachment === 'secure') {
       secureScore += reversed;
     }
 
-    if (q.specialScoring === 'anxiousBoost' || q.specialScoring === 'lowScoreAnxiousBoost') {
-      if (reversed > maxAnxiousBoost) maxAnxiousBoost = reversed;
+    if (q.attachment === 'anxious') {
+      anxiousScore += raw; // True score
+      secureScore -= raw;  // Subtract from secure
     }
 
-    if (q.specialScoring === 'avoidantBoost') {
-      if (reversed > maxAvoidantBoost) maxAvoidantBoost = reversed;
+    if (q.attachment === 'avoidant') {
+      avoidantScore += raw; // True score
+      secureScore -= raw;  // Subtract from secure
     }
-
-    if (q.attachment === 'anxious') anxiousScore += reversed;
-    if (q.attachment === 'avoidant') avoidantScore += reversed;
-    if (q.attachment === 'secure') secureScore += reversed;
   });
 
-  anxiousScore += maxAnxiousBoost;
-  avoidantScore += maxAvoidantBoost;
-
-  const finalScore = secureScore;
-  const diff = Math.abs(anxiousScore - avoidantScore);
-  const secureIsHighest = secureScore > anxiousScore && secureScore > avoidantScore;
-  const overrideToMixed = !secureIsHighest && diff <= 10;
+  const finalScore = Math.max(0, secureScore); // clamp to 0
 
   let profile;
-  if (overrideToMixed) {
+  if (finalScore >= 160) {
+    profile = attachmentProfiles.find((p) => p.name === 'Secure');
+  } else if (finalScore >= 129) {
+    profile = attachmentProfiles.find((p) => p.name === 'Anxious-Leaning Secure');
+  } else if (finalScore >= 98) {
     profile = attachmentProfiles.find((p) => p.name === 'Anxious or Avoidant');
   } else {
-    profile = attachmentProfiles.find(({ range }) => finalScore >= range[0] && finalScore <= range[1]);
+    profile = attachmentProfiles.find((p) => p.name === 'Disorganized');
   }
 
   console.log('[Attachment Style Debug]', {
     secureScore,
     anxiousScore,
     avoidantScore,
-    maxAnxiousBoost,
-    maxAvoidantBoost,
     finalScore,
-    overrideToMixed,
     profile: profile?.name
   });
 
@@ -74,25 +64,12 @@ export function scoreQuiz(responses = {}, gender = '', trauma = false) {
   let fluency = 0;
   let maturity = 0;
   let bs = 0;
-  let attachment = { secure: 0, anxious: 0, avoidant: 0, disorganized: 0 };
 
   questions.forEach((q) => {
     const val = parseInt(responses[q.id], 10);
     if (isNaN(val)) return;
 
-    let score = q.reverse ? 6 - val : val;
-
-    if (q.gender && ['female', 'non-binary', 'trans female'].includes(gender.toLowerCase())) {
-      score += 1;
-    }
-
-    if (trauma && q.trauma) {
-      score += 1;
-    }
-
-    if (q.attachment && attachment[q.attachment] !== undefined) {
-      attachment[q.attachment] += score;
-    }
+    const score = q.reverse ? 8 - val : val;
 
     const qNum = parseInt(q.id.replace('Q', ''), 10);
     if (qNum >= 9 && qNum <= 31) fluency += score;
@@ -109,14 +86,17 @@ export function scoreQuiz(responses = {}, gender = '', trauma = false) {
   const normBS = (bs / bsMax) * 100;
 
   const total = fluency + maturity + bs;
-  const topAttachment = Object.entries(attachment).sort((a, b) => b[1] - a[1])[0][0];
 
   return {
     fluency: Math.round(normFluency),
     maturity: Math.round(normMaturity),
     bs: Math.round(normBS),
-    total,
-    attachmentStyle: topAttachment
+    raw: {
+      fluency,
+      maturity,
+      bs
+    },
+    total
   };
 }
 
@@ -155,7 +135,7 @@ export function matchProfileWithWiggleRoom(fluency, maturity, bs, attachmentScor
   let adjustedFlag = bestMatch.flag;
   if (total >= 350) adjustedFlag = 'forest green';
 
-  if (attachmentScore >= 23 && bestMatch.matchScore >= 2) {
+  if (attachmentScore >= 160 && bestMatch.matchScore >= 2) {
     const flagBoost = {
       'hell boy red': 'brick red',
       'brick red': 'orange',
@@ -183,9 +163,9 @@ export function matchProfileWithWiggleRoom(fluency, maturity, bs, attachmentScor
 
 function getFallbackProfile(totalScore, profiles) {
   const fallbackTiers = [
-    { min: 299, flag: 'forest green' },
-    { min: 289, flag: 'lime green' },
-    { min: 260, flag: 'sunshine yellow' },
+    { min: 325, flag: 'forest green' },
+    { min: 300, flag: 'lime green' },
+    { min: 275, flag: 'sunshine yellow' },
     { min: 250, flag: 'orange' },
     { min: 200, flag: 'brick red' },
     { min: 150, flag: 'hell boy red' }
