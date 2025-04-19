@@ -24,7 +24,7 @@
       "tagline": "Slow burn, strong bond",
       "description": "You don’t rush love. You show up consistently, thoughtfully, and deeply — building trust with every steady step.",
       "totalRange": [345, 399],
-      "categoryRule": "EF=RM=BS",
+      "categoryRule": "EF>RM=BS",
       "useGTE": true
     },
     {
@@ -33,7 +33,7 @@
       "tagline": "You defy categories",
       "description": "You’re balanced, complex, and beautifully contradictory. The usual rules just don’t apply — and that’s the magic.",
       "totalRange": [330, 339],
-      "categoryRule": "BS>RM>EF",
+      "categoryRule": "null",
       "useGTE": true
     },
     {
@@ -42,7 +42,7 @@
       "tagline": "Growing, always",
       "description": "You're steady and curious, building your insight step by step. You're not in a rush - and that's your strength.",
       "totalRange": [310, 319],
-      "categoryRule": "EF<RM<BS",
+      "categoryRule": "EF>RM>BS",
       "useGTE": true
     },
     {
