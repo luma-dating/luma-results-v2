@@ -9,7 +9,7 @@ export default function ResultCard({
   description,
   attachmentStyle,
   attachmentScore,
-  topThree = [],
+  topThree = []
 }) {
   const normalizedProfile = profile?.toLowerCase();
   const profileEntry = profileData.profiles.find(
@@ -17,10 +17,8 @@ export default function ResultCard({
   );
 
   const profileName = profileEntry?.name || profile || 'Mystery Human';
-  const profileDescription =
-    profileEntry?.description || description || 'No description available.';
-  const profileTagline =
-    profileEntry?.tagline || tagline || 'You defy classification.';
+  const profileDescription = profileEntry?.description || description || 'No description available.';
+  const profileTagline = profileEntry?.tagline || tagline || 'You defy classification.';
 
   const flagColors = {
     'forest green': 'bg-luma-evergreen text-white',
@@ -29,7 +27,7 @@ export default function ResultCard({
     'lemon yellow': 'bg-luma-lemon text-black',
     'orange': 'bg-luma-orange text-black',
     'brick red': 'bg-luma-brick text-white',
-    'hell boy red': 'bg-luma-redFlag text-white',
+    'hell boy red': 'bg-luma-redFlag text-white'
   };
 
   const normalizedFlag = flag?.toLowerCase().replace(/\s+/g, '');
@@ -38,25 +36,22 @@ export default function ResultCard({
   );
   const flagClass = flagColors[colorKey] || 'bg-gray-100 text-luma-textPrimary';
 
-  const flagDescriptionEntry = Array.isArray(profileData.flagDescriptions)
-    ? profileData.flagDescriptions.find(
-        (entry) =>
-          entry?.name &&
-          flag &&
-          entry.name.toLowerCase() === flag.toLowerCase()
-      )
-    : null;
+  const flagDescription = profileData.flagDescriptions?.find(
+    (entry) =>
+      entry?.name?.toLowerCase() === flag?.toLowerCase()
+  )?.description;
 
   return (
     <section className={`max-w-xl w-full shadow-xl rounded-2xl p-8 ${flagClass} font-body`}>
       <h1 className="text-4xl font-display font-bold mb-4">{profileName}</h1>
+
       <p className="text-lg font-semibold mb-2">
         Flag: <span className="capitalize">{flag}</span>
       </p>
 
-      {flagDescriptionEntry?.description && (
+      {flagDescription && (
         <p className="italic text-sm mb-4 text-luma-accentText">
-          {flagDescriptionEntry.description}
+          {flagDescription}
         </p>
       )}
 
