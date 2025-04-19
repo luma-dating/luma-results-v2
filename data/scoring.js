@@ -163,12 +163,13 @@ export function matchProfileWithWiggleRoom(fluency, maturity, bs, attachmentScor
 
 function getFallbackProfile(totalScore, profiles) {
   const fallbackTiers = [
-    { min: 325, flag: 'forest green' },
-    { min: 300, flag: 'lime green' },
-    { min: 275, flag: 'sunshine yellow' },
-    { min: 250, flag: 'orange' },
-    { min: 200, flag: 'brick red' },
-    { min: 150, flag: 'hell boy red' }
+    { min: 310, flag: 'forest green' },
+    { min: 285, flag: 'lime green' },
+    { min: 255, flag: 'sunshine yellow' },
+    { min: 230, flag: 'lemon yellow' },
+    { min: 205, flag: 'orange' },
+    { min: 185, flag: 'brick red' },
+    { min: 0, flag: 'hell boy red' }
   ];
   const tier = fallbackTiers.find(t => totalScore >= t.min);
   if (!tier) {
