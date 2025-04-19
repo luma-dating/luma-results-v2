@@ -1,5 +1,4 @@
-{
-  "profiles": [
+export const profiles = [
     {
       "name": "Steady Flame",
       "flag": "forest green",
