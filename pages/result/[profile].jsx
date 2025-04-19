@@ -1,35 +1,34 @@
-// pages/result/[profile].js
-
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import rawDescriptions from '@/data/profileDescriptions.json';
+import { profiles, flagDescriptions } from '@/data/profileDescriptions';
 import ResultCard from '@/components/ResultCard';
-
-const profileDescriptions = typeof rawDescriptions?.default === 'object'
-  ? rawDescriptions.default
-  : rawDescriptions;
 
 export default function ProfileResult() {
   const router = useRouter();
-
   const [scores, setScores] = useState(null);
   const [attachmentStyle, setAttachmentStyle] = useState(null);
   const [attachmentScore, setAttachmentScore] = useState(null);
   const [resolvedProfile, setResolvedProfile] = useState(null);
 
+  const {
+    profile,
+    flag,
+    fluency,
+    maturity,
+    bs,
+    total,
+    attachment,
+    attachmentScore: attachmentScoreParam,
+    alt1,
+    alt1Flag,
+    alt2,
+    alt2Flag,
+    alt3,
+    alt3Flag
+  } = router.query;
+
   useEffect(() => {
     if (!router.isReady) return;
-
-    const {
-      profile,
-      flag,
-      fluency,
-      maturity,
-      bs,
-      total,
-      attachment,
-      attachmentScore: attachmentScoreParam
-    } = router.query;
 
     const parsedFluency = parseInt(fluency, 10) || 0;
     const parsedMaturity = parseInt(maturity, 10) || 0;
@@ -45,24 +44,11 @@ export default function ProfileResult() {
 
     setResolvedProfile(decodeURIComponent(profile || 'Mystery Human'));
 
-    if (attachment) {
-      setAttachmentStyle(attachment);
-    }
-
+    if (attachment) setAttachmentStyle(attachment);
     if (attachmentScoreParam !== undefined) {
       setAttachmentScore(parseInt(attachmentScoreParam, 10));
     }
-  }, [router.isReady]);
-
-  const {
-    flag,
-    alt1,
-    alt1Flag,
-    alt2,
-    alt2Flag,
-    alt3,
-    alt3Flag
-  } = router.query;
+  }, [router.isReady, profile, fluency, maturity, bs, total, attachment, attachmentScoreParam]);
 
   const topThree = [
     alt1 && { name: alt1, flag: alt1Flag },
@@ -70,7 +56,7 @@ export default function ProfileResult() {
     alt3 && { name: alt3, flag: alt3Flag }
   ].filter(Boolean);
 
-  const profileData = profileDescriptions.profiles?.find(
+  const profileData = profiles.find(
     (p) => p.name.toLowerCase() === resolvedProfile?.toLowerCase()
   );
 
