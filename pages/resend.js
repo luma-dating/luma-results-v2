@@ -42,7 +42,8 @@ const buildUrl = () => {
       quizScore.raw.maturity,
       quizScore.raw.bs,
       attachment.score,
-      quizScore.raw.fluency + quizScore.raw.maturity + quizScore.raw.bs
+      quizScore.raw.fluency + quizScore.raw.maturity + quizScore.raw.bs,
+      profiles
     );
 
     const topParams =
