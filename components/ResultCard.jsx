@@ -50,7 +50,7 @@ export default function ResultCard({
 
   return (
     <section className={`max-w-xl w-full shadow-xl rounded-2xl p-8 ${flagClass} font-body`}>
-      <h1 className="text-4xl font-display font-bold mb-4">{profileName}</h1>
+     <h1 className="text-4xl font-display font-bold mb-4">{profileName}</h1>
       <p className="text-lg font-semibold mb-2">
         Flag: <span className="capitalize">{flag}</span>
       </p>
