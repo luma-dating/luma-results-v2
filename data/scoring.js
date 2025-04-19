@@ -47,16 +47,19 @@ export function calculateAttachmentStyle(responses = {}) {
   anxiousScore += maxAnxiousBoost;
   avoidantScore += maxAvoidantBoost;
 
-  const finalScore = secureScore; // Not subtracting anymore
+  const finalScore = secureScore;
   const diff = Math.abs(anxiousScore - avoidantScore);
-  const overrideToMixed = diff <= 10;
 
-  let profile = attachmentProfiles.find(({ range }) =>
-    finalScore >= range[0] && finalScore <= range[1]
-  );
+  const secureIsHighest = secureScore > anxiousScore && secureScore > avoidantScore;
+  const overrideToMixed = !secureIsHighest && diff <= 10;
 
+  let profile;
   if (overrideToMixed) {
     profile = attachmentProfiles.find((p) => p.name === 'Anxious or Avoidant');
+  } else {
+    profile = attachmentProfiles.find(({ range }) =>
+      finalScore >= range[0] && finalScore <= range[1]
+    );
   }
 
   return {
@@ -195,7 +198,7 @@ export function matchProfileWithWiggleRoom(
   }
 
   return {
-    profile: bestMatch.name,
+    profile: bestMatch?.name || 'Mystery Human',
     flag: adjustedFlag,
     topThree: topThree.map((p) => ({ name: p.name, flag: p.flag }))
   };
