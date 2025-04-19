@@ -62,6 +62,18 @@ export function calculateAttachmentStyle(responses = {}) {
     );
   }
 
+  // Debug log
+  console.log('[Attachment Style Debug]', {
+    secureScore,
+    anxiousScore,
+    avoidantScore,
+    maxAnxiousBoost,
+    maxAvoidantBoost,
+    finalScore,
+    overrideToMixed,
+    profile: profile?.name
+  });
+
   return {
     style: profile?.name || 'Unknown',
     score: finalScore,
