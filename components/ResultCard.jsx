@@ -1,3 +1,7 @@
+import React from 'react';
+import profileData from '@/data/profileDescriptions.json';
+
+
 export default function ResultCard({
   profile,
   flag,
