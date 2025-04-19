@@ -59,4 +59,43 @@ export default function ProfileResult() {
       setResolvedProfile(profile);
       console.log('Resolved Profile:', profile);
     } else {
-      const fallback = profileDescriptions.fallbacks?.find(f => f
+      const fallback = profileDescriptions.fallbacks?.find(f => f.flag === flag);
+      setResolvedProfile(fallback?.name || 'Unknown');
+    }
+  }, [router.isReady, profile, fluency, maturity, bs, total, attachment, attachmentScore]);
+
+  const topThree = [
+    alt1 && { name: alt1, flag: alt1Flag },
+    alt2 && { name: alt2, flag: alt2Flag },
+    alt3 && { name: alt3, flag: alt3Flag }
+  ].filter(Boolean);
+
+  const profileData = profileDescriptions.profiles?.find(p => p.name === resolvedProfile);
+  const fallback = profileDescriptions.fallbacks?.find(f => f.flag === flag) || {
+    tagline: 'You defy classification.',
+    description: 'Your results don’t fit a tidy box, and that’s not a bug—it’s a feature.'
+  };
+
+  const description = profileData?.description || fallback.description;
+  const tagline = profileData?.tagline || fallback.tagline;
+
+  return scores && resolvedProfile ? (
+    <main className="min-h-screen flex flex-col justify-center items-center px-6 py-12">
+      <ResultCard
+        profile={resolvedProfile}
+        flag={flag}
+        scores={scores}
+        tagline={tagline}
+        description={description}
+        attachmentStyle={attachmentStyle?.name}
+        attachmentScore={attachmentStyle?.score}
+        topThree={topThree}
+      />
+    </main>
+  ) : (
+    <main className="min-h-screen flex flex-col items-center justify-center text-center">
+      <h2 className="text-xl font-semibold">Loading your result...</h2>
+      <p className="text-gray-500">Please wait just a sec.</p>
+    </main>
+  );
+}
