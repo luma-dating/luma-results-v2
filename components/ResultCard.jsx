@@ -8,9 +8,12 @@ export default function ResultCard({
   tagline,
   description,
   attachmentStyle,
+  attachmentScore,
   topThree = [],
 }) {
-  const profileEntry = profileData.profiles?.[profile];
+  const profileEntry = profileData.profiles.find(
+  (p) => p.name === profile
+);
 
   const profileDescription =
     profileEntry?.description || description || 'No description available.';
@@ -73,6 +76,8 @@ export default function ResultCard({
         <div className="mb-8">
           <h2 className="text-xl font-semibold mb-2 text-luma-evergreen">Attachment Style</h2>
           <p>{attachmentStyle}</p>
+          {attachmentScore !== undefined && (
+      <p className="text-sm text-luma-accentText">Score: <strong>{attachmentScore}</strong></p>
         </div>
       )}
     </section>
