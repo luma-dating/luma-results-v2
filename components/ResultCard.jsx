@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { profiles, flagDescriptions } from '@/data/profileDescriptions';
-import ResultCard from '@/components/ResultCard';
 
 export default function ProfileResult() {
   const router = useRouter();
