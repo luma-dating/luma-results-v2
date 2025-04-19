@@ -5,10 +5,6 @@ const profileData = typeof rawDescriptions?.default === 'object'
   ? rawDescriptions.default
   : rawDescriptions;
 
-console.log('Looking for profile:', normalizedProfile);
-console.log('All available names:', profileData.profiles.map(p => p.name));
-
-
 export default function ResultCard({
   profile,
   flag,
