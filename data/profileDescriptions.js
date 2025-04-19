@@ -256,7 +256,8 @@ export const profiles = [
     "useGTE": true
   }
 ],
-  "flagDescriptions": [
+  export const flagDescriptions = [
+  {
     {
       "name": "Forest Green",
       "description": "Like the color of pine, the scent of the earth, you are solid, steady and a place where everyone can find a moment of peace."
