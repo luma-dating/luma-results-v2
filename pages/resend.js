@@ -1,4 +1,4 @@
-// pages/resend.js
+import { profiles } from '@/data/profileDescriptions';
 import React, { useState } from 'react';
 import {
   scoreQuiz,
