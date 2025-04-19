@@ -51,7 +51,7 @@ export function calculateAttachmentStyle(responses = {}) {
   const diff = Math.abs(anxiousScore - avoidantScore);
   const overrideToMixed = diff <= 10;
 
-  let profile = attachmentDescriptions.find(({ range }) =>
+  let profile = attachmentProfiles.find(({ range }) =>
     finalScore >= range[0] && finalScore <= range[1]
   );
 
