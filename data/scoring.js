@@ -1,5 +1,5 @@
 import attachmentProfiles from '@/data/attachmentProfiles.json';
-import rawDescriptions from '@/data/profileDescriptions';
+import profileDescriptions from '@/data/profileDescriptions';
 import questions from '@/data/questions';
 
 export function calculateAttachmentStyle(responses = {}) {
