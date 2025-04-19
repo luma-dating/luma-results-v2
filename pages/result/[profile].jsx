@@ -99,6 +99,7 @@ export default function ProfileResult() {
         tagline={tagline}
         description={description}
         attachmentStyle={attachmentStyle}
+        attachmentScore={attachmentScore}
         topThree={topThree}
       />
     </main>
