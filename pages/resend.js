@@ -17,8 +17,24 @@ export default function ResendBuilder() {
     setFormData({ ...formData, [key]: val });
   };
 
-  const buildUrl = () => {
-    // Calculate scores
+const fillFromCsv = () => {
+  const parts = csvInput.split(',').map((v) => parseInt(v.trim(), 10));
+
+  if (parts.length !== 62) {
+    console.warn('[Resend] CSV data must be exactly 62 numbers. Got:', parts.length);
+    alert('CSV input must contain exactly 62 numbers (5 T/F, 57 Likert)');
+    return;
+  }
+
+  const filled = {};
+  parts.slice(0, 5).forEach((val, i) => filled[`Q${i + 1}`] = val);
+  parts.slice(5).forEach((val, i) => filled[`Q${i + 9}`] = val);
+  setFormData(filled);
+  console.log('[Resend] Filled formData:', filled);
+};
+
+const buildUrl = () => {
+  try {
     const quizScore = scoreQuiz(formData, gender, false);
     const attachment = calculateAttachmentStyle(formData);
     const result = matchProfileWithWiggleRoom(
@@ -38,22 +54,22 @@ export default function ResendBuilder() {
         .join('&') || '';
 
     const finalUrl = `/result/${encodeURIComponent(result.profile)}?` +
-      `fluency=${quizScore.fluency}&maturity=${quizScore.maturity}&bs=${quizScore.bs}&total=${quizScore.raw.fluency + quizScore.raw.maturity + quizScore.raw.bs}` +
+      `fluency=${quizScore.fluency}&maturity=${quizScore.maturity}&bs=${quizScore.bs}` +
+      `&total=${quizScore.raw.fluency + quizScore.raw.maturity + quizScore.raw.bs}` +
       `&flag=${encodeURIComponent(result.flag)}` +
       `&attachment=${encodeURIComponent(attachment.style || '')}` +
       `&attachmentScore=${attachment.score || 0}` +
       `&${topParams}`;
 
-    setUrl(`https://luma-results-v2.vercel.app${finalUrl}`);
-  };
+    const fullLink = `https://luma-results-v2.vercel.app${finalUrl}`;
+    console.log('[Resend] Generated URL:', fullLink);
+    setUrl(fullLink);
+  } catch (err) {
+    console.error('[Resend] Error during URL build:', err);
+    alert('Something went wrong building the link. Check the console for clues.');
+  }
+};
 
-  const fillFromCsv = () => {
-    const parts = csvInput.split(',').map((v) => parseInt(v.trim(), 10));
-    const filled = {};
-    parts.slice(0, 5).forEach((val, i) => filled[`Q${i + 1}`] = val);
-    parts.slice(5).forEach((val, i) => filled[`Q${i + 9}`] = val);
-    setFormData(filled);
-  };
 
   return (
     <main className="min-h-screen p-6 bg-white">
