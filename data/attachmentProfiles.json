@@ -1,37 +1,25 @@
 [
   {
     "name": "Secure",
-    "range": [
-      29,
-      36
-    ],
+    "range": [80, 98],
     "tagline": "Grounded in connection.",
-    "description": "You\u2019re comfortable with closeness and independence. You trust, connect, and set boundaries with grace."
+    "description": "You’re comfortable with closeness and independence. You trust, connect, and set boundaries with grace."
   },
   {
     "name": "Anxious-Leaning Secure",
-    "range": [
-      22,
-      28
-    ],
+    "range": [65, 79],
     "tagline": "Mostly chill, slightly clingy.",
-    "description": "You know you\u2019re lovable \u2014 but you still worry sometimes. You value connection and can voice your needs."
+    "description": "You know you’re lovable — but you still worry sometimes. You value connection and can voice your needs."
   },
   {
     "name": "Anxious or Avoidant",
-    "range": [
-      13,
-      21
-    ],
+    "range": [45, 64],
     "tagline": "Push-pull pro.",
     "description": "You crave closeness but fear it too. You swing between needing reassurance and pulling away."
   },
   {
     "name": "Disorganized",
-    "range": [
-      0,
-      12
-    ],
+    "range": [0, 44],
     "tagline": "Hot-and-cold heart.",
     "description": "You feel pulled in two directions: desperate for intimacy, but scared of it too."
   }
