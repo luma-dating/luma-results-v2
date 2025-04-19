@@ -72,14 +72,15 @@ export default function ResultCard({
         </ul>
       </div>
 
-      {attachmentStyle && (
-        <div className="mb-8">
-          <h2 className="text-xl font-semibold mb-2 text-luma-evergreen">Attachment Style</h2>
-          <p>{attachmentStyle}</p>
-          {attachmentScore !== undefined && (
+    {attachmentStyle && (
+  <div className="mb-8">
+    <h2 className="text-xl font-semibold mb-2 text-luma-evergreen">Attachment Style</h2>
+    <p>{attachmentStyle}</p>
+    {attachmentScore !== undefined && (
       <p className="text-sm text-luma-accentText">Score: <strong>{attachmentScore}</strong></p>
-        </div>
-      )}
+    )}
+  </div>
+)}
     </section>
   );
 }
