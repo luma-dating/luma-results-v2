@@ -1,4 +1,6 @@
-import { scoreQuiz, matchProfileWithWiggleRoom } from '@/data/scoring';
+import { scoreQuiz, matchProfileWithWiggleRoom, calculateAttachmentStyle } from '@/data/scoring';
+import { supabase } from '@/lib/supabase';
+import { profiles } from '@/data/profileDescriptions';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -36,20 +38,47 @@ export default async function handler(req, res) {
       }
     }
 
-    // Step 4: Score it up
+    // Step 4: Score the quiz and determine attachment style
     const result = scoreQuiz(responses, gender, trauma);
+    const attachment = calculateAttachmentStyle(responses);
+
+    // Step 5: Match profile using full context
     const profileMatch = matchProfileWithWiggleRoom(
       result.fluency,
       result.maturity,
       result.bs,
-      result.attachmentStyle,
-      result.total
+      attachment.score,
+      result.total,
+      profiles
     );
 
-    const { profile, flag } = profileMatch;
+    const { profile, flag, topThree: alt_profiles } = profileMatch;
 
-    // Step 5: Redirect to result page
-    const redirectUrl = `https://luma-results-v2.vercel.app/result/${encodeURIComponent(profile)}?flag=${encodeURIComponent(flag)}`;
+    // Step 6: Save the result to Supabase
+    const { data, error } = await supabase
+      .from('results')
+      .insert([{
+        profile,
+        flag,
+        fluency: result.fluency,
+        maturity: result.maturity,
+        bs: result.bs,
+        total: result.total,
+        attachment_score: attachment.score,
+        attachment_style: attachment.style,
+        alt_profiles
+      }])
+      .select();
+
+    if (error) {
+      console.error('Supabase error:', error);
+      return res.status(500).json({ error: 'Failed to save result' });
+    }
+
+    const id = data[0].id;
+
+    // Step 7: Redirect to score page by ID
+    const redirectUrl = `https://luma-results-v2.vercel.app/score?id=${id}`;
     return res.redirect(302, redirectUrl);
   } catch (err) {
     console.error('Scoring error:', err);
