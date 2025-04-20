@@ -1,74 +1,76 @@
-// pages/score.jsx
-import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
-import {
-  scoreQuiz,
-  calculateAttachmentStyle,
-  matchProfileWithWiggleRoom
-} from '@/data/scoring';
+import { useEffect, useState } from 'react';
+import { supabase } from '@/lib/supabase';
+import ResultCard from '@/components/ResultCard';
 
-export default function ScoreRedirect() {
+export default function ScorePage() {
   const router = useRouter();
+  const [result, setResult] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
 
   useEffect(() => {
-    if (!router.isReady) return;
+    const fetchResult = async () => {
+      const { id } = router.query;
+      if (!id) return;
 
-    const query = router.query;
-    const responses = {};
-    let gender = '';
-    let trauma = false;
+      const { data, error } = await supabase
+        .from('results')
+        .select('*')
+        .eq('id', id)
+        .single();
 
-    // Parse the query params
-    Object.entries(query).forEach(([key, value]) => {
-      if (key.startsWith('Q')) responses[key] = parseInt(value, 10);
-      if (key === 'gender') gender = value;
-      if (key === 'trauma') trauma = value === 'true';
-    });
+      if (error || !data) {
+        console.error('Error fetching result:', error);
+        setError('Could not find your results.');
+        return;
+      }
 
-    // Get main score info
-    const { fluency, maturity, bs, total, attachmentStyle } = scoreQuiz(responses, gender, trauma);
+      setResult(data);
+      setLoading(false);
+    };
 
-    // Use raw answers to get attachment-style specific logic
-    const attachmentValues = Object.entries(responses)
-      .filter(([key]) => key.startsWith('Q'))
-      .map(([, val]) => val || 0);
+    if (router.isReady) fetchResult();
+  }, [router.isReady, router.query]);
 
-    const attachmentScoreObj = calculateAttachmentStyle(responses); // ← Use full responses not just array!
-
-    const result = matchProfileWithWiggleRoom(
-      fluency,
-      maturity,
-      bs,
-      attachmentScoreObj.score,
-      total
+  if (loading) {
+    return (
+      <main className="min-h-screen flex items-center justify-center text-center p-6">
+        <div>
+          <h1 className="text-xl font-semibold">Scoring your results...</h1>
+          <p className="text-gray-500 mt-2">Hang tight, this won't take long.</p>
+        </div>
+      </main>
     );
+  }
 
-    // Compose alt top matches
-    const topParams =
-      result.topThree
-        ?.map(
-          (p, i) =>
-            `alt${i + 1}=${encodeURIComponent(p.name)}&alt${i + 1}Flag=${encodeURIComponent(p.flag)}`
-        )
-        .join('&') || '';
-
-    // Build final redirect URL
-    const redirectUrl = `/result/${encodeURIComponent(result.profile)}?` +
-      `fluency=${fluency}&maturity=${maturity}&bs=${bs}&total=${total}` +
-      `&flag=${encodeURIComponent(result.flag)}` +
-      `&attachment=${encodeURIComponent(attachmentScoreObj?.style || '')}` +
-      `&attachmentScore=${attachmentScoreObj?.score || 0}` +
-      `&${topParams}`;
-
-    router.replace(redirectUrl);
-  }, [router]);
+  if (error) {
+    return (
+      <main className="min-h-screen flex items-center justify-center text-center p-6">
+        <div>
+          <h1 className="text-xl font-semibold text-red-500">Oops!</h1>
+          <p className="text-gray-500 mt-2">{error}</p>
+        </div>
+      </main>
+    );
+  }
 
   return (
-    <main className="min-h-screen flex items-center justify-center bg-white text-center p-6">
-      <div>
-        <h1 className="text-xl font-semibold">Scoring your results...</h1>
-        <p className="text-gray-500 mt-2">Please wait a moment.</p>
-      </div>
+    <main className="min-h-screen flex flex-col justify-center items-center px-6 py-12">
+      <ResultCard
+        profile={result.profile}
+        flag={result.flag}
+        scores={{
+          fluency: result.fluency,
+          maturity: result.maturity,
+          bs: result.bs,
+          total: result.total
+        }}
+        attachmentStyle={result.attachment_style}
+        attachmentScore={result.attachment_score}
+        topThree={result.alt_profiles}
+        // Add tagline/description if you stored them in Supabase
+      />
     </main>
   );
 }
