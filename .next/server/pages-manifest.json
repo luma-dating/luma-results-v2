@@ -1,7 +1,12 @@
 {
   "/_app": "pages/_app.js",
-  "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/": "pages/index.js",
-  "/api/gpt-summary": "pages/api/gpt-summary.js"
+  "/api/gpt-summary": "pages/api/gpt-summary.js",
+  "/api/save-profile": "pages/api/save-profile.js",
+  "/api/submit": "pages/api/submit.js",
+  "/": "pages/index.html",
+  "/resend": "pages/resend.html",
+  "/score": "pages/score.html",
+  "/_error": "pages/_error.js",
+  "/404": "pages/404.html"
 }
